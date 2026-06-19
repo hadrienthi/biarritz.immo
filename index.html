@@ -1,0 +1,742 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Biarritz.immo — Thermomètre immobilier</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@3.8.0/dist/tabler-icons.min.css" />
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+:root {
+  --coral: #D85A30; --coral-light: #FAECE7; --coral-dark: #993C1D;
+  --purple-light: #EEEDFE; --purple: #534AB7;
+  --amber-light: #FAEEDA; --amber: #854F0B;
+  --green-light: #EAF3DE; --green: #3B6D11;
+  --text: #1a1a1a; --text-secondary: #6b6b6b; --text-tertiary: #9b9b9b;
+  --bg: #f5f4f0; --surface: #ffffff; --border: rgba(0,0,0,0.10);
+  --radius-md: 10px; --radius-lg: 14px;
+}
+@media (prefers-color-scheme: dark) {
+  :root {
+    --text: #f0ede8; --text-secondary: #a8a49e; --text-tertiary: #6b6763;
+    --bg: #1a1917; --surface: #242220; --border: rgba(255,255,255,0.10);
+    --coral-light: rgba(216,90,48,0.18); --purple-light: rgba(83,74,183,0.18);
+    --amber-light: rgba(133,79,11,0.18); --green-light: rgba(59,109,17,0.18);
+  }
+}
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif;
+  background: var(--bg); color: var(--text);
+  min-height: 100vh; display: flex; flex-direction: column; align-items: center;
+  padding: 2rem 1rem 4rem;
+}
+.app { width: 100%; max-width: 420px; }
+
+.header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 2rem; }
+.logo { display: flex; align-items: center; gap: 10px; }
+.logo-dot { width: 32px; height: 32px; border-radius: 8px; background: var(--coral); display: flex; align-items: center; justify-content: center; }
+.logo-dot i { color: white; font-size: 16px; }
+.logo-text { font-size: 18px; font-weight: 600; letter-spacing: -0.3px; }
+.logo-text span { color: var(--coral); }
+.header-tag { font-size: 11px; padding: 4px 10px; background: var(--coral-light); color: var(--coral-dark); border-radius: 20px; font-weight: 500; }
+
+.search-card { background: var(--surface); border: 0.5px solid var(--border); border-radius: var(--radius-lg); padding: 1.25rem; margin-bottom: 1rem; }
+.search-label { font-size: 13px; color: var(--text-secondary); margin-bottom: 10px; display: block; }
+.search-row { display: flex; gap: 8px; align-items: flex-start; }
+.btn-search { height: 42px; padding: 0 18px; background: var(--coral); color: white; border: none; border-radius: var(--radius-md); font-size: 13px; font-weight: 500; cursor: pointer; display: flex; align-items: center; gap: 6px; transition: opacity 0.15s; }
+.btn-search:hover { opacity: 0.85; }
+.btn-search:disabled { opacity: 0.5; cursor: not-allowed; }
+.suggestions { display: flex; gap: 6px; flex-wrap: wrap; margin-top: 10px; }
+.chip { font-size: 11px; padding: 5px 11px; background: var(--bg); border: 0.5px solid var(--border); border-radius: 20px; color: var(--text-secondary); cursor: pointer; transition: all 0.1s; }
+.chip:hover { background: var(--surface); color: var(--text); border-color: var(--coral); }
+
+.autocomplete-wrap { position: relative; flex: 1; min-width: 0; }
+.autocomplete-wrap input { display: block; width: 100%; height: 42px; padding: 0 12px; font-size: 14px; border-radius: var(--radius-md); border: 0.5px solid var(--border); background: var(--bg); color: var(--text); outline: none; transition: border-color 0.15s; font-family: inherit; }
+.autocomplete-wrap input:focus { border-color: var(--coral); }
+.autocomplete-wrap input::placeholder { color: var(--text-tertiary); }
+.autocomplete-dropdown {
+  display: none; position: absolute; top: calc(100% + 4px); left: 0; right: 0; z-index: 100;
+  background: var(--surface); border: 0.5px solid var(--border);
+  border-radius: var(--radius-md); overflow: hidden;
+  box-shadow: 0 4px 16px rgba(0,0,0,0.08);
+}
+.autocomplete-dropdown.open { display: block; }
+.ac-item {
+  display: flex; align-items: center; gap: 10px;
+  padding: 10px 14px; cursor: pointer; font-size: 13px;
+  border-bottom: 0.5px solid var(--border); transition: background 0.1s;
+}
+.ac-item:last-child { border-bottom: none; }
+.ac-item:hover, .ac-item.active { background: var(--bg); }
+.ac-item i { font-size: 14px; color: var(--coral); flex-shrink: 0; }
+.ac-main { color: var(--text); }
+.ac-sub { font-size: 11px; color: var(--text-tertiary); margin-top: 1px; }
+
+.loader { display: none; flex-direction: column; align-items: center; gap: 12px; padding: 2.5rem 0; }
+.loader.visible { display: flex; }
+.dot-pulse { display: flex; gap: 5px; }
+.dot-pulse span { width: 7px; height: 7px; border-radius: 50%; background: var(--coral); animation: pulse 1.2s ease-in-out infinite; }
+.dot-pulse span:nth-child(2) { animation-delay: 0.2s; }
+.dot-pulse span:nth-child(3) { animation-delay: 0.4s; }
+@keyframes pulse { 0%,80%,100%{opacity:.2;transform:scale(.8)} 40%{opacity:1;transform:scale(1)} }
+.loader-step { font-size: 12px; color: var(--text-tertiary); }
+
+.result-section { display: none; animation: fadeUp 0.4s ease; }
+.result-section.visible { display: block; }
+@keyframes fadeUp { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+
+.error-card { background: var(--surface); border: 0.5px solid rgba(216,90,48,0.3); border-radius: var(--radius-lg); padding: 1.25rem; margin-bottom: 1rem; color: var(--coral-dark); font-size: 13px; display: none; }
+.error-card.visible { display: block; }
+
+.street-header { display: flex; align-items: flex-start; justify-content: space-between; gap: 8px; margin-bottom: 1rem; }
+.street-name { font-size: 16px; font-weight: 600; }
+.street-sub { font-size: 12px; color: var(--text-secondary); margin-top: 3px; }
+.badge { font-size: 11px; padding: 4px 10px; border-radius: 20px; font-weight: 500; white-space: nowrap; }
+.badge-hot { background: var(--coral-light); color: var(--coral-dark); }
+.badge-warm { background: var(--amber-light); color: var(--amber); }
+.badge-cool { background: var(--green-light); color: var(--green); }
+.badge-sim { background: var(--border); color: var(--text-tertiary); font-size: 10px; }
+
+.stats-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 1rem; }
+.stat-card { background: var(--bg); border-radius: var(--radius-md); padding: 14px; }
+.stat-label { font-size: 11px; color: var(--text-secondary); margin-bottom: 8px; display: flex; align-items: center; gap: 5px; }
+.stat-label i { font-size: 14px; }
+.stat-value { font-size: 24px; font-weight: 600; line-height: 1; }
+.stat-unit { font-size: 11px; color: var(--text-tertiary); margin-top: 4px; }
+.trend-up { color: var(--green); }
+.trend-down { color: var(--coral-dark); }
+
+.chart-card { background: var(--surface); border: 0.5px solid var(--border); border-radius: var(--radius-lg); padding: 1.25rem; margin-bottom: 1rem; }
+.chart-title { font-size: 12px; color: var(--text-secondary); margin-bottom: 1rem; text-transform: uppercase; letter-spacing: 0.5px; }
+.no-data-msg { font-size: 13px; color: var(--text-tertiary); text-align: center; padding: 2rem 0; }
+
+.ai-card { background: var(--surface); border: 0.5px solid var(--border); border-radius: var(--radius-lg); padding: 1.25rem; margin-bottom: 1rem; }
+.ai-header { display: flex; align-items: center; gap: 10px; margin-bottom: 12px; }
+.ai-icon { width: 30px; height: 30px; border-radius: 8px; background: var(--purple-light); display: flex; align-items: center; justify-content: center; }
+.ai-icon i { color: var(--purple); font-size: 15px; }
+.ai-label { font-size: 14px; font-weight: 500; }
+.ai-sublabel { font-size: 11px; color: var(--text-secondary); margin-top: 1px; }
+.ai-text { font-size: 13px; color: var(--text-secondary); line-height: 1.65; }
+.ai-text strong { color: var(--text); font-weight: 500; }
+
+.score-row { display: flex; gap: 8px; margin-top: 14px; }
+.score-item { flex: 1; }
+.score-bar-bg { height: 4px; background: var(--border); border-radius: 2px; margin-bottom: 5px; overflow: hidden; }
+.score-bar-fill { height: 100%; border-radius: 2px; background: var(--coral); transition: width 0.9s cubic-bezier(.4,0,.2,1); }
+.score-key { font-size: 10px; color: var(--text-tertiary); }
+
+.dvf-note { display: flex; align-items: center; gap: 6px; font-size: 11px; color: var(--text-tertiary); }
+.dvf-note i { font-size: 13px; }
+.dvf-note a { color: var(--text-tertiary); }
+
+.sample-list { margin-top: 12px; border-top: 0.5px solid var(--border); padding-top: 12px; }
+.sample-title { font-size: 11px; text-transform: uppercase; letter-spacing: 0.5px; color: var(--text-tertiary); margin-bottom: 8px; }
+.sample-item { display: flex; justify-content: space-between; align-items: center; font-size: 12px; padding: 6px 0; border-bottom: 0.5px solid var(--border); }
+.sample-item:last-child { border-bottom: none; }
+.sample-addr { color: var(--text-secondary); flex: 1; }
+.sample-price { font-weight: 500; color: var(--text); }
+.sample-date { font-size: 11px; color: var(--text-tertiary); margin-left: 8px; }
+
+footer { margin-top: 3rem; text-align: center; font-size: 11px; color: var(--text-tertiary); }
+</style>
+</head>
+<body>
+<div class="app">
+
+  <header class="header">
+    <div class="logo">
+      <div class="logo-dot"><i class="ti ti-home"></i></div>
+      <div class="logo-text">Biarritz<span>.immo</span></div>
+    </div>
+    <span class="header-tag">🌊 MVP</span>
+  </header>
+
+  <div class="search-card">
+    <span class="search-label">Entrez une adresse à Biarritz</span>
+    <div class="search-row">
+      <div class="autocomplete-wrap">
+        <input type="text" id="addressInput" placeholder="Ex : 12 rue du Port Vieux" autocomplete="off" />
+        <div class="autocomplete-dropdown" id="acDropdown"></div>
+      </div>
+      <button class="btn-search" id="btnSearch" onclick="analyze()">
+        <i class="ti ti-search"></i> Analyser
+      </button>
+    </div>
+    <div class="suggestions">
+      <div class="chip" onclick="setAddr('Rue du Port Vieux, Biarritz')">Port Vieux</div>
+      <div class="chip" onclick="setAddr('Avenue de la Marne, Biarritz')">Av. de la Marne</div>
+      <div class="chip" onclick="setAddr('Avenue de la Grande Plage, Biarritz')">Grande Plage</div>
+      <div class="chip" onclick="setAddr('Boulevard du Prince de Galles, Biarritz')">Côte des Basques</div>
+    </div>
+  </div>
+
+  <div class="loader" id="loader">
+    <div class="dot-pulse"><span></span><span></span><span></span></div>
+    <div class="loader-step" id="loaderStep">Géocodage de l'adresse…</div>
+  </div>
+
+  <div class="error-card" id="errorCard"></div>
+
+  <div class="result-section" id="results">
+
+    <div class="street-header">
+      <div>
+        <div class="street-name" id="streetName">—</div>
+        <div class="street-sub" id="streetSub">—</div>
+      </div>
+      <span class="badge" id="marketBadge">—</span>
+    </div>
+
+    <div class="stats-grid">
+      <div class="stat-card">
+        <div class="stat-label"><i class="ti ti-trending-up"></i> Prix moyen / m²</div>
+        <div class="stat-value" id="priceM2">—</div>
+        <div class="stat-unit">€ / m²</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-label"><i class="ti ti-arrow-up-right"></i> Évolution</div>
+        <div class="stat-value" id="evolution" style="font-size:20px">—</div>
+        <div class="stat-unit" id="evolutionSub">—</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-label"><i class="ti ti-home"></i> Prix médian</div>
+        <div class="stat-value" id="medianPrice">—</div>
+        <div class="stat-unit">€ / m² (médiane)</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-label"><i class="ti ti-building"></i> Transactions</div>
+        <div class="stat-value" id="txCount">—</div>
+        <div class="stat-unit">ventes analysées</div>
+      </div>
+    </div>
+
+    <div class="chart-card">
+      <div class="chart-title">Évolution prix au m² · Données DVF réelles</div>
+      <div id="chartContainer" style="position: relative; width: 100%; height: 170px;">
+        <canvas id="priceChart" role="img" aria-label="Graphique évolution prix au m²"></canvas>
+      </div>
+    </div>
+
+    <div class="chart-card" id="sampleCard">
+      <div class="chart-title">Dernières transactions DVF</div>
+      <div class="sample-list" id="sampleList"></div>
+    </div>
+
+    <div class="ai-card">
+      <div class="ai-header">
+        <div class="ai-icon"><i class="ti ti-sparkles"></i></div>
+        <div>
+          <div class="ai-label">Analyse du quartier</div>
+          <div class="ai-sublabel" id="aiSublabel">Basée sur les données DVF réelles</div>
+        </div>
+      </div>
+      <div class="ai-text" id="aiText">—</div>
+      <div class="score-row" id="scoreRow"></div>
+    </div>
+
+    <div class="dvf-note">
+      <i class="ti ti-database"></i>
+      <span id="dvfNote">Sources : <a href="https://www.data.gouv.fr/fr/datasets/5c4ae55a634f4117716d5656" target="_blank">DVF · DGFiP</a> + <a href="https://adresse.data.gouv.fr" target="_blank">BAN</a></span>
+    </div>
+
+  </div>
+</div>
+
+<footer>Biarritz.immo · <span id="footerNote">Données DVF réelles</span> · 2024</footer>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.4.1/papaparse.min.js"></script>
+<script>
+// ─── CONFIG ──────────────────────────────────────────────────────────────────
+const BAN_URL = 'https://api-adresse.data.gouv.fr/search/';
+// CSV geo-DVF (Biarritz = INSEE 64102) — URL directe OVH S3
+const DVF_CSV_DIRECT = 'https://geo-dvf.s3.sbg.io.cloud.ovh.net/latest/csv/64/communes/64102.csv';
+// Proxy CORS pour contourner la restriction file://
+const DVF_CSV_PROXY  = 'https://api.allorigins.win/raw?url=' + encodeURIComponent(DVF_CSV_DIRECT);
+const RADIUS = 600; // metres autour de l'adresse recherchée
+let dvfCache = null; // cache CSV pour éviter re-téléchargement
+
+// ─── FALLBACK DATA (si API indisponible) ─────────────────────────────────────
+const FALLBACK = {
+  'port vieux': { name:'Rue du Port Vieux', zone:'Centre historique · Biarritz', price:8400, evo:'+24', history:[6200,7100,7800,8400], tx:14, ai:'Le <strong>Port Vieux</strong> est l\'épicentre de la demande biarrot. Prisé pour son ensoleillement et ses commerces, ce secteur capte les acheteurs parisiens et étrangers. <strong>Les biens partent en moins de 3 semaines</strong>, souvent au-dessus du prix affiché.', scores:[['Vue mer',90],['Commerces',85],['Calme',55],['Rentabilité',72]] },
+  'marne': { name:'Avenue de la Marne', zone:'Quartier de la gare · Biarritz', price:6200, evo:'+18', history:[4800,5400,5900,6200], tx:21, ai:'L\'<strong>Avenue de la Marne</strong> est un secteur en revalorisation rapide. Moins cher que le front de mer, il attire <strong>primo-accédants et investisseurs locatifs</strong> cherchant du rendement.', scores:[['Vue mer',20],['Commerces',78],['Calme',68],['Rentabilité',82]] },
+  'grande plage': { name:'Grande Plage', zone:'Front de mer · Biarritz', price:11200, evo:'+31', history:[7800,9100,10300,11200], tx:8, ai:'Le secteur de la <strong>Grande Plage</strong> représente le top du marché biarrot. <strong>Liquidité exceptionnelle</strong>, clientèle internationale, et une demande structurellement supérieure à l\'offre.', scores:[['Vue mer',100],['Commerces',70],['Calme',42],['Rentabilité',60]] },
+  'basques': { name:'Côte des Basques', zone:'Quartier surf · Biarritz', price:7800, evo:'+27', history:[5500,6400,7200,7800], tx:17, ai:'La <strong>Côte des Basques</strong> est portée par l\'essor du surf lifestyle. La forte demande en <strong>location saisonnière</strong> en fait un secteur idéal pour les investisseurs.', scores:[['Vue mer',80],['Commerces',62],['Calme',72],['Rentabilité',88]] }
+};
+
+let chartInstance = null;
+let isLive = false;
+
+function setAddr(addr) {
+  document.getElementById('addressInput').value = addr;
+  analyze();
+}
+
+function setStep(msg) {
+  document.getElementById('loaderStep').textContent = msg;
+}
+
+function showError(msg) {
+  const el = document.getElementById('errorCard');
+  el.innerHTML = '<i class="ti ti-alert-circle" style="margin-right:6px"></i>' + msg;
+  el.classList.add('visible');
+}
+
+function hideError() {
+  document.getElementById('errorCard').classList.remove('visible');
+}
+
+async function geocode(address) {
+  // Essai 1 : avec citycode Biarritz
+  let params = new URLSearchParams({ q: address + ' Biarritz', citycode: '64102', limit: 1 });
+  let res = await fetch(`${BAN_URL}?${params}`);
+  let data = res.ok ? await res.json() : { features: [] };
+
+  // Essai 2 : sans citycode si aucun résultat
+  if (!data.features || data.features.length === 0) {
+    params = new URLSearchParams({ q: address + ' Biarritz 64200', limit: 3 });
+    res = await fetch(`${BAN_URL}?${params}`);
+    data = res.ok ? await res.json() : { features: [] };
+    // Filtrer sur Biarritz uniquement
+    if (data.features) {
+      data.features = data.features.filter(f =>
+        f.properties.city?.toLowerCase().includes('biarritz') ||
+        f.properties.postcode === '64200'
+      );
+    }
+  }
+
+  if (!data.features || data.features.length === 0) throw new Error('Adresse introuvable à Biarritz');
+  const f = data.features[0];
+  return {
+    lat: f.geometry.coordinates[1],
+    lon: f.geometry.coordinates[0],
+    label: f.properties.label,
+    street: f.properties.street || f.properties.name,
+    city: f.properties.city
+  };
+}
+
+// Distance haversine en mètres
+function haversine(lat1, lon1, lat2, lon2) {
+  const R = 6371000;
+  const dLat = (lat2 - lat1) * Math.PI / 180;
+  const dLon = (lon2 - lon1) * Math.PI / 180;
+  const a = Math.sin(dLat/2)**2 + Math.cos(lat1*Math.PI/180) * Math.cos(lat2*Math.PI/180) * Math.sin(dLon/2)**2;
+  return R * 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
+}
+
+async function fetchDVFData() {
+  if (dvfCache) return dvfCache;
+  setStep('Chargement des données DVF Biarritz…');
+
+  let text = null;
+
+  // Essai 1 : URL directe (fonctionne si CORS ouvert ou serveur local)
+  try {
+    const r = await Promise.race([
+      fetch(DVF_CSV_DIRECT),
+      new Promise((_, rej) => setTimeout(() => rej(new Error('timeout')), 8000))
+    ]);
+    if (r.ok) text = await r.text();
+  } catch(e) {}
+
+  // Essai 2 : via proxy CORS (pour ouverture en file://)
+  if (!text) {
+    setStep('Connexion via proxy CORS…');
+    try {
+      const r = await Promise.race([
+        fetch(DVF_CSV_PROXY),
+        new Promise((_, rej) => setTimeout(() => rej(new Error('timeout')), 15000))
+      ]);
+      if (r.ok) text = await r.text();
+    } catch(e) {}
+  }
+
+  if (!text) throw new Error('DVF');
+
+  return new Promise((resolve, reject) => {
+    Papa.parse(text, {
+      header: true,
+      skipEmptyLines: true,
+      complete: r => { dvfCache = r.data; resolve(r.data); },
+      error: () => reject(new Error('DVF'))
+    });
+  });
+}
+
+async function fetchMutationsNear(lat, lon) {
+  const all = await fetchDVFData();
+  setStep('Filtrage des transactions à proximité…');
+  return all.filter(row => {
+    if (!row.latitude || !row.longitude) return false;
+    if (row.nature_mutation !== 'Vente') return false;
+    const dist = haversine(lat, lon, parseFloat(row.latitude), parseFloat(row.longitude));
+    return dist <= RADIUS;
+  });
+}
+
+function processMutations(mutations) {
+  // Les valeurs du CSV sont des strings — on les convertit
+  const valid = mutations.filter(m => {
+    const surf = parseFloat((m.surface_reelle_bati || '').replace(',', '.'));
+    const val = parseFloat((m.valeur_fonciere || '').replace(',', '.'));
+    return surf > 5 && val > 10000 &&
+      (m.type_local === 'Appartement' || m.type_local === 'Maison');
+  });
+
+  if (valid.length === 0) return null;
+
+  // Prix au m²
+  const withPM2 = valid.map(m => {
+    const surf = parseFloat((m.surface_reelle_bati || '').replace(',', '.'));
+    const val = parseFloat((m.valeur_fonciere || '').replace(',', '.'));
+    return {
+      ...m,
+      pm2: Math.round(val / surf),
+      year: new Date(m.date_mutation).getFullYear()
+    };
+  }).filter(m => m.pm2 > 1000 && m.pm2 < 30000);
+
+  if (withPM2.length === 0) return null;
+
+  // Médiane
+  const sorted = [...withPM2].sort((a, b) => a.pm2 - b.pm2);
+  const mid = Math.floor(sorted.length / 2);
+  const median = sorted.length % 2 ? sorted[mid].pm2 : Math.round((sorted[mid-1].pm2 + sorted[mid].pm2) / 2);
+  const avg = Math.round(withPM2.reduce((s, m) => s + m.pm2, 0) / withPM2.length);
+
+  // Par année
+  const byYear = {};
+  withPM2.forEach(m => {
+    if (!byYear[m.year]) byYear[m.year] = [];
+    byYear[m.year].push(m.pm2);
+  });
+  const years = Object.keys(byYear).sort();
+  const history = years.map(y => {
+    const arr = byYear[y];
+    return Math.round(arr.reduce((s, v) => s + v, 0) / arr.length);
+  });
+
+  // Évolution
+  let evo = null;
+  if (history.length >= 2) {
+    const pct = Math.round(((history[history.length-1] - history[0]) / history[0]) * 100);
+    evo = (pct >= 0 ? '+' : '') + pct + '%';
+  }
+
+  // Dernières transactions (5 max)
+  const recent = [...withPM2]
+    .sort((a, b) => new Date(b.date_mutation) - new Date(a.date_mutation))
+    .slice(0, 5);
+
+  return { avg, median, count: withPM2.length, history, years, evo, recent };
+}
+
+function buildAIComment(stats, label) {
+  const price = stats.avg.toLocaleString('fr-FR');
+  const evo = stats.evo || 'stable';
+  let comment = `D'après les <strong>${stats.count} transactions DVF analysées</strong> dans ce secteur, le prix moyen au m² ressort à <strong>${price} €/m²</strong>`;
+  if (stats.evo) comment += `, avec une évolution de <strong>${evo}</strong> sur la période`;
+  comment += '. ';
+
+  if (stats.avg > 9000) comment += 'Ce secteur fait partie des plus cotés de Biarritz, avec une demande très soutenue et peu de biens disponibles.';
+  else if (stats.avg > 7000) comment += 'Ce quartier bénéficie d\'une forte attractivité, porté par la proximité de la côte et un cadre de vie recherché.';
+  else if (stats.avg > 5000) comment += 'Secteur en développement, avec des opportunités intéressantes pour les investisseurs et primo-accédants.';
+  else comment += 'Secteur plus accessible du marché biarrot, offrant un bon compromis prix / qualité de vie.';
+
+  return comment;
+}
+
+function marketBadge(price) {
+  if (price > 9000) return { label: 'Marché très tendu', cls: 'badge-hot' };
+  if (price > 7000) return { label: 'Marché dynamique', cls: 'badge-warm' };
+  return { label: 'Marché accessible', cls: 'badge-cool' };
+}
+
+function render(data, labelStr, live) {
+  document.getElementById('streetName').textContent = data.name || labelStr;
+  document.getElementById('streetSub').textContent = data.zone || 'Biarritz (64)';
+
+  const badge = data.badge || marketBadge(data.price || data.avg);
+  const badgeEl = document.getElementById('marketBadge');
+  badgeEl.textContent = badge.label || badge;
+  badgeEl.className = 'badge ' + (badge.cls || badge.badgeClass || 'badge-warm');
+
+  const price = data.price || data.avg;
+  document.getElementById('priceM2').textContent = price.toLocaleString('fr-FR');
+
+  const evoEl = document.getElementById('evolution');
+  const evo = data.evo || '—';
+  evoEl.textContent = evo;
+  evoEl.className = 'stat-value ' + (evo.startsWith('+') ? 'trend-up' : evo.startsWith('-') ? 'trend-down' : '');
+
+  document.getElementById('evolutionSub').textContent = data.eLabel || (data.years && data.years.length >= 2 ? `${data.years[0]} → ${data.years[data.years.length-1]}` : 'sur la période');
+  document.getElementById('medianPrice').textContent = (data.median || data.price || '—').toLocaleString('fr-FR');
+  document.getElementById('txCount').textContent = data.tx || data.count || '—';
+  document.getElementById('aiText').innerHTML = data.ai || buildAIComment(data, labelStr);
+  document.getElementById('aiSublabel').textContent = live ? 'Basée sur les données DVF réelles' : 'Données de démonstration';
+
+  const scores = data.scores;
+  if (scores) {
+    document.getElementById('scoreRow').innerHTML = scores.map(([k, v]) =>
+      `<div class="score-item">
+        <div class="score-bar-bg"><div class="score-bar-fill" style="width:0%" data-target="${v}%"></div></div>
+        <div class="score-key">${k}</div>
+      </div>`
+    ).join('');
+    setTimeout(() => {
+      document.querySelectorAll('.score-bar-fill').forEach(el => { el.style.width = el.dataset.target; });
+    }, 80);
+  } else {
+    document.getElementById('scoreRow').innerHTML = '';
+  }
+
+  // Transactions récentes
+  const sampleCard = document.getElementById('sampleCard');
+  const sampleList = document.getElementById('sampleList');
+  if (data.recent && data.recent.length > 0) {
+    sampleList.innerHTML = data.recent.map(m => {
+      const date = new Date(m.date_mutation).toLocaleDateString('fr-FR', { month: 'short', year: 'numeric' });
+      const addr = m.adresse_numero ? `${m.adresse_numero} ${m.adresse_nom_voie}` : m.adresse_nom_voie;
+      return `<div class="sample-item">
+        <span class="sample-addr">${addr} <em style="font-size:10px;color:var(--text-tertiary)">${m.type_local || ''}</em></span>
+        <span class="sample-price">${m.pm2.toLocaleString('fr-FR')} €/m²</span>
+        <span class="sample-date">${date}</span>
+      </div>`;
+    }).join('');
+    sampleCard.style.display = 'block';
+  } else {
+    sampleCard.style.display = 'none';
+  }
+
+  renderChart(data.history || [], data.years || []);
+  document.getElementById('results').classList.add('visible');
+
+  const note = live ? 'Sources : <a href="https://www.data.gouv.fr/fr/datasets/5c4ae55a634f4117716d5656" target="_blank">DVF · DGFiP</a> + <a href="https://adresse.data.gouv.fr" target="_blank">BAN</a> — données réelles' : 'Données de démonstration (API DVF indisponible)';
+  document.getElementById('dvfNote').innerHTML = note;
+  document.getElementById('footerNote').textContent = live ? 'Données DVF réelles' : 'Données simulées';
+}
+
+function renderChart(history, years) {
+  const canvas = document.getElementById('priceChart');
+  const container = document.getElementById('chartContainer');
+  if (chartInstance) chartInstance.destroy();
+
+  if (history.length < 2) {
+    container.innerHTML = '<div class="no-data-msg">Pas assez de données pour afficher l\'évolution</div>';
+    return;
+  }
+
+  container.innerHTML = '<canvas id="priceChart" role="img" aria-label="Graphique évolution prix au m²"></canvas>';
+  const newCanvas = document.getElementById('priceChart');
+  const isDark = matchMedia('(prefers-color-scheme: dark)').matches;
+
+  chartInstance = new Chart(newCanvas, {
+    type: 'line',
+    data: {
+      labels: years.length ? years : history.map((_, i) => 2021 + i),
+      datasets: [{
+        label: '€/m²', data: history,
+        borderColor: '#D85A30',
+        backgroundColor: isDark ? 'rgba(216,90,48,0.12)' : 'rgba(216,90,48,0.07)',
+        borderWidth: 2.5, pointBackgroundColor: '#D85A30',
+        pointRadius: 5, pointHoverRadius: 7,
+        fill: true, tension: 0.38
+      }]
+    },
+    options: {
+      responsive: true, maintainAspectRatio: false,
+      plugins: {
+        legend: { display: false },
+        tooltip: { callbacks: { label: ctx => ' ' + ctx.parsed.y.toLocaleString('fr-FR') + ' €/m²' } }
+      },
+      scales: {
+        x: { grid: { display: false }, ticks: { font: { size: 11 }, color: isDark ? '#6b6763' : '#9b9b9b' } },
+        y: {
+          grid: { color: isDark ? 'rgba(255,255,255,0.05)' : 'rgba(0,0,0,0.04)' },
+          ticks: { font: { size: 11 }, color: isDark ? '#6b6763' : '#9b9b9b', callback: v => v.toLocaleString('fr-FR') + ' €' }
+        }
+      }
+    }
+  });
+}
+
+function getFallback(query) {
+  const q = query.toLowerCase();
+  for (const key of Object.keys(FALLBACK)) {
+    if (q.includes(key)) return FALLBACK[key];
+  }
+  return null;
+}
+
+async function analyze() {
+  const addr = document.getElementById('addressInput').value.trim();
+  if (!addr) return;
+
+  document.getElementById('loader').classList.add('visible');
+  document.getElementById('results').classList.remove('visible');
+  document.getElementById('btnSearch').disabled = true;
+  hideError();
+
+  try {
+    // 1. Géocodage
+    setStep('Géocodage de l\'adresse…');
+    let geo;
+    try {
+      geo = await geocode(addr);
+    } catch (e) {
+      throw new Error('Adresse introuvable. Essayez avec le nom de rue complet.');
+    }
+
+    // 2. Récupération DVF via CSV geo-dvf
+    let allMutations;
+    try {
+      allMutations = await fetchMutationsNear(geo.lat, geo.lon);
+    } catch (e) {
+      throw new Error('DVF');
+    }
+
+    setStep('Calcul des statistiques…');
+
+    const stats = processMutations(allMutations);
+
+    if (!stats || stats.count < 3) {
+      // Pas assez de données : fallback
+      throw new Error('PEU_DE_DONNÉES');
+    }
+
+    const bm = marketBadge(stats.avg);
+    render({
+      name: geo.street || geo.label,
+      zone: geo.label,
+      ...stats,
+      badge: bm
+    }, geo.label, true);
+
+    isLive = true;
+
+  } catch (e) {
+    // Fallback données simulées
+    const fb = getFallback(addr);
+    if (fb) {
+      if (e.message !== 'PEU_DE_DONNÉES' && e.message !== 'DVF') {
+        showError('⚠️ ' + e.message);
+      } else if (e.message === 'PEU_DE_DONNÉES') {
+        showError('Peu de transactions DVF trouvées dans ce secteur. Affichage de données de référence.');
+      } else {
+        showError('API DVF temporairement indisponible. Affichage de données de démonstration.');
+      }
+      render(fb, addr, false);
+    } else {
+      showError(e.message === 'DVF'
+        ? 'API DVF indisponible. Réessayez ou utilisez une adresse suggérée.'
+        : e.message || 'Erreur lors de l\'analyse. Vérifiez l\'adresse et réessayez.'
+      );
+    }
+  } finally {
+    document.getElementById('loader').classList.remove('visible');
+    document.getElementById('btnSearch').disabled = false;
+  }
+}
+
+// ─── AUTOCOMPLETE ────────────────────────────────────────────────────────────
+const input = document.getElementById('addressInput');
+const dropdown = document.getElementById('acDropdown');
+let acResults = [];
+let acIndex = -1;
+let acTimer = null;
+
+input.addEventListener('input', () => {
+  clearTimeout(acTimer);
+  const q = input.value.trim();
+  if (q.length < 3) { closeDropdown(); return; }
+  acTimer = setTimeout(() => fetchSuggestions(q), 220);
+});
+
+input.addEventListener('keydown', e => {
+  if (e.key === 'Enter') {
+    if (acIndex >= 0 && acResults[acIndex]) {
+      selectSuggestion(acResults[acIndex]);
+    } else {
+      closeDropdown();
+      analyze();
+    }
+    return;
+  }
+  if (e.key === 'ArrowDown') { e.preventDefault(); moveIndex(1); }
+  if (e.key === 'ArrowUp')   { e.preventDefault(); moveIndex(-1); }
+  if (e.key === 'Escape')    { closeDropdown(); }
+});
+
+document.addEventListener('click', e => {
+  if (!e.target.closest('.autocomplete-wrap')) closeDropdown();
+});
+
+async function fetchSuggestions(q) {
+  try {
+    const params = new URLSearchParams({ q: q + ' Biarritz', citycode: '64102', limit: 6 });
+    const res = await fetch(`${BAN_URL}?${params}`);
+    if (!res.ok) throw new Error();
+    const data = await res.json();
+    acResults = data.features || [];
+    // Si pas de résultats avec citycode, on réessaie sans
+    if (acResults.length === 0) {
+      const p2 = new URLSearchParams({ q: q + ' Biarritz 64200', limit: 6 });
+      const r2 = await fetch(`${BAN_URL}?${p2}`);
+      const d2 = r2.ok ? await r2.json() : { features: [] };
+      acResults = (d2.features || []).filter(f =>
+        f.properties.city?.toLowerCase().includes('biarritz') ||
+        f.properties.postcode === '64200'
+      );
+    }
+    renderDropdown();
+  } catch(e) { closeDropdown(); }
+}
+
+function renderDropdown() {
+  if (!acResults.length) { closeDropdown(); return; }
+  acIndex = -1;
+  dropdown.innerHTML = acResults.map((f, i) => {
+    const p = f.properties;
+    const main = p.name || p.street;
+    const sub = p.postcode + ' ' + p.city;
+    return `<div class="ac-item" data-i="${i}">
+      <i class="ti ti-map-pin"></i>
+      <div><div class="ac-main">${main}</div><div class="ac-sub">${sub}</div></div>
+    </div>`;
+  }).join('');
+  dropdown.querySelectorAll('.ac-item').forEach(el => {
+    el.addEventListener('mousedown', e => {
+      e.preventDefault();
+      selectSuggestion(acResults[+el.dataset.i]);
+    });
+  });
+  dropdown.classList.add('open');
+}
+
+function moveIndex(dir) {
+  const items = dropdown.querySelectorAll('.ac-item');
+  if (!items.length) return;
+  items[acIndex]?.classList.remove('active');
+  acIndex = Math.max(-1, Math.min(items.length - 1, acIndex + dir));
+  if (acIndex >= 0) {
+    items[acIndex].classList.add('active');
+    input.value = acResults[acIndex].properties.label;
+  }
+}
+
+function selectSuggestion(feature) {
+  input.value = feature.properties.label;
+  closeDropdown();
+  analyze();
+}
+
+function closeDropdown() {
+  dropdown.classList.remove('open');
+  acResults = [];
+  acIndex = -1;
+}
+</script>
+</body>
+</html>
