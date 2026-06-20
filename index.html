@@ -146,7 +146,7 @@ footer { margin-top: 3rem; text-align: center; font-size: 11px; color: var(--tex
       <div class="chip" onclick="setAddr('12 Rue du Port Vieux, Biarritz')">Port Vieux</div>
       <div class="chip" onclick="setAddr('14 Avenue de la Marne, Biarritz')">Av. de la Marne</div>
       <div class="chip" onclick="setAddr('1 Avenue de la Grande Plage, Biarritz')">Grande Plage</div>
-      <div class="chip" onclick="setAddr('5 Rue de la Côte des Basques, Biarritz')">Côte des Basques</div>
+      <div class="chip" onclick="setAddr('25 Avenue de la Reine Victoria, Biarritz')">Plateau</div>
     </div>
   </div>
 
@@ -221,7 +221,7 @@ footer { margin-top: 3rem; text-align: center; font-size: 11px; color: var(--tex
 <script>
 const BAN_URL = 'https://api-adresse.data.gouv.fr/search/';
 
-// Zones géographiques — centres ajustés pour éviter les chevauchements
+// 5 zones géographiques bien distinctes
 const ZONES = [
   {
     id: 'grande-plage',
@@ -241,39 +241,21 @@ const ZONES = [
     ]
   },
   {
-    id: 'port-vieux',
-    name: 'Port Vieux · Atalaye',
-    zone: 'Centre historique · Biarritz',
-    // Centre repositionné sur le Port Vieux (côté plage, nord)
-    lat: 43.4810, lon: -1.5568, radius: 380,
-    price: 8850, median: 8400, tx: 71, evo: '+43', eLabel: '+43% (2019→2025)',
-    history: [6200, 7000, 7800, 9100, 8800, 8600, 8850],
+    id: 'plages-sud',
+    name: 'Port Vieux · Côte des Basques',
+    zone: 'Plages Sud · Biarritz',
+    // Zone fusionnée couvrant Port Vieux + Côte des Basques
+    lat: 43.4760, lon: -1.5600, radius: 750,
+    price: 8500, median: 8100, tx: 129, evo: '+45', eLabel: '+45% (2019→2025)',
+    history: [5850, 6550, 7400, 8650, 8400, 8250, 8500],
     years: ['2019','2020','2021','2022','2023','2024','2025'],
     badge: { label: 'Marché très tendu', cls: 'badge-hot' },
-    ai: 'Le <strong>Port Vieux</strong> est l\'épicentre de la demande à Biarritz. Prisé pour son ensoleillement, ses restaurants et l\'ambiance villégiature, ce secteur capte les acheteurs parisiens et étrangers. <strong>Les biens partent en moins de 3 semaines</strong>, souvent au-dessus du prix affiché. Forte proportion de résidences secondaires.',
-    scores: [['Vue mer',88],['Commerces',85],['Calme',52],['Rentabilité',70]],
+    ai: 'Le secteur <strong>Port Vieux · Côte des Basques</strong> concentre la demande la plus forte de Biarritz après la Grande Plage. Port Vieux attire pour son ambiance villégiature et ses restaurants ; la Côte des Basques séduit par le surf lifestyle et son classement en patrimoine mondial. <strong>Les biens partent en moins de 3 semaines</strong>, forte proportion de résidences secondaires et excellente rentabilité locative saisonnière.',
+    scores: [['Vue mer',90],['Commerces',75],['Calme',60],['Rentabilité',82]],
     nearby: [
       { rue: 'RUE DU PORT VIEUX', num: '12', type: 'Appartement', pm2: 9100, date: '2025-04-08' },
-      { rue: 'RUE MAZAGRAN', num: '5', type: 'Appartement', pm2: 8400, date: '2025-02-14' },
-      { rue: 'RUE GAMBETTA', num: '18', type: 'Appartement', pm2: 8000, date: '2025-01-30' },
-    ]
-  },
-  {
-    id: 'cote-basques',
-    name: 'Côte des Basques',
-    zone: 'Quartier surf · Biarritz',
-    // Centre repositionné plus au sud, sur la plage Côte des Basques
-    lat: 43.4700, lon: -1.5638, radius: 520,
-    price: 8100, median: 7750, tx: 58, evo: '+47', eLabel: '+47% (2019→2025)',
-    history: [5500, 6100, 7000, 8200, 8000, 7900, 8100],
-    years: ['2019','2020','2021','2022','2023','2024','2025'],
-    badge: { label: 'En vogue', cls: 'badge-warm' },
-    ai: 'La <strong>Côte des Basques</strong> est portée par l\'essor mondial du surf lifestyle. Anciennement populaire, le quartier a été entièrement revalorisé par une clientèle jeune et aisée. La forte demande en <strong>location saisonnière</strong> et le classement de la plage en patrimoine mondial génèrent un rendement locatif parmi les meilleurs de la ville.',
-    scores: [['Vue mer',82],['Commerces',60],['Calme',70],['Rentabilité',88]],
-    nearby: [
-      { rue: 'RUE DE LA CÔTE DES BASQUES', num: '5', type: 'Appartement', pm2: 8200, date: '2025-03-20' },
-      { rue: 'BD DU PRINCE DE GALLES', num: '22', type: 'Appartement', pm2: 7900, date: '2025-01-11' },
-      { rue: 'RUE DES GOÉLANDS', num: '8', type: 'Appartement', pm2: 7700, date: '2025-02-28' },
+      { rue: 'BD DU PRINCE DE GALLES', num: '22', type: 'Appartement', pm2: 7900, date: '2025-02-11' },
+      { rue: 'RUE DES GOÉLANDS', num: '8', type: 'Appartement', pm2: 7700, date: '2025-01-28' },
     ]
   },
   {
@@ -336,9 +318,7 @@ function setAddr(addr) {
   analyze();
 }
 
-function setStep(msg) {
-  document.getElementById('loaderStep').textContent = msg;
-}
+function setStep(msg) { document.getElementById('loaderStep').textContent = msg; }
 
 function showError(msg) {
   const el = document.getElementById('errorCard');
@@ -346,9 +326,7 @@ function showError(msg) {
   el.classList.add('visible');
 }
 
-function hideError() {
-  document.getElementById('errorCard').classList.remove('visible');
-}
+function hideError() { document.getElementById('errorCard').classList.remove('visible'); }
 
 async function geocode(address) {
   let params = new URLSearchParams({ q: address + ' Biarritz', citycode: '64102', limit: 1 });
@@ -368,28 +346,24 @@ async function geocode(address) {
   if (!data.features || data.features.length === 0) throw new Error('Adresse introuvable à Biarritz');
   const f = data.features[0];
   return {
-    lat: f.geometry.coordinates[1],
-    lon: f.geometry.coordinates[0],
+    lat: f.geometry.coordinates[1], lon: f.geometry.coordinates[0],
     label: f.properties.label,
     street: f.properties.street || f.properties.name,
-    numero: f.properties.housenumber || '',
-    city: f.properties.city
+    numero: f.properties.housenumber || ''
   };
 }
 
 function haversine(lat1, lon1, lat2, lon2) {
   const R = 6371000;
-  const dLat = (lat2 - lat1) * Math.PI / 180;
-  const dLon = (lon2 - lon1) * Math.PI / 180;
-  const a = Math.sin(dLat/2)**2 + Math.cos(lat1*Math.PI/180) * Math.cos(lat2*Math.PI/180) * Math.sin(dLon/2)**2;
-  return R * 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
+  const dLat = (lat2-lat1)*Math.PI/180, dLon = (lon2-lon1)*Math.PI/180;
+  const a = Math.sin(dLat/2)**2 + Math.cos(lat1*Math.PI/180)*Math.cos(lat2*Math.PI/180)*Math.sin(dLon/2)**2;
+  return R*2*Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
 }
 
 function detectZone(lat, lon) {
   let best = null, bestScore = Infinity;
   for (const z of ZONES) {
-    const dist = haversine(lat, lon, z.lat, z.lon);
-    const score = dist / z.radius;
+    const score = haversine(lat, lon, z.lat, z.lon) / z.radius;
     if (score < bestScore) { bestScore = score; best = z; }
   }
   return best;
@@ -397,14 +371,7 @@ function detectZone(lat, lon) {
 
 function buildTransactions(zone, geo) {
   const streetUp = (geo.street || '').toUpperCase();
-  const searched = {
-    rue: streetUp,
-    num: geo.numero || '—',
-    type: 'Adresse recherchée',
-    pm2: zone.price,
-    date: '2025-06-01',
-    isSearched: true
-  };
+  const searched = { rue: streetUp, num: geo.numero || '—', type: 'Adresse recherchée', pm2: zone.price, date: '2025-06-01', isSearched: true };
   const others = zone.nearby.filter(t => t.rue !== streetUp).slice(0, 2);
   return [searched, ...others];
 }
@@ -423,24 +390,17 @@ function render(zone, geo) {
   document.getElementById('medianPrice').textContent = zone.median.toLocaleString('fr-FR');
   document.getElementById('txCount').textContent = zone.tx;
   document.getElementById('aiText').innerHTML = zone.ai;
-  document.getElementById('scoreRow').innerHTML = zone.scores.map(([k, v]) =>
-    `<div class="score-item">
-      <div class="score-bar-bg"><div class="score-bar-fill" style="width:0%" data-target="${v}%"></div></div>
-      <div class="score-key">${k}</div>
-    </div>`
+  document.getElementById('scoreRow').innerHTML = zone.scores.map(([k,v]) =>
+    `<div class="score-item"><div class="score-bar-bg"><div class="score-bar-fill" style="width:0%" data-target="${v}%"></div></div><div class="score-key">${k}</div></div>`
   ).join('');
-  setTimeout(() => {
-    document.querySelectorAll('.score-bar-fill').forEach(el => { el.style.width = el.dataset.target; });
-  }, 80);
+  setTimeout(() => { document.querySelectorAll('.score-bar-fill').forEach(el => { el.style.width = el.dataset.target; }); }, 80);
 
-  const transactions = buildTransactions(zone, geo);
-  const sampleList = document.getElementById('sampleList');
-  sampleList.innerHTML = transactions.map(t => {
+  const txs = buildTransactions(zone, geo);
+  document.getElementById('sampleList').innerHTML = txs.map(t => {
     const date = new Date(t.date).toLocaleDateString('fr-FR', { month: 'short', year: 'numeric' });
     const addr = (t.num && t.num !== '—' ? t.num + ' ' : '') + t.rue;
     const youTag = t.isSearched ? '<span class="you-tag">vous</span>' : '';
-    const rowClass = t.isSearched ? 'sample-item searched' : 'sample-item';
-    return `<div class="${rowClass}">
+    return `<div class="${t.isSearched ? 'sample-item searched' : 'sample-item'}">
       <span class="sample-addr">${addr}${youTag} <em style="font-size:10px;color:var(--text-tertiary)">${t.type}</em></span>
       <span class="sample-price">${t.pm2.toLocaleString('fr-FR')} €/m²</span>
       <span class="sample-date">${date}</span>
@@ -454,33 +414,17 @@ function render(zone, geo) {
 function renderChart(history, years) {
   const container = document.getElementById('chartContainer');
   if (chartInstance) chartInstance.destroy();
-  container.innerHTML = '<canvas id="priceChart" role="img" aria-label="Graphique évolution prix au m²"></canvas>';
+  container.innerHTML = '<canvas id="priceChart"></canvas>';
   const isDark = matchMedia('(prefers-color-scheme: dark)').matches;
   chartInstance = new Chart(document.getElementById('priceChart'), {
     type: 'line',
-    data: {
-      labels: years,
-      datasets: [{
-        label: '€/m²', data: history,
-        borderColor: '#D85A30',
-        backgroundColor: isDark ? 'rgba(216,90,48,0.12)' : 'rgba(216,90,48,0.07)',
-        borderWidth: 2.5, pointBackgroundColor: '#D85A30',
-        pointRadius: 5, pointHoverRadius: 7,
-        fill: true, tension: 0.38
-      }]
-    },
+    data: { labels: years, datasets: [{ label: '€/m²', data: history, borderColor: '#D85A30', backgroundColor: isDark ? 'rgba(216,90,48,0.12)' : 'rgba(216,90,48,0.07)', borderWidth: 2.5, pointBackgroundColor: '#D85A30', pointRadius: 5, pointHoverRadius: 7, fill: true, tension: 0.38 }] },
     options: {
       responsive: true, maintainAspectRatio: false,
-      plugins: {
-        legend: { display: false },
-        tooltip: { callbacks: { label: ctx => ' ' + ctx.parsed.y.toLocaleString('fr-FR') + ' €/m²' } }
-      },
+      plugins: { legend: { display: false }, tooltip: { callbacks: { label: ctx => ' ' + ctx.parsed.y.toLocaleString('fr-FR') + ' €/m²' } } },
       scales: {
         x: { grid: { display: false }, ticks: { font: { size: 11 }, color: isDark ? '#6b6763' : '#9b9b9b' } },
-        y: {
-          grid: { color: isDark ? 'rgba(255,255,255,0.05)' : 'rgba(0,0,0,0.04)' },
-          ticks: { font: { size: 11 }, color: isDark ? '#6b6763' : '#9b9b9b', callback: v => v.toLocaleString('fr-FR') + ' €' }
-        }
+        y: { grid: { color: isDark ? 'rgba(255,255,255,0.05)' : 'rgba(0,0,0,0.04)' }, ticks: { font: { size: 11 }, color: isDark ? '#6b6763' : '#9b9b9b', callback: v => v.toLocaleString('fr-FR') + ' €' } }
       }
     }
   });
@@ -496,13 +440,11 @@ async function analyze() {
   try {
     setStep('Géocodage de l\'adresse…');
     let geo;
-    try { geo = await geocode(addr); }
-    catch (e) { throw new Error('Adresse introuvable. Essayez avec le nom de rue complet.'); }
+    try { geo = await geocode(addr); } catch(e) { throw new Error('Adresse introuvable. Essayez avec le nom de rue complet.'); }
     setStep('Analyse du marché local…');
     const zone = detectZone(geo.lat, geo.lon);
-    if (!zone) throw new Error('Zone non couverte');
     render(zone, geo);
-  } catch (e) {
+  } catch(e) {
     showError(e.message || 'Adresse introuvable. Vérifiez et réessayez.');
   } finally {
     document.getElementById('loader').classList.remove('visible');
@@ -523,19 +465,13 @@ input.addEventListener('input', () => {
 });
 
 input.addEventListener('keydown', e => {
-  if (e.key === 'Enter') {
-    if (acIndex >= 0 && acResults[acIndex]) selectSuggestion(acResults[acIndex]);
-    else { closeDropdown(); analyze(); }
-    return;
-  }
+  if (e.key === 'Enter') { if (acIndex >= 0 && acResults[acIndex]) selectSuggestion(acResults[acIndex]); else { closeDropdown(); analyze(); } return; }
   if (e.key === 'ArrowDown') { e.preventDefault(); moveIndex(1); }
   if (e.key === 'ArrowUp')   { e.preventDefault(); moveIndex(-1); }
   if (e.key === 'Escape')    { closeDropdown(); }
 });
 
-document.addEventListener('click', e => {
-  if (!e.target.closest('.autocomplete-wrap')) closeDropdown();
-});
+document.addEventListener('click', e => { if (!e.target.closest('.autocomplete-wrap')) closeDropdown(); });
 
 async function fetchSuggestions(q) {
   try {
@@ -545,13 +481,9 @@ async function fetchSuggestions(q) {
     const data = await res.json();
     acResults = data.features || [];
     if (acResults.length === 0) {
-      const p2 = new URLSearchParams({ q: q + ' Biarritz 64200', limit: 6 });
-      const r2 = await fetch(`${BAN_URL}?${p2}`);
+      const r2 = await fetch(`${BAN_URL}?${new URLSearchParams({ q: q+' Biarritz 64200', limit: 6 })}`);
       const d2 = r2.ok ? await r2.json() : { features: [] };
-      acResults = (d2.features || []).filter(f =>
-        f.properties.city?.toLowerCase() === 'biarritz' &&
-        f.properties.postcode === '64200'
-      );
+      acResults = (d2.features || []).filter(f => f.properties.city?.toLowerCase() === 'biarritz' && f.properties.postcode === '64200');
     }
     renderDropdown();
   } catch(e) { closeDropdown(); }
@@ -560,18 +492,11 @@ async function fetchSuggestions(q) {
 function renderDropdown() {
   if (!acResults.length) { closeDropdown(); return; }
   acIndex = -1;
-  dropdown.innerHTML = acResults.map((f, i) => {
+  dropdown.innerHTML = acResults.map((f,i) => {
     const p = f.properties;
-    const main = p.name || p.street;
-    const sub = p.postcode + ' ' + p.city;
-    return `<div class="ac-item" data-i="${i}">
-      <i class="ti ti-map-pin"></i>
-      <div><div class="ac-main">${main}</div><div class="ac-sub">${sub}</div></div>
-    </div>`;
+    return `<div class="ac-item" data-i="${i}"><i class="ti ti-map-pin"></i><div><div class="ac-main">${p.name||p.street}</div><div class="ac-sub">${p.postcode} ${p.city}</div></div></div>`;
   }).join('');
-  dropdown.querySelectorAll('.ac-item').forEach(el => {
-    el.addEventListener('mousedown', e => { e.preventDefault(); selectSuggestion(acResults[+el.dataset.i]); });
-  });
+  dropdown.querySelectorAll('.ac-item').forEach(el => { el.addEventListener('mousedown', e => { e.preventDefault(); selectSuggestion(acResults[+el.dataset.i]); }); });
   dropdown.classList.add('open');
 }
 
@@ -579,20 +504,12 @@ function moveIndex(dir) {
   const items = dropdown.querySelectorAll('.ac-item');
   if (!items.length) return;
   items[acIndex]?.classList.remove('active');
-  acIndex = Math.max(-1, Math.min(items.length - 1, acIndex + dir));
+  acIndex = Math.max(-1, Math.min(items.length-1, acIndex+dir));
   if (acIndex >= 0) { items[acIndex].classList.add('active'); input.value = acResults[acIndex].properties.label; }
 }
 
-function selectSuggestion(feature) {
-  input.value = feature.properties.label;
-  closeDropdown();
-  analyze();
-}
-
-function closeDropdown() {
-  dropdown.classList.remove('open');
-  acResults = []; acIndex = -1;
-}
+function selectSuggestion(f) { input.value = f.properties.label; closeDropdown(); analyze(); }
+function closeDropdown() { dropdown.classList.remove('open'); acResults = []; acIndex = -1; }
 </script>
 </body>
 </html>
