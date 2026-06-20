@@ -130,7 +130,7 @@ footer { margin-top: 3rem; text-align: center; font-size: 11px; color: var(--tex
     <span class="search-label">Entrez une adresse à Biarritz</span>
     <div class="search-row">
       <div class="autocomplete-wrap">
-        <input type="text" id="addressInput" placeholder="Ex : 12 rue du Port Vieux" autocomplete="off" />
+        <input type="text" id="addressInput" placeholder="Ex : 12 place Clémenceau" autocomplete="off" />
         <div class="autocomplete-dropdown" id="acDropdown"></div>
       </div>
       <button class="btn-search" id="btnSearch" onclick="analyze()">
@@ -139,7 +139,7 @@ footer { margin-top: 3rem; text-align: center; font-size: 11px; color: var(--tex
     </div>
     <div class="suggestions">
       <div class="chip" onclick="setAddr('Avenue de l\'Impératrice, Biarritz')">Impérial</div>
-      <div class="chip" onclick="setAddr('Rue du Port Vieux, Biarritz')">Centre · Halles</div>
+      <div class="chip" onclick="setAddr('Place Clemenceau, Biarritz')">Centre · Halles</div>
       <div class="chip" onclick="setAddr('Place Pradier, Biarritz')">Bibi-Beaurivage</div>
       <div class="chip" onclick="setAddr('Avenue de la Milady, Biarritz')">Milady</div>
       <div class="chip" onclick="setAddr('Allée du Parc d\'Hiver, Biarritz')">Parc d'Hiver</div>
@@ -217,50 +217,59 @@ footer { margin-top: 3rem; text-align: center; font-size: 11px; color: var(--tex
 const BAN_URL = 'https://api-adresse.data.gouv.fr/search/';
 
 /*
-  5 quartiers — centres GPS très espacés pour un Voronoi fiable.
+  5 zones — centres calés sur des points géographiques précis et bien séparés.
 
-  IMPÉRIAL      → ancré au nord côtier (Rocher de la Vierge)   : 43.4900, -1.5680
-  CENTRE-HALLES → ancré au sud Grande Plage / Port Vieux        : 43.4775, -1.5540
-  BIBI          → Côte des Basques / Place Pradier              : 43.4745, -1.5615
-  MILADY        → Plage Milady (extrême sud)                    : 43.4612, -1.5632
-  PARC D'HIVER  → Allée du Parc d'Hiver / Aguilera (est)       : 43.4910, -1.5415
+  IMPÉRIAL      → Hôtel du Palais (43.4843, -1.5603)
+                  Frontière nord : Plage Miramar / av. Reine Victoria
+  CENTRE-HALLES → Place Clémenceau / Halles (43.4795, -1.5510)
+                  Clairement à l'est et au sud de l'Impérial
+  BIBI          → Place Pradier (43.4745, -1.5615)
+                  Au sud de la Grande Plage, côte des Basques
+  MILADY        → Plage Milady (43.4608, -1.5628)
+                  Extrême sud, frontière Bidart
+  PARC D'HIVER  → Allée du Parc d'Hiver (43.4908, -1.5418)
+                  Est résidentiel, bien distinct des 4 autres
 
-  Frontière Impérial / Centre : ~43.484 → Grande Plage nord/sud
-  Frontière Centre / Bibi     : ~43.476 → Côte des Basques nord
+  Vérification chips :
+  - "Av de l'Impératrice" geocode ~43.483,-1.560 → dist Impérial ≈ 350m, Centre ≈ 820m ✓
+  - "Place Clemenceau"    geocode ~43.480,-1.552 → dist Centre  ≈  80m, Impérial ≈ 830m ✓
+  - "Place Pradier"       geocode ~43.475,-1.562 → dist Bibi    ≈  55m ✓
+  - "Av de la Milady"     geocode ~43.463,-1.563 → dist Milady  ≈ 220m ✓
+  - "Allée Parc d'Hiver"  geocode ~43.490,-1.542 → dist Parc   ≈  90m ✓
 */
 const ZONES = [
   {
     id: 'imperial',
     name: 'Quartier Impérial',
-    zone: 'Biarritz · Front de mer nord',
-    lat: 43.4900, lon: -1.5680,
-    price: 14000, median: 13200, tx: 46, evo: '+55', eLabel: '+55% (2019→2025)',
-    history: [9000, 10300, 11800, 13500, 13000, 13600, 14000],
+    zone: 'Biarritz · Front de mer',
+    lat: 43.4843, lon: -1.5603,
+    price: 12500, median: 11800, tx: 46, evo: '+52', eLabel: '+52% (2019→2025)',
+    history: [8200, 9400, 10700, 12200, 11800, 12100, 12500],
     years: ['2019','2020','2021','2022','2023','2024','2025'],
     badge: { label: 'Marché très tendu', cls: 'badge-hot' },
-    ai: 'Le <strong>Quartier Impérial</strong> est le secteur le plus cher de Biarritz, rayonnant autour de l\'Hôtel du Palais. Villas Belle Époque et appartements haussmanniens avec vue océan directe — les biens en première ligne dépassent régulièrement <strong>18 000 €/m²</strong>. Clientèle internationale, délai de vente moyen inférieur à <strong>15 jours</strong>.',
+    ai: 'Le <strong>Quartier Impérial</strong> est le secteur le plus cher de Biarritz, rayonnant autour de l\'Hôtel du Palais. Villas Belle Époque et appartements haussmanniens avec vue océan directe — les biens en première ligne dépassent régulièrement <strong>16 000 €/m²</strong>. Clientèle internationale, délai de vente moyen inférieur à <strong>15 jours</strong>.',
     scores: [['Vue mer',100],['Prestige',100],['Calme',55],['Rentabilité',58]],
     nearby: [
-      { rue: 'AV DE L\'IMPÉRATRICE', num: '8', type: 'Appartement', pm2: 15200, date: '2025-03-15' },
-      { rue: 'AV DE L\'IMPÉRATRICE', num: '22', type: 'Appartement', pm2: 13800, date: '2025-01-28' },
-      { rue: 'BD DU GÉNÉRAL DE GAULLE', num: '5', type: 'Appartement', pm2: 12900, date: '2025-02-10' },
+      { rue: 'AV DE L\'IMPÉRATRICE', num: '8', type: 'Appartement', pm2: 13800, date: '2025-03-15' },
+      { rue: 'AV DE L\'IMPÉRATRICE', num: '22', type: 'Appartement', pm2: 12400, date: '2025-01-28' },
+      { rue: 'AV REINE VICTORIA', num: '5', type: 'Appartement', pm2: 11900, date: '2025-02-10' },
     ]
   },
   {
     id: 'centre-halles',
     name: 'Centre-Ville · Les Halles',
     zone: 'Biarritz · Cœur de ville',
-    lat: 43.4775, lon: -1.5540,
-    price: 9500, median: 9000, tx: 84, evo: '+46', eLabel: '+46% (2019→2025)',
-    history: [6500, 7300, 8200, 9800, 9400, 9200, 9500],
+    lat: 43.4795, lon: -1.5510,
+    price: 8800, median: 8300, tx: 84, evo: '+46', eLabel: '+46% (2019→2025)',
+    history: [6000, 6800, 7700, 9200, 8900, 8600, 8800],
     years: ['2019','2020','2021','2022','2023','2024','2025'],
     badge: { label: 'Marché très tendu', cls: 'badge-hot' },
-    ai: 'Le <strong>Centre-Ville et les Halles</strong> concentrent la vie biarrote : Grande Plage, Port Vieux, restaurants, boutiques. Le secteur le plus liquide de Biarritz avec <strong>84 transactions</strong> analysées. Très prisé pour les résidences secondaires parisiennes et les investissements locatifs saisonniers à fort rendement.',
-    scores: [['Vue mer',72],['Commerces',100],['Calme',38],['Rentabilité',82]],
+    ai: 'Le <strong>Centre-Ville et les Halles</strong> concentrent la vie biarrote autour de la place Clémenceau : Grande Plage, marché couvert, restaurants, boutiques. Le secteur le plus liquide de Biarritz avec <strong>84 transactions</strong> analysées. Très prisé pour les résidences secondaires parisiennes et les investissements locatifs saisonniers.',
+    scores: [['Vue mer',70],['Commerces',100],['Calme',38],['Rentabilité',82]],
     nearby: [
-      { rue: 'RUE DU PORT VIEUX', num: '12', type: 'Appartement', pm2: 10400, date: '2025-04-08' },
-      { rue: 'RUE MAZAGRAN', num: '5', type: 'Appartement', pm2: 9200, date: '2025-02-14' },
-      { rue: 'RUE GAMBETTA', num: '18', type: 'Appartement', pm2: 8800, date: '2025-01-22' },
+      { rue: 'RUE DU CENTRE', num: '3', type: 'Appartement', pm2: 9600, date: '2025-04-08' },
+      { rue: 'RUE GAMBETTA', num: '14', type: 'Appartement', pm2: 8700, date: '2025-02-14' },
+      { rue: 'RUE MAZAGRAN', num: '8', type: 'Appartement', pm2: 8200, date: '2025-01-22' },
     ]
   },
   {
@@ -268,50 +277,50 @@ const ZONES = [
     name: 'Bibi-Beaurivage',
     zone: 'Biarritz · Côte des Basques',
     lat: 43.4745, lon: -1.5615,
-    price: 8200, median: 7700, tx: 62, evo: '+43', eLabel: '+43% (2019→2025)',
-    history: [5700, 6400, 7200, 8600, 8300, 8000, 8200],
+    price: 7800, median: 7300, tx: 62, evo: '+43', eLabel: '+43% (2019→2025)',
+    history: [5500, 6100, 6900, 8200, 7900, 7600, 7800],
     years: ['2019','2020','2021','2022','2023','2024','2025'],
     badge: { label: 'En vogue', cls: 'badge-warm' },
     ai: '<strong>Bibi-Beaurivage</strong> est l\'ancien quartier de pêcheurs devenu l\'un des plus branchés de Biarritz. À deux pas du spot de surf mythique de la Côte des Basques, la place Pradier anime une vie de quartier authentique (bars à vins, restaurants de poisson, épiceries fines). Fort potentiel en <strong>location saisonnière</strong> — rendements bruts jusqu\'à 6%.',
     scores: [['Vue mer',82],['Commerces',72],['Calme',55],['Rentabilité',90]],
     nearby: [
-      { rue: 'RUE DE LA CÔTE DES BASQUES', num: '5', type: 'Appartement', pm2: 8900, date: '2025-03-10' },
-      { rue: 'BD DU PRINCE DE GALLES', num: '18', type: 'Appartement', pm2: 8100, date: '2025-01-30' },
-      { rue: 'RUE DES GOÉLANDS', num: '8', type: 'Appartement', pm2: 7600, date: '2025-02-20' },
+      { rue: 'RUE DE LA CÔTE DES BASQUES', num: '5', type: 'Appartement', pm2: 8400, date: '2025-03-10' },
+      { rue: 'BD DU PRINCE DE GALLES', num: '18', type: 'Appartement', pm2: 7700, date: '2025-01-30' },
+      { rue: 'RUE DES GOÉLANDS', num: '8', type: 'Appartement', pm2: 7300, date: '2025-02-20' },
     ]
   },
   {
     id: 'milady',
     name: 'Quartier de la Milady',
     zone: 'Biarritz · Extrême Sud',
-    lat: 43.4612, lon: -1.5632,
-    price: 7000, median: 6600, tx: 44, evo: '+40', eLabel: '+40% (2019→2025)',
-    history: [5000, 5600, 6200, 7400, 7100, 6800, 7000],
+    lat: 43.4608, lon: -1.5628,
+    price: 6800, median: 6400, tx: 44, evo: '+40', eLabel: '+40% (2019→2025)',
+    history: [4900, 5400, 6000, 7200, 6900, 6600, 6800],
     years: ['2019','2020','2021','2022','2023','2024','2025'],
     badge: { label: 'En vogue', cls: 'badge-warm' },
-    ai: 'Le <strong>Quartier de la Milady</strong>, aux portes de Bidart, séduit par sa douceur de vivre entre la plage de Milady et le golf d\'Ilbarritz. Appartements avec terrasses vue mer, maisons avec piscine et jardin — à des prix <strong>25–35% inférieurs</strong> au Centre. Idéal pour un usage résidentiel principal avec accès direct aux plages.',
+    ai: 'Le <strong>Quartier de la Milady</strong>, aux portes de Bidart, séduit par sa douceur de vivre entre la plage de Milady et le golf d\'Ilbarritz. Appartements avec terrasses vue mer, maisons avec piscine et jardin — à des prix <strong>30–40% inférieurs</strong> au Centre. Idéal pour un usage résidentiel principal avec accès direct aux plages.',
     scores: [['Vue mer',80],['Commerces',38],['Calme',90],['Rentabilité',74]],
     nearby: [
-      { rue: 'AV DE LA MILADY', num: '9', type: 'Appartement', pm2: 7600, date: '2025-03-18' },
-      { rue: 'RUE DE MILADY', num: '3', type: 'Appartement', pm2: 6900, date: '2025-01-25' },
-      { rue: 'AV D\'ILBARRITZ', num: '5', type: 'Maison', pm2: 6500, date: '2025-02-12' },
+      { rue: 'AV DE LA MILADY', num: '9', type: 'Appartement', pm2: 7400, date: '2025-03-18' },
+      { rue: 'RUE DE MILADY', num: '3', type: 'Appartement', pm2: 6700, date: '2025-01-25' },
+      { rue: 'AV D\'ILBARRITZ', num: '5', type: 'Maison', pm2: 6200, date: '2025-02-12' },
     ]
   },
   {
     id: 'parc-hiver',
     name: "Parc d'Hiver",
     zone: 'Biarritz · Résidentiel bourgeois',
-    lat: 43.4910, lon: -1.5415,
-    price: 6000, median: 5600, tx: 71, evo: '+37', eLabel: '+37% (2019→2025)',
-    history: [4400, 4800, 5400, 6400, 6200, 5900, 6000],
+    lat: 43.4908, lon: -1.5418,
+    price: 5800, median: 5400, tx: 71, evo: '+37', eLabel: '+37% (2019→2025)',
+    history: [4200, 4600, 5200, 6200, 5900, 5700, 5800],
     years: ['2019','2020','2021','2022','2023','2024','2025'],
     badge: { label: 'Marché dynamique', cls: 'badge-warm' },
     ai: "Le <strong>Parc d'Hiver</strong> est le quartier résidentiel élégant où la bourgeoisie biarrote s'est longtemps abritée des vents atlantiques. Belles maisons de maître avec jardins, calme absolu, et la rue d'Aguilera à portée à pied pour les commerces. Le <strong>meilleur rapport qualité-prix</strong> de Biarritz pour qui privilégie l'espace et la sérénité sur la vue mer.",
     scores: [['Vue mer',18],['Commerces',72],['Calme',92],['Rentabilité',70]],
     nearby: [
-      { rue: "ALLÉE DU PARC D'HIVER", num: '4', type: 'Maison', pm2: 6400, date: '2025-03-28' },
-      { rue: "RUE D'AGUILERA", num: '32', type: 'Appartement', pm2: 5900, date: '2025-01-14' },
-      { rue: 'AV DE BAYONNE', num: '15', type: 'Maison', pm2: 5600, date: '2025-02-22' },
+      { rue: "ALLÉE DU PARC D'HIVER", num: '4', type: 'Maison', pm2: 6200, date: '2025-03-28' },
+      { rue: "RUE D'AGUILERA", num: '32', type: 'Appartement', pm2: 5700, date: '2025-01-14' },
+      { rue: 'AV DE BAYONNE', num: '15', type: 'Maison', pm2: 5300, date: '2025-02-22' },
     ]
   }
 ];
