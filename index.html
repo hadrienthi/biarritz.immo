@@ -94,7 +94,6 @@ body {
 .trend-down { color: var(--coral-dark); }
 .chart-card { background: var(--surface); border: 0.5px solid var(--border); border-radius: var(--radius-lg); padding: 1.25rem; margin-bottom: 1rem; }
 .chart-title { font-size: 12px; color: var(--text-secondary); margin-bottom: 1rem; text-transform: uppercase; letter-spacing: 0.5px; }
-.no-data-msg { font-size: 13px; color: var(--text-tertiary); text-align: center; padding: 2rem 0; }
 .ai-card { background: var(--surface); border: 0.5px solid var(--border); border-radius: var(--radius-lg); padding: 1.25rem; margin-bottom: 1rem; }
 .ai-header { display: flex; align-items: center; gap: 10px; margin-bottom: 12px; }
 .ai-icon { width: 30px; height: 30px; border-radius: 8px; background: var(--purple-light); display: flex; align-items: center; justify-content: center; }
@@ -109,7 +108,6 @@ body {
 .score-bar-fill { height: 100%; border-radius: 2px; background: var(--coral); transition: width 0.9s cubic-bezier(.4,0,.2,1); }
 .score-key { font-size: 10px; color: var(--text-tertiary); }
 .sample-list { margin-top: 12px; border-top: 0.5px solid var(--border); padding-top: 12px; }
-.sample-title { font-size: 11px; text-transform: uppercase; letter-spacing: 0.5px; color: var(--text-tertiary); margin-bottom: 8px; }
 .sample-item { display: flex; justify-content: space-between; align-items: center; font-size: 12px; padding: 6px 0; border-bottom: 0.5px solid var(--border); }
 .sample-item:last-child { border-bottom: none; }
 .sample-item.searched { background: var(--coral-light); margin: 0 -12px; padding: 6px 12px; border-radius: 6px; }
@@ -145,10 +143,10 @@ footer { margin-top: 3rem; text-align: center; font-size: 11px; color: var(--tex
       </button>
     </div>
     <div class="suggestions">
-      <div class="chip" onclick="setAddr('Rue du Port Vieux, Biarritz')">Port Vieux</div>
-      <div class="chip" onclick="setAddr('Avenue de la Marne, Biarritz')">Av. de la Marne</div>
-      <div class="chip" onclick="setAddr('Avenue de la Grande Plage, Biarritz')">Grande Plage</div>
-      <div class="chip" onclick="setAddr('Boulevard du Prince de Galles, Biarritz')">Côte des Basques</div>
+      <div class="chip" onclick="setAddr('12 Rue du Port Vieux, Biarritz')">Port Vieux</div>
+      <div class="chip" onclick="setAddr('14 Avenue de la Marne, Biarritz')">Av. de la Marne</div>
+      <div class="chip" onclick="setAddr('1 Avenue de la Grande Plage, Biarritz')">Grande Plage</div>
+      <div class="chip" onclick="setAddr('5 Rue de la Côte des Basques, Biarritz')">Côte des Basques</div>
     </div>
   </div>
 
@@ -223,12 +221,13 @@ footer { margin-top: 3rem; text-align: center; font-size: 11px; color: var(--tex
 <script>
 const BAN_URL = 'https://api-adresse.data.gouv.fr/search/';
 
+// Zones géographiques — centres ajustés pour éviter les chevauchements
 const ZONES = [
   {
     id: 'grande-plage',
     name: 'Grande Plage · Casino',
     zone: 'Front de mer · Biarritz',
-    lat: 43.4848, lon: -1.5588, radius: 400,
+    lat: 43.4848, lon: -1.5590, radius: 380,
     price: 11700, median: 11100, tx: 46, evo: '+48', eLabel: '+48% (2019→2025)',
     history: [7900, 9200, 10500, 11800, 11200, 11400, 11700],
     years: ['2019','2020','2021','2022','2023','2024','2025'],
@@ -245,7 +244,8 @@ const ZONES = [
     id: 'port-vieux',
     name: 'Port Vieux · Atalaye',
     zone: 'Centre historique · Biarritz',
-    lat: 43.4800, lon: -1.5572, radius: 500,
+    // Centre repositionné sur le Port Vieux (côté plage, nord)
+    lat: 43.4810, lon: -1.5568, radius: 380,
     price: 8850, median: 8400, tx: 71, evo: '+43', eLabel: '+43% (2019→2025)',
     history: [6200, 7000, 7800, 9100, 8800, 8600, 8850],
     years: ['2019','2020','2021','2022','2023','2024','2025'],
@@ -262,7 +262,8 @@ const ZONES = [
     id: 'cote-basques',
     name: 'Côte des Basques',
     zone: 'Quartier surf · Biarritz',
-    lat: 43.4730, lon: -1.5620, radius: 500,
+    // Centre repositionné plus au sud, sur la plage Côte des Basques
+    lat: 43.4700, lon: -1.5638, radius: 520,
     price: 8100, median: 7750, tx: 58, evo: '+47', eLabel: '+47% (2019→2025)',
     history: [5500, 6100, 7000, 8200, 8000, 7900, 8100],
     years: ['2019','2020','2021','2022','2023','2024','2025'],
@@ -270,9 +271,9 @@ const ZONES = [
     ai: 'La <strong>Côte des Basques</strong> est portée par l\'essor mondial du surf lifestyle. Anciennement populaire, le quartier a été entièrement revalorisé par une clientèle jeune et aisée. La forte demande en <strong>location saisonnière</strong> et le classement de la plage en patrimoine mondial génèrent un rendement locatif parmi les meilleurs de la ville.',
     scores: [['Vue mer',82],['Commerces',60],['Calme',70],['Rentabilité',88]],
     nearby: [
-      { rue: 'BD DU PRINCE DE GALLES', num: '6', type: 'Appartement', pm2: 8300, date: '2025-03-20' },
-      { rue: 'AV DE LA CÔTE DES BASQUES', num: '3', type: 'Maison', pm2: 7600, date: '2025-01-11' },
-      { rue: 'RUE DE LA CÔTE DES BASQUES', num: '9', type: 'Appartement', pm2: 7950, date: '2025-02-28' },
+      { rue: 'RUE DE LA CÔTE DES BASQUES', num: '5', type: 'Appartement', pm2: 8200, date: '2025-03-20' },
+      { rue: 'BD DU PRINCE DE GALLES', num: '22', type: 'Appartement', pm2: 7900, date: '2025-01-11' },
+      { rue: 'RUE DES GOÉLANDS', num: '8', type: 'Appartement', pm2: 7700, date: '2025-02-28' },
     ]
   },
   {
@@ -329,7 +330,6 @@ const ZONES = [
 ];
 
 let chartInstance = null;
-let lastGeo = null;
 
 function setAddr(addr) {
   document.getElementById('addressInput').value = addr;
@@ -396,7 +396,6 @@ function detectZone(lat, lon) {
 }
 
 function buildTransactions(zone, geo) {
-  // Start with searched address as first item
   const streetUp = (geo.street || '').toUpperCase();
   const searched = {
     rue: streetUp,
@@ -406,9 +405,6 @@ function buildTransactions(zone, geo) {
     date: '2025-06-01',
     isSearched: true
   };
-
-  // Filter nearby transactions: exclude those on the same street as searched (to avoid duplicate),
-  // then add them sorted by zone
   const others = zone.nearby.filter(t => t.rue !== streetUp).slice(0, 2);
   return [searched, ...others];
 }
@@ -437,7 +433,6 @@ function render(zone, geo) {
     document.querySelectorAll('.score-bar-fill').forEach(el => { el.style.width = el.dataset.target; });
   }, 80);
 
-  // Transactions
   const transactions = buildTransactions(zone, geo);
   const sampleList = document.getElementById('sampleList');
   sampleList.innerHTML = transactions.map(t => {
@@ -459,10 +454,6 @@ function render(zone, geo) {
 function renderChart(history, years) {
   const container = document.getElementById('chartContainer');
   if (chartInstance) chartInstance.destroy();
-  if (history.length < 2) {
-    container.innerHTML = '<div class="no-data-msg">Pas assez de données</div>';
-    return;
-  }
   container.innerHTML = '<canvas id="priceChart" role="img" aria-label="Graphique évolution prix au m²"></canvas>';
   const isDark = matchMedia('(prefers-color-scheme: dark)').matches;
   chartInstance = new Chart(document.getElementById('priceChart'), {
@@ -505,15 +496,11 @@ async function analyze() {
   try {
     setStep('Géocodage de l\'adresse…');
     let geo;
-    try {
-      geo = await geocode(addr);
-    } catch (e) {
-      throw new Error('Adresse introuvable. Essayez avec le nom de rue complet.');
-    }
+    try { geo = await geocode(addr); }
+    catch (e) { throw new Error('Adresse introuvable. Essayez avec le nom de rue complet.'); }
     setStep('Analyse du marché local…');
     const zone = detectZone(geo.lat, geo.lon);
     if (!zone) throw new Error('Zone non couverte');
-    lastGeo = geo;
     render(zone, geo);
   } catch (e) {
     showError(e.message || 'Adresse introuvable. Vérifiez et réessayez.');
@@ -523,7 +510,7 @@ async function analyze() {
   }
 }
 
-// ─── AUTOCOMPLETE ────────────────────────────────────────────────────────────
+// ─── AUTOCOMPLETE ───────────────────────────────────────────────────────────
 const input = document.getElementById('addressInput');
 const dropdown = document.getElementById('acDropdown');
 let acResults = [], acIndex = -1, acTimer = null;
