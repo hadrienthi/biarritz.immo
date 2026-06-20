@@ -217,21 +217,23 @@ footer { margin-top: 3rem; text-align: center; font-size: 11px; color: var(--tex
 const BAN_URL = 'https://api-adresse.data.gouv.fr/search/';
 
 /*
-  5 quartiers — centres GPS bien espacés, Voronoi pur (distance brute).
+  5 quartiers — centres GPS très espacés pour un Voronoi fiable.
 
-  Prix moyens 2025 calés sur les données DVF réelles :
-  IMPÉRIAL      → ~14 000 €/m²  (front de mer, Hôtel du Palais)
-  CENTRE-HALLES → ~9 500 €/m²   (Grande Plage, Port Vieux)
-  BIBI          → ~8 200 €/m²   (Côte des Basques, surf)
-  MILADY        → ~7 000 €/m²   (extrême sud, Bidart border)
-  PARC D'HIVER  → ~6 000 €/m²   (résidentiel intérieur)
+  IMPÉRIAL      → ancré au nord côtier (Rocher de la Vierge)   : 43.4900, -1.5680
+  CENTRE-HALLES → ancré au sud Grande Plage / Port Vieux        : 43.4775, -1.5540
+  BIBI          → Côte des Basques / Place Pradier              : 43.4745, -1.5615
+  MILADY        → Plage Milady (extrême sud)                    : 43.4612, -1.5632
+  PARC D'HIVER  → Allée du Parc d'Hiver / Aguilera (est)       : 43.4910, -1.5415
+
+  Frontière Impérial / Centre : ~43.484 → Grande Plage nord/sud
+  Frontière Centre / Bibi     : ~43.476 → Côte des Basques nord
 */
 const ZONES = [
   {
     id: 'imperial',
     name: 'Quartier Impérial',
-    zone: 'Biarritz · Front de mer',
-    lat: 43.4835, lon: -1.5615,
+    zone: 'Biarritz · Front de mer nord',
+    lat: 43.4900, lon: -1.5680,
     price: 14000, median: 13200, tx: 46, evo: '+55', eLabel: '+55% (2019→2025)',
     history: [9000, 10300, 11800, 13500, 13000, 13600, 14000],
     years: ['2019','2020','2021','2022','2023','2024','2025'],
@@ -248,7 +250,7 @@ const ZONES = [
     id: 'centre-halles',
     name: 'Centre-Ville · Les Halles',
     zone: 'Biarritz · Cœur de ville',
-    lat: 43.4808, lon: -1.5554,
+    lat: 43.4775, lon: -1.5540,
     price: 9500, median: 9000, tx: 84, evo: '+46', eLabel: '+46% (2019→2025)',
     history: [6500, 7300, 8200, 9800, 9400, 9200, 9500],
     years: ['2019','2020','2021','2022','2023','2024','2025'],
@@ -265,7 +267,7 @@ const ZONES = [
     id: 'bibi-beaurivage',
     name: 'Bibi-Beaurivage',
     zone: 'Biarritz · Côte des Basques',
-    lat: 43.4758, lon: -1.5608,
+    lat: 43.4745, lon: -1.5615,
     price: 8200, median: 7700, tx: 62, evo: '+43', eLabel: '+43% (2019→2025)',
     history: [5700, 6400, 7200, 8600, 8300, 8000, 8200],
     years: ['2019','2020','2021','2022','2023','2024','2025'],
@@ -299,7 +301,7 @@ const ZONES = [
     id: 'parc-hiver',
     name: "Parc d'Hiver",
     zone: 'Biarritz · Résidentiel bourgeois',
-    lat: 43.4905, lon: -1.5420,
+    lat: 43.4910, lon: -1.5415,
     price: 6000, median: 5600, tx: 71, evo: '+37', eLabel: '+37% (2019→2025)',
     history: [4400, 4800, 5400, 6400, 6200, 5900, 6000],
     years: ['2019','2020','2021','2022','2023','2024','2025'],
