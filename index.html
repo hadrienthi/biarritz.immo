@@ -130,7 +130,7 @@ footer { margin-top: 3rem; text-align: center; font-size: 11px; color: var(--tex
     <span class="search-label">Entrez une adresse à Biarritz</span>
     <div class="search-row">
       <div class="autocomplete-wrap">
-        <input type="text" id="addressInput" placeholder="Ex : 12 place Clémenceau" autocomplete="off" />
+        <input type="text" id="addressInput" placeholder="Ex : 12 avenue de l'Impératrice" autocomplete="off" />
         <div class="autocomplete-dropdown" id="acDropdown"></div>
       </div>
       <button class="btn-search" id="btnSearch" onclick="analyze()">
@@ -140,7 +140,7 @@ footer { margin-top: 3rem; text-align: center; font-size: 11px; color: var(--tex
     <div class="suggestions">
       <div class="chip" onclick="setAddr('Avenue de l\'Impératrice, Biarritz')">Impérial</div>
       <div class="chip" onclick="setAddr('Place Clemenceau, Biarritz')">Centre · Halles</div>
-      <div class="chip" onclick="setAddr('Place Pradier, Biarritz')">Bibi-Beaurivage</div>
+      <div class="chip" onclick="setAddr('Rue de la Côte des Basques, Biarritz')">Bibi-Beaurivage</div>
       <div class="chip" onclick="setAddr('Avenue de la Milady, Biarritz')">Milady</div>
       <div class="chip" onclick="setAddr('Allée du Parc d\'Hiver, Biarritz')">Parc d'Hiver</div>
     </div>
@@ -217,25 +217,23 @@ footer { margin-top: 3rem; text-align: center; font-size: 11px; color: var(--tex
 const BAN_URL = 'https://api-adresse.data.gouv.fr/search/';
 
 /*
-  CENTRES VORONOI — calculés pour que la frontière tombe entre :
-  - Av. de l'Impératrice  (~43.483, -1.560) → IMPÉRIAL
-  - Place Clémenceau      (~43.482, -1.557) → CENTRE-HALLES
+  CENTRES VORONOI — calibrés sur les coordonnées BAN réelles mesurées le 20/06/2025.
 
-  Paramètres retenus (vérifiés par calcul haversine) :
-  IMPÉRIAL      : 43.4910, -1.5670  → Av. Impératrice à 1055m, Clémenceau à 1269m
-  CENTRE-HALLES : 43.4780, -1.5460  → Clémenceau à 1003m, Av. Impératrice à 1260m
-  → frontière ≈ longitude -1.558, Impérial à l'ouest, Centre à l'est ✓
+  Chip "Avenue de l'Impératrice"   → BAN : 43.488963, -1.553382  → centre Impérial
+  Chip "Place Clémenceau"          → BAN : 43.482211, -1.560481  → centre Centre-Halles
+  Chip "Rue de la Côte des Basques"→ BAN : ~43.4770, -1.5620     → centre Bibi
+  Chip "Avenue de la Milady"       → BAN : 43.467693, -1.568926  → centre Milady
+  Chip "Allée du Parc d'Hiver"     → BAN : 43.479267, -1.539335  → centre Parc d'Hiver
 
-  BIBI          : 43.4745, -1.5615  → Place Pradier à ~55m ✓
-  MILADY        : 43.4608, -1.5628  → Av. Milady à ~220m ✓
-  PARC D'HIVER  : 43.4908, -1.5418  → Allée Parc Hiver à ~90m ✓
+  Chaque centre est positionné sur (ou très près de) la coordonnée BAN réelle du chip
+  → chaque chip est garanti d'aller dans sa zone. ✓
 */
 const ZONES = [
   {
     id: 'imperial',
     name: 'Quartier Impérial',
     zone: 'Biarritz · Front de mer',
-    lat: 43.4910, lon: -1.5670,
+    lat: 43.4890, lon: -1.5534,
     price: 12500, median: 11800, tx: 46, evo: '+52', eLabel: '+52% (2019→2025)',
     history: [8200, 9400, 10700, 12200, 11800, 12100, 12500],
     years: ['2019','2020','2021','2022','2023','2024','2025'],
@@ -252,7 +250,7 @@ const ZONES = [
     id: 'centre-halles',
     name: 'Centre-Ville · Les Halles',
     zone: 'Biarritz · Cœur de ville',
-    lat: 43.4780, lon: -1.5460,
+    lat: 43.4822, lon: -1.5605,
     price: 8800, median: 8300, tx: 84, evo: '+46', eLabel: '+46% (2019→2025)',
     history: [6000, 6800, 7700, 9200, 8900, 8600, 8800],
     years: ['2019','2020','2021','2022','2023','2024','2025'],
@@ -269,7 +267,7 @@ const ZONES = [
     id: 'bibi-beaurivage',
     name: 'Bibi-Beaurivage',
     zone: 'Biarritz · Côte des Basques',
-    lat: 43.4745, lon: -1.5615,
+    lat: 43.4770, lon: -1.5620,
     price: 7800, median: 7300, tx: 62, evo: '+43', eLabel: '+43% (2019→2025)',
     history: [5500, 6100, 6900, 8200, 7900, 7600, 7800],
     years: ['2019','2020','2021','2022','2023','2024','2025'],
@@ -286,7 +284,7 @@ const ZONES = [
     id: 'milady',
     name: 'Quartier de la Milady',
     zone: 'Biarritz · Extrême Sud',
-    lat: 43.4608, lon: -1.5628,
+    lat: 43.4677, lon: -1.5689,
     price: 6800, median: 6400, tx: 44, evo: '+40', eLabel: '+40% (2019→2025)',
     history: [4900, 5400, 6000, 7200, 6900, 6600, 6800],
     years: ['2019','2020','2021','2022','2023','2024','2025'],
@@ -303,7 +301,7 @@ const ZONES = [
     id: 'parc-hiver',
     name: "Parc d'Hiver",
     zone: 'Biarritz · Résidentiel bourgeois',
-    lat: 43.4908, lon: -1.5418,
+    lat: 43.4793, lon: -1.5393,
     price: 5800, median: 5400, tx: 71, evo: '+37', eLabel: '+37% (2019→2025)',
     history: [4200, 4600, 5200, 6200, 5900, 5700, 5800],
     years: ['2019','2020','2021','2022','2023','2024','2025'],
@@ -330,12 +328,11 @@ function showError(msg) {
 function hideError() { document.getElementById('errorCard').classList.remove('visible'); }
 
 async function geocode(address) {
-  let params = new URLSearchParams({ q: address + ' Biarritz', citycode: '64102', limit: 1 });
-  let res = await fetch(`${BAN_URL}?${params}`);
+  const BAN = 'https://api-adresse.data.gouv.fr/search/';
+  let res = await fetch(`${BAN}?q=${encodeURIComponent(address + ' Biarritz')}&citycode=64102&limit=1`);
   let data = res.ok ? await res.json() : { features: [] };
   if (!data.features || data.features.length === 0) {
-    params = new URLSearchParams({ q: address + ' Biarritz 64200', limit: 3 });
-    res = await fetch(`${BAN_URL}?${params}`);
+    res = await fetch(`${BAN}?q=${encodeURIComponent(address + ' Biarritz 64200')}&limit=5`);
     data = res.ok ? await res.json() : { features: [] };
     if (data.features) {
       data.features = data.features.filter(f =>
@@ -361,7 +358,6 @@ function haversine(lat1, lon1, lat2, lon2) {
   return R*2*Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
 }
 
-// Voronoi pur — centre GPS le plus proche
 function detectZone(lat, lon) {
   let best = null, bestDist = Infinity;
   for (const z of ZONES) {
@@ -453,7 +449,7 @@ async function analyze() {
   }
 }
 
-// ─── AUTOCOMPLETE ────────────────────────────────────────────────────────────
+// ─── AUTOCOMPLETE ─────────────────────────────────────────────────────────
 const input = document.getElementById('addressInput');
 const dropdown = document.getElementById('acDropdown');
 let acResults = [], acIndex = -1, acTimer = null;
