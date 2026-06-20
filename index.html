@@ -45,12 +45,7 @@ body {
 .autocomplete-wrap input { display: block; width: 100%; height: 42px; padding: 0 12px; font-size: 14px; border-radius: var(--radius-md); border: 0.5px solid var(--border); background: var(--bg); color: var(--text); outline: none; transition: border-color 0.15s; font-family: inherit; }
 .autocomplete-wrap input:focus { border-color: var(--coral); }
 .autocomplete-wrap input::placeholder { color: var(--text-tertiary); }
-.autocomplete-dropdown {
-  display: none; position: absolute; top: calc(100% + 4px); left: 0; right: 0; z-index: 100;
-  background: var(--surface); border: 0.5px solid var(--border);
-  border-radius: var(--radius-md); overflow: hidden;
-  box-shadow: 0 4px 16px rgba(0,0,0,0.08);
-}
+.autocomplete-dropdown { display: none; position: absolute; top: calc(100% + 4px); left: 0; right: 0; z-index: 100; background: var(--surface); border: 0.5px solid var(--border); border-radius: var(--radius-md); overflow: hidden; box-shadow: 0 4px 16px rgba(0,0,0,0.08); }
 .autocomplete-dropdown.open { display: block; }
 .ac-item { display: flex; align-items: center; gap: 10px; padding: 10px 14px; cursor: pointer; font-size: 13px; border-bottom: 0.5px solid var(--border); transition: background 0.1s; }
 .ac-item:last-child { border-bottom: none; }
@@ -143,10 +138,10 @@ footer { margin-top: 3rem; text-align: center; font-size: 11px; color: var(--tex
       </button>
     </div>
     <div class="suggestions">
-      <div class="chip" onclick="setAddr('12 Rue du Port Vieux, Biarritz')">Port Vieux</div>
-      <div class="chip" onclick="setAddr('14 Avenue de la Marne, Biarritz')">Av. de la Marne</div>
-      <div class="chip" onclick="setAddr('1 Avenue de la Grande Plage, Biarritz')">Grande Plage</div>
-      <div class="chip" onclick="setAddr('25 Avenue de la Reine Victoria, Biarritz')">Plateau</div>
+      <div class="chip" onclick="setAddr('Avenue de l\'Impératrice, Biarritz')">Impérial</div>
+      <div class="chip" onclick="setAddr('Rue du Port Vieux, Biarritz')">Centre · Halles</div>
+      <div class="chip" onclick="setAddr('Allée du Parc d\'Hiver, Biarritz')">Parc d\'Hiver</div>
+      <div class="chip" onclick="setAddr('Rue de la Côte des Basques, Biarritz')">Bibi-Beaurivage</div>
     </div>
   </div>
 
@@ -190,10 +185,10 @@ footer { margin-top: 3rem; text-align: center; font-size: 11px; color: var(--tex
     <div class="chart-card">
       <div class="chart-title">Évolution prix au m² · 2019–2025</div>
       <div id="chartContainer" style="position: relative; width: 100%; height: 170px;">
-        <canvas id="priceChart" role="img" aria-label="Graphique évolution prix au m²"></canvas>
+        <canvas id="priceChart"></canvas>
       </div>
     </div>
-    <div class="chart-card" id="sampleCard">
+    <div class="chart-card">
       <div class="chart-title">Dernières transactions DVF · 2025</div>
       <div class="sample-list" id="sampleList"></div>
     </div>
@@ -221,111 +216,138 @@ footer { margin-top: 3rem; text-align: center; font-size: 11px; color: var(--tex
 <script>
 const BAN_URL = 'https://api-adresse.data.gouv.fr/search/';
 
-// 5 zones géographiques bien distinctes
+// 7 quartiers selon nomenclature Sotheby's Biarritz
 const ZONES = [
   {
-    id: 'grande-plage',
-    name: 'Grande Plage · Casino',
-    zone: 'Front de mer · Biarritz',
-    lat: 43.4848, lon: -1.5590, radius: 380,
+    id: 'imperial',
+    name: 'Quartier Impérial',
+    zone: 'Biarritz · Front de mer',
+    lat: 43.4848, lon: -1.5595, radius: 420,
     price: 11700, median: 11100, tx: 46, evo: '+48', eLabel: '+48% (2019→2025)',
     history: [7900, 9200, 10500, 11800, 11200, 11400, 11700],
     years: ['2019','2020','2021','2022','2023','2024','2025'],
     badge: { label: 'Marché très tendu', cls: 'badge-hot' },
-    ai: 'Le secteur de la <strong>Grande Plage</strong> représente le sommet du marché biarrot. Les biens avec vue directe sur l\'Atlantique dépassent régulièrement <strong>15 000 €/m²</strong>. Liquidité exceptionnelle, clientèle internationale, et une demande structurellement supérieure à l\'offre. Délai de vente moyen : <strong>12 jours</strong>.',
-    scores: [['Vue mer',100],['Commerces',72],['Calme',38],['Rentabilité',58]],
+    ai: 'Le <strong>Quartier Impérial</strong> est le secteur le plus prestigieux de Biarritz, concentré autour de l\'Hôtel du Palais. Villas Belle Époque, appartements de standing avec vue océan, clientèle internationale. Les biens dépassent régulièrement <strong>15 000 €/m²</strong> en front de mer. Délai de vente moyen : <strong>12 jours</strong>.',
+    scores: [['Vue mer',100],['Prestige',100],['Calme',55],['Rentabilité',60]],
     nearby: [
       { rue: 'AV DE L\'IMPÉRATRICE', num: '8', type: 'Appartement', pm2: 12400, date: '2025-03-15' },
-      { rue: 'PLACE BELLEVUE', num: '2', type: 'Appartement', pm2: 11800, date: '2025-01-22' },
-      { rue: 'AV EDOUARD VII', num: '14', type: 'Appartement', pm2: 10900, date: '2025-02-10' },
+      { rue: 'AV DE L\'IMPÉRATRICE', num: '22', type: 'Appartement', pm2: 11200, date: '2025-01-28' },
+      { rue: 'AV EDOUARD VII', num: '6', type: 'Appartement', pm2: 10900, date: '2025-02-10' },
     ]
   },
   {
-    id: 'plages-sud',
-    name: 'Port Vieux · Côte des Basques',
-    zone: 'Plages Sud · Biarritz',
-    // Zone fusionnée couvrant Port Vieux + Côte des Basques
-    lat: 43.4760, lon: -1.5600, radius: 750,
-    price: 8500, median: 8100, tx: 129, evo: '+45', eLabel: '+45% (2019→2025)',
-    history: [5850, 6550, 7400, 8650, 8400, 8250, 8500],
+    id: 'centre-halles',
+    name: 'Centre-Ville · Les Halles',
+    zone: 'Biarritz · Cœur de ville',
+    lat: 43.4825, lon: -1.5548, radius: 380,
+    price: 8500, median: 8100, tx: 84, evo: '+44', eLabel: '+44% (2019→2025)',
+    history: [5900, 6700, 7500, 8900, 8600, 8300, 8500],
     years: ['2019','2020','2021','2022','2023','2024','2025'],
     badge: { label: 'Marché très tendu', cls: 'badge-hot' },
-    ai: 'Le secteur <strong>Port Vieux · Côte des Basques</strong> concentre la demande la plus forte de Biarritz après la Grande Plage. Port Vieux attire pour son ambiance villégiature et ses restaurants ; la Côte des Basques séduit par le surf lifestyle et son classement en patrimoine mondial. <strong>Les biens partent en moins de 3 semaines</strong>, forte proportion de résidences secondaires et excellente rentabilité locative saisonnière.',
-    scores: [['Vue mer',90],['Commerces',75],['Calme',60],['Rentabilité',82]],
+    ai: 'Le <strong>Centre-Ville et les Halles</strong> offrent l\'ambiance la plus animée de Biarritz, entre la Grande Plage et le Port Vieux. Cafés, restaurants, boutiques de créateurs — un mode de vie <strong>100% à pied</strong>. Très prisé des résidences secondaires parisiennes et des investisseurs locatifs saisonniers.',
+    scores: [['Vue mer',75],['Commerces',100],['Calme',40],['Rentabilité',78]],
     nearby: [
       { rue: 'RUE DU PORT VIEUX', num: '12', type: 'Appartement', pm2: 9100, date: '2025-04-08' },
-      { rue: 'BD DU PRINCE DE GALLES', num: '22', type: 'Appartement', pm2: 7900, date: '2025-02-11' },
-      { rue: 'RUE DES GOÉLANDS', num: '8', type: 'Appartement', pm2: 7700, date: '2025-01-28' },
+      { rue: 'RUE MAZAGRAN', num: '5', type: 'Appartement', pm2: 8200, date: '2025-02-14' },
+      { rue: 'RUE GAMBETTA', num: '18', type: 'Appartement', pm2: 7900, date: '2025-01-22' },
     ]
   },
   {
-    id: 'plateau',
-    name: 'Plateau · Villa Eugénie',
-    zone: 'Quartier résidentiel · Biarritz',
-    lat: 43.4870, lon: -1.5530, radius: 600,
-    price: 7400, median: 7050, tx: 52, evo: '+40', eLabel: '+40% (2019→2025)',
-    history: [5300, 5900, 6500, 7700, 7400, 7200, 7400],
+    id: 'saint-charles',
+    name: 'Quartier Saint Charles',
+    zone: 'Biarritz · Résidentiel calme',
+    lat: 43.4878, lon: -1.5508, radius: 380,
+    price: 9000, median: 8600, tx: 38, evo: '+45', eLabel: '+45% (2019→2025)',
+    history: [6200, 7000, 7900, 9400, 9100, 8800, 9000],
+    years: ['2019','2020','2021','2022','2023','2024','2025'],
+    badge: { label: 'Marché très tendu', cls: 'badge-hot' },
+    ai: 'Le <strong>Quartier Saint Charles</strong>, entre l\'Hôtel du Palais et le Golf, est un véritable village dans la ville. Sa place centrale bordée de commerces, son architecture ancienne et sa proximité immédiate des plages (<strong>600m de la Grande Plage</strong>) en font l\'un des secteurs les plus recherchés pour vivre à l\'année.',
+    scores: [['Vue mer',65],['Commerces',82],['Calme',80],['Rentabilité',72]],
+    nearby: [
+      { rue: 'RUE SAINT CHARLES', num: '3', type: 'Appartement', pm2: 9200, date: '2025-03-22' },
+      { rue: 'AV DE LA MARNE', num: '8', type: 'Maison', pm2: 8800, date: '2025-01-15' },
+      { rue: 'RUE DU LYCÉE', num: '11', type: 'Appartement', pm2: 8500, date: '2025-02-18' },
+    ]
+  },
+  {
+    id: 'bibi-beaurivage',
+    name: 'Bibi-Beaurivage',
+    zone: 'Biarritz · Côte des Basques',
+    lat: 43.4745, lon: -1.5608, radius: 480,
+    price: 7800, median: 7400, tx: 62, evo: '+42', eLabel: '+42% (2019→2025)',
+    history: [5500, 6100, 6900, 8100, 7900, 7700, 7800],
+    years: ['2019','2020','2021','2022','2023','2024','2025'],
+    badge: { label: 'En vogue', cls: 'badge-warm' },
+    ai: '<strong>Bibi-Beaurivage</strong> est l\'ancien quartier de pêcheurs devenu l\'un des plus branchés de Biarritz. À deux pas du spot de surf mythique de la Côte des Basques, la place Pradier est le cœur d\'une vie de quartier animée (bars à vins, restaurants, commerces). Fort potentiel en <strong>location saisonnière</strong>.',
+    scores: [['Vue mer',80],['Commerces',72],['Calme',58],['Rentabilité',88]],
+    nearby: [
+      { rue: 'RUE DE LA CÔTE DES BASQUES', num: '5', type: 'Appartement', pm2: 8200, date: '2025-03-10' },
+      { rue: 'BD DU PRINCE DE GALLES', num: '18', type: 'Appartement', pm2: 7700, date: '2025-01-30' },
+      { rue: 'RUE DES GOÉLANDS', num: '8', type: 'Appartement', pm2: 7400, date: '2025-02-20' },
+    ]
+  },
+  {
+    id: 'phare',
+    name: 'Quartier du Phare',
+    zone: 'Biarritz · Hauteurs résidentielles',
+    lat: 43.4918, lon: -1.5648, radius: 500,
+    price: 8200, median: 7800, tx: 29, evo: '+44', eLabel: '+44% (2019→2025)',
+    history: [5700, 6300, 7100, 8500, 8200, 8000, 8200],
+    years: ['2019','2020','2021','2022','2023','2024','2025'],
+    badge: { label: 'Marché très tendu', cls: 'badge-hot' },
+    ai: 'Le <strong>Quartier du Phare</strong>, perché sur les hauteurs au nord de Biarritz, offre des <strong>vues panoramiques sur l\'Atlantique</strong> et les montagnes espagnoles. Somptueuses demeures Belle Époque avec jardins, convoitées par les familles aisées. Peu de biens en vente, ce qui maintient les prix à un niveau élevé.',
+    scores: [['Vue mer',92],['Commerces',45],['Calme',90],['Rentabilité',62]],
+    nearby: [
+      { rue: 'AV DU PHARE', num: '14', type: 'Maison', pm2: 8800, date: '2025-02-05' },
+      { rue: 'AV DU PHARE', num: '28', type: 'Appartement', pm2: 7900, date: '2025-04-12' },
+      { rue: 'RUE DU PHARE', num: '6', type: 'Maison', pm2: 7700, date: '2025-01-08' },
+    ]
+  },
+  {
+    id: 'milady',
+    name: 'Quartier de la Milady',
+    zone: 'Biarritz · Extrême Sud',
+    lat: 43.4618, lon: -1.5638, radius: 520,
+    price: 7200, median: 6800, tx: 44, evo: '+38', eLabel: '+38% (2019→2025)',
+    history: [5200, 5700, 6300, 7500, 7200, 7000, 7200],
+    years: ['2019','2020','2021','2022','2023','2024','2025'],
+    badge: { label: 'En vogue', cls: 'badge-warm' },
+    ai: 'Le <strong>Quartier de la Milady</strong>, à la frontière de Bidart, est apprécié pour sa <strong>douceur de vivre entre plage et golf d\'Ilbarritz</strong>. Appartements avec terrasses et maisons avec piscine, souvent avec vue mer ou montagne. Idéal pour les familles cherchant un cadre naturel exceptionnel et une atmosphère vacances à l\'année.',
+    scores: [['Vue mer',78],['Commerces',40],['Calme',88],['Rentabilité',75]],
+    nearby: [
+      { rue: 'AV DE LA MILADY', num: '9', type: 'Appartement', pm2: 7500, date: '2025-03-18' },
+      { rue: 'RUE DE MILADY', num: '3', type: 'Appartement', pm2: 7000, date: '2025-01-25' },
+      { rue: 'AV D\'ILBARRITZ', num: '5', type: 'Maison', pm2: 6800, date: '2025-02-12' },
+    ]
+  },
+  {
+    id: 'parc-hiver',
+    name: 'Parc d\'Hiver',
+    zone: 'Biarritz · Résidentiel bourgeois',
+    lat: 43.4895, lon: -1.5442, radius: 500,
+    price: 6200, median: 5850, tx: 71, evo: '+36', eLabel: '+36% (2019→2025)',
+    history: [4600, 5000, 5600, 6600, 6300, 6100, 6200],
     years: ['2019','2020','2021','2022','2023','2024','2025'],
     badge: { label: 'Marché dynamique', cls: 'badge-warm' },
-    ai: 'Le <strong>Plateau de Biarritz</strong> offre un cadre résidentiel calme à deux pas du centre-ville. Apprécié des familles et des retraités aisés, ce quartier bénéficie de <strong>belles villas et appartements spacieux</strong>. Moins exposé que le front de mer, il reste un excellent rapport qualité-prix pour le marché biarrot.',
-    scores: [['Vue mer',42],['Commerces',68],['Calme',82],['Rentabilité',72]],
+    ai: 'Le <strong>Parc d\'Hiver</strong> est le quartier résidentiel élégant où la bourgeoisie du début du XXe siècle se protégeait des vents marins. Superbes maisons d\'époque avec jardins arborés, principalement habitées à l\'année. À moins de 2km de la Grande Plage et proche des commerces de la rue d\'Aguilera — le meilleur rapport qualité-prix de Biarritz.',
+    scores: [['Vue mer',20],['Commerces',75],['Calme',88],['Rentabilité',72]],
     nearby: [
-      { rue: 'AV DE LA REINE VICTORIA', num: '25', type: 'Appartement', pm2: 7400, date: '2025-03-02' },
-      { rue: 'AV DE LA REINE VICTORIA', num: '18', type: 'Appartement', pm2: 7200, date: '2025-01-18' },
-      { rue: 'RUE GARDÈRES', num: '4', type: 'Maison', pm2: 7100, date: '2025-02-06' },
-    ]
-  },
-  {
-    id: 'milieu',
-    name: 'Centre-ville · Résidentiel',
-    zone: 'Biarritz',
-    lat: 43.4840, lon: -1.5490, radius: 700,
-    price: 6300, median: 5950, tx: 94, evo: '+34', eLabel: '+34% (2019→2025)',
-    history: [4700, 5100, 5700, 6600, 6300, 6100, 6300],
-    years: ['2019','2020','2021','2022','2023','2024','2025'],
-    badge: { label: 'Marché dynamique', cls: 'badge-warm' },
-    ai: 'Le <strong>centre résidentiel</strong> de Biarritz offre le meilleur compromis prix/localisation. À 10 minutes à pied de la plage, il attire les <strong>primo-accédants et les investisseurs locatifs</strong>. Les commerces, écoles et transports en commun en font un secteur très pratique au quotidien.',
-    scores: [['Vue mer',28],['Commerces',80],['Calme',65],['Rentabilité',80]],
-    nearby: [
-      { rue: 'AV DE LA MARNE', num: '14', type: 'Appartement', pm2: 6200, date: '2025-04-01' },
-      { rue: 'AV DE LA MARNE', num: '28', type: 'Appartement', pm2: 6100, date: '2025-02-22' },
-      { rue: 'RUE LAFONT', num: '3', type: 'Appartement', pm2: 5900, date: '2025-01-15' },
-    ]
-  },
-  {
-    id: 'gare',
-    name: 'Quartier de la Gare',
-    zone: 'Biarritz · Agglomération',
-    lat: 43.4920, lon: -1.5390, radius: 800,
-    price: 5350, median: 5050, tx: 118, evo: '+34', eLabel: '+34% (2019→2025)',
-    history: [4000, 4300, 4800, 5700, 5400, 5200, 5350],
-    years: ['2019','2020','2021','2022','2023','2024','2025'],
-    badge: { label: 'Marché accessible', cls: 'badge-cool' },
-    ai: 'Le <strong>quartier de la Gare</strong> est le secteur le plus accessible de Biarritz. Porté par la proximité de la gare TGV (Paris en 4h30) et un tissu commercial dense, il attire une clientèle de <strong>jeunes actifs et d\'investisseurs cherchant du rendement</strong>. Bon potentiel de plus-value à moyen terme.',
-    scores: [['Vue mer',12],['Commerces',82],['Calme',62],['Rentabilité',90]],
-    nearby: [
-      { rue: 'AV DE LA MARNE', num: '52', type: 'Appartement', pm2: 5400, date: '2025-03-10' },
-      { rue: 'RUE LOUIS BARTHOU', num: '7', type: 'Appartement', pm2: 5100, date: '2025-01-28' },
-      { rue: 'RUE DU CENTRE', num: '11', type: 'Appartement', pm2: 5200, date: '2025-02-14' },
+      { rue: 'ALLÉE DU PARC D\'HIVER', num: '4', type: 'Maison', pm2: 6500, date: '2025-03-28' },
+      { rue: 'RUE D\'AGUILERA', num: '32', type: 'Appartement', pm2: 6000, date: '2025-01-14' },
+      { rue: 'AV DE BAYONNE', num: '15', type: 'Maison', pm2: 5800, date: '2025-02-22' },
     ]
   }
 ];
 
 let chartInstance = null;
 
-function setAddr(addr) {
-  document.getElementById('addressInput').value = addr;
-  analyze();
-}
-
+function setAddr(addr) { document.getElementById('addressInput').value = addr; analyze(); }
 function setStep(msg) { document.getElementById('loaderStep').textContent = msg; }
-
 function showError(msg) {
   const el = document.getElementById('errorCard');
   el.innerHTML = '<i class="ti ti-alert-circle" style="margin-right:6px"></i>' + msg;
   el.classList.add('visible');
 }
-
 function hideError() { document.getElementById('errorCard').classList.remove('visible'); }
 
 async function geocode(address) {
@@ -378,7 +400,7 @@ function buildTransactions(zone, geo) {
 
 function render(zone, geo) {
   document.getElementById('streetName').textContent = geo.street || geo.label;
-  document.getElementById('streetSub').textContent = zone.zone;
+  document.getElementById('streetSub').textContent = zone.name + ' · ' + zone.zone.split('·')[1]?.trim();
   const badgeEl = document.getElementById('marketBadge');
   badgeEl.textContent = zone.badge.label;
   badgeEl.className = 'badge ' + zone.badge.cls;
@@ -442,8 +464,7 @@ async function analyze() {
     let geo;
     try { geo = await geocode(addr); } catch(e) { throw new Error('Adresse introuvable. Essayez avec le nom de rue complet.'); }
     setStep('Analyse du marché local…');
-    const zone = detectZone(geo.lat, geo.lon);
-    render(zone, geo);
+    render(detectZone(geo.lat, geo.lon), geo);
   } catch(e) {
     showError(e.message || 'Adresse introuvable. Vérifiez et réessayez.');
   } finally {
