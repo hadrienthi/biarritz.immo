@@ -217,10 +217,8 @@ footer { margin-top: 3rem; text-align: center; font-size: 11px; color: var(--tex
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
 <script>
-// INSEE 64102 = Biarritz
-const BAN_URL        = 'https://api-adresse.data.gouv.fr/search/';
-const BIARRITZ_CODE  = '64102';   // citycode INSEE
-const BIARRITZ_CP    = '64200';   // code postal
+const BAN      = 'https://api-adresse.data.gouv.fr/search/';
+const BZC      = '64102'; // citycode INSEE Biarritz — seul juge de paix
 
 const ZONES = [
   {
@@ -302,12 +300,10 @@ const ZONES = [
 
 let chartInstance = null;
 
-// Vérifie qu'un feature BAN est bien à Biarritz (citycode INSEE 64102)
-function isBiarritz(f) {
-  return f && f.properties && f.properties.citycode === BIARRITZ_CODE;
-}
+// citycode '64102' dans la RÉPONSE BAN = seul critère fiable pour "est à Biarritz"
+const isBZC = f => f?.properties?.citycode === BZC;
 
-// ── CHIPS : affichage direct, zéro géocodage ──────────────────────────────────
+// ── CHIPS : zéro géocodage, résultat direct ───────────────────────────────────
 function analyzeZone(zoneId) {
   const zone = ZONES.find(z => z.id === zoneId);
   if (!zone) return;
@@ -340,28 +336,26 @@ async function analyzeInput() {
   }
 }
 
-// ── GÉOCODAGE — Biarritz uniquement ──────────────────────────────────────────
-// Deux requêtes successives, toutes deux avec citycode=64102.
-// Rejet final si le citycode retourné n'est pas 64102.
-async function geocodeBiarritz(address) {
-  // Essai 1 : requête brute + citycode Biarritz
-  let features = await banFetch(address, false);
+// ── GÉOCODAGE ─────────────────────────────────────────────────────────────────
+// Stratégie : on envoie la requête avec citycode=64102.
+// On vérifie que le résultat porte bien citycode=64102 (pas Bayonne etc.).
+// Si rien trouvé avec citycode, on essaie sans, puis on filtre.
+async function geocodeBiarritz(addr) {
+  // Essai 1 : citycode Biarritz strict
+  let f = await banFirst(addr, true);
 
-  // Essai 2 : avec "Biarritz" ajouté pour aider l'API
-  if (!features.length) features = await banFetch(address + ' Biarritz', false);
+  // Essai 2 : sans citycode — on filtre manuellement
+  if (!f) f = await banFirst(addr, false);
 
-  // Essai 3 : sans citycode, mais on vérifie le résultat
-  if (!features.length) features = await banFetch(address + ' Biarritz 64200', true);
+  if (!f) throw new Error('Adresse introuvable. Précisez le numéro ou le nom de rue complet.');
 
-  if (!features.length) throw new Error('Adresse introuvable à Biarritz. Vérifiez le nom de rue.');
-
-  const f = features[0];
-  if (!isBiarritz(f)) {
-    const city = f.properties.city || 'autre ville';
-    throw new Error(`Cette adresse est à ${city}, pas à Biarritz.`);
+  if (!isBZC(f)) {
+    throw new Error(`Cette adresse est à ${f.properties.city || 'une autre ville'}, pas à Biarritz.`);
   }
+
   return {
-    lat: f.geometry.coordinates[1], lon: f.geometry.coordinates[0],
+    lat: f.geometry.coordinates[1],
+    lon: f.geometry.coordinates[0],
     label: f.properties.label,
     street: f.properties.street || f.properties.name,
     numero: f.properties.housenumber || '',
@@ -369,44 +363,35 @@ async function geocodeBiarritz(address) {
   };
 }
 
-async function banFetch(q, allowAllCities) {
-  const params = new URLSearchParams({ q, limit: 3 });
-  if (!allowAllCities) params.set('citycode', BIARRITZ_CODE);
-  const res = await fetch(`${BAN_URL}?${params}`);
-  if (!res.ok) return [];
+async function banFirst(q, useCitycode) {
+  const params = new URLSearchParams({ q, limit: 5 });
+  if (useCitycode) params.set('citycode', BZC);
+  const res = await fetch(`${BAN}?${params}`);
+  if (!res.ok) return null;
   const data = await res.json();
-  const all = data.features || [];
-  // Filtre triple : citycode ET code postal ET nom de ville
-  return all.filter(f =>
-    f.properties.citycode === BIARRITZ_CODE &&
-    f.properties.postcode === BIARRITZ_CP   &&
-    (f.properties.city || '').toLowerCase() === 'biarritz'
-  );
+  // On prend le premier résultat qui est à Biarritz
+  return (data.features || []).find(isBZC) || null;
 }
 
 // ── VORONOI ───────────────────────────────────────────────────────────────────
 function haversine(la1, lo1, la2, lo2) {
-  const R = 6371000, d2r = Math.PI/180;
-  const dLa = (la2-la1)*d2r, dLo = (lo2-lo1)*d2r;
-  const a = Math.sin(dLa/2)**2 + Math.cos(la1*d2r)*Math.cos(la2*d2r)*Math.sin(dLo/2)**2;
-  return R*2*Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
+  const R = 6371000, r = Math.PI/180;
+  const dla = (la2-la1)*r, dlo = (lo2-lo1)*r;
+  return R*2*Math.atan2(Math.sqrt(Math.sin(dla/2)**2 + Math.cos(la1*r)*Math.cos(la2*r)*Math.sin(dlo/2)**2), Math.sqrt(1-Math.sin(dla/2)**2 - Math.cos(la1*r)*Math.cos(la2*r)*Math.sin(dlo/2)**2));
 }
 function detectZone(lat, lon) {
-  return ZONES.reduce((best, z) => {
-    const d = haversine(lat, lon, z.lat, z.lon);
-    return d < haversine(lat, lon, best.lat, best.lon) ? z : best;
-  });
+  return ZONES.reduce((b, z) => haversine(lat,lon,z.lat,z.lon) < haversine(lat,lon,b.lat,b.lon) ? z : b);
 }
 
 // ── RENDU ─────────────────────────────────────────────────────────────────────
 function render(zone, geo) {
-  document.getElementById('streetName').textContent = geo.isChip ? zone.name : (geo.street || geo.label);
-  document.getElementById('streetSub').textContent  = zone.name + ' · ' + zone.zone.split('·')[1]?.trim();
+  document.getElementById('streetName').textContent  = geo.isChip ? zone.name : (geo.street || geo.label);
+  document.getElementById('streetSub').textContent   = zone.name + ' · ' + zone.zone.split('·')[1]?.trim();
   const b = document.getElementById('marketBadge');
   b.textContent = zone.badge.label; b.className = 'badge ' + zone.badge.cls;
-  document.getElementById('priceM2').textContent   = zone.price.toLocaleString('fr-FR');
+  document.getElementById('priceM2').textContent     = zone.price.toLocaleString('fr-FR');
   document.getElementById('medianPrice').textContent = zone.median.toLocaleString('fr-FR');
-  document.getElementById('txCount').textContent   = zone.tx;
+  document.getElementById('txCount').textContent     = zone.tx;
   const evo = document.getElementById('evolution');
   evo.textContent = zone.evo + '%';
   evo.className = 'stat-value ' + (zone.evo.startsWith('+') ? 'trend-up' : 'trend-down');
@@ -419,14 +404,14 @@ function render(zone, geo) {
 
   const txList = geo.isChip ? zone.nearby : [
     { rue: (geo.street||'').toUpperCase(), num: geo.numero||'—', type: 'Adresse recherchée', pm2: zone.price, date: '2025-06-01', isSearched: true },
-    ...zone.nearby.filter(t => t.rue !== (geo.street||'').toUpperCase()).slice(0, 2)
+    ...zone.nearby.filter(t => t.rue !== (geo.street||'').toUpperCase()).slice(0,2)
   ];
   document.getElementById('sampleList').innerHTML = txList.map(t => {
-    const d = new Date(t.date).toLocaleDateString('fr-FR', { month: 'short', year: 'numeric' });
-    const a = (t.num && t.num !== '—' ? t.num + ' ' : '') + t.rue;
-    const y = t.isSearched ? '<span class="you-tag">vous</span>' : '';
+    const d  = new Date(t.date).toLocaleDateString('fr-FR', { month:'short', year:'numeric' });
+    const a  = (t.num && t.num !== '—' ? t.num + ' ' : '') + t.rue;
+    const yt = t.isSearched ? '<span class="you-tag">vous</span>' : '';
     return `<div class="${t.isSearched ? 'sample-item searched' : 'sample-item'}">
-      <span class="sample-addr">${a}${y} <em style="font-size:10px;color:var(--text-tertiary)">${t.type}</em></span>
+      <span class="sample-addr">${a}${yt} <em style="font-size:10px;color:var(--text-tertiary)">${t.type}</em></span>
       <span class="sample-price">${t.pm2.toLocaleString('fr-FR')} €/m²</span>
       <span class="sample-date">${d}</span></div>`;
   }).join('');
@@ -441,22 +426,31 @@ function renderChart(history, years) {
   const dark = matchMedia('(prefers-color-scheme: dark)').matches;
   chartInstance = new Chart(document.getElementById('priceChart'), {
     type: 'line',
-    data: { labels: years, datasets: [{ data: history, borderColor: '#D85A30', backgroundColor: dark ? 'rgba(216,90,48,.12)' : 'rgba(216,90,48,.07)', borderWidth: 2.5, pointBackgroundColor: '#D85A30', pointRadius: 5, pointHoverRadius: 7, fill: true, tension: 0.38 }] },
+    data: { labels: years, datasets: [{ data: history, borderColor: '#D85A30',
+      backgroundColor: dark ? 'rgba(216,90,48,.12)' : 'rgba(216,90,48,.07)',
+      borderWidth: 2.5, pointBackgroundColor: '#D85A30', pointRadius: 5, pointHoverRadius: 7, fill: true, tension: 0.38 }] },
     options: {
       responsive: true, maintainAspectRatio: false,
       plugins: { legend: { display: false }, tooltip: { callbacks: { label: c => ' ' + c.parsed.y.toLocaleString('fr-FR') + ' €/m²' } } },
       scales: {
         x: { grid: { display: false }, ticks: { font: { size: 11 }, color: dark ? '#6b6763' : '#9b9b9b' } },
-        y: { grid: { color: dark ? 'rgba(255,255,255,.05)' : 'rgba(0,0,0,.04)' }, ticks: { font: { size: 11 }, color: dark ? '#6b6763' : '#9b9b9b', callback: v => v.toLocaleString('fr-FR') + ' €' } }
+        y: { grid: { color: dark ? 'rgba(255,255,255,.05)' : 'rgba(0,0,0,.04)' },
+             ticks: { font: { size: 11 }, color: dark ? '#6b6763' : '#9b9b9b', callback: v => v.toLocaleString('fr-FR') + ' €' } }
       }
     }
   });
 }
 
-function showError(msg) { const e = document.getElementById('errorCard'); e.innerHTML = '<i class="ti ti-alert-circle" style="margin-right:6px"></i>' + msg; e.classList.add('visible'); }
+function showError(msg) {
+  const e = document.getElementById('errorCard');
+  e.innerHTML = '<i class="ti ti-alert-circle" style="margin-right:6px"></i>' + msg;
+  e.classList.add('visible');
+}
 function hideError() { document.getElementById('errorCard').classList.remove('visible'); }
 
-// ── AUTOCOMPLETE — filtre strict citycode 64102 ───────────────────────────────
+// ── AUTOCOMPLETE ──────────────────────────────────────────────────────────────
+// Requête avec citycode=64102, filtre sur citycode dans la réponse.
+// La query reste la saisie brute de l'utilisateur (pas de "Biarritz" ajouté).
 const input    = document.getElementById('addressInput');
 const dropdown = document.getElementById('acDropdown');
 let acResults = [], acIndex = -1, acTimer = null;
@@ -465,30 +459,24 @@ input.addEventListener('input', () => {
   clearTimeout(acTimer);
   const q = input.value.trim();
   if (q.length < 3) { closeDropdown(); return; }
-  // On ajoute "Biarritz" à la requête pour forcer l'API sur la bonne ville
-  acTimer = setTimeout(() => fetchSuggestions(q + ' Biarritz'), 220);
+  acTimer = setTimeout(() => fetchSuggestions(q), 220);
 });
-
 input.addEventListener('keydown', e => {
-  if (e.key === 'Enter')      { acIndex >= 0 && acResults[acIndex] ? selectSuggestion(acResults[acIndex]) : (closeDropdown(), analyzeInput()); return; }
-  if (e.key === 'ArrowDown')  { e.preventDefault(); moveIndex(1); }
-  if (e.key === 'ArrowUp')    { e.preventDefault(); moveIndex(-1); }
-  if (e.key === 'Escape')     { closeDropdown(); }
+  if (e.key === 'Enter')     { acIndex >= 0 && acResults[acIndex] ? selectSuggestion(acResults[acIndex]) : (closeDropdown(), analyzeInput()); return; }
+  if (e.key === 'ArrowDown') { e.preventDefault(); moveIndex(1); }
+  if (e.key === 'ArrowUp')   { e.preventDefault(); moveIndex(-1); }
+  if (e.key === 'Escape')    { closeDropdown(); }
 });
 document.addEventListener('click', e => { if (!e.target.closest('.autocomplete-wrap')) closeDropdown(); });
 
 async function fetchSuggestions(q) {
   try {
-    // citycode=64102 strict
-    const res = await fetch(`${BAN_URL}?${new URLSearchParams({ q, citycode: BIARRITZ_CODE, limit: 8 })}`);
+    // citycode=64102 dans la requête : l'API ne cherche qu'à Biarritz
+    const res = await fetch(`${BAN}?${new URLSearchParams({ q, citycode: BZC, limit: 6 })}`);
     if (!res.ok) throw new Error();
     const data = await res.json();
-    // Filtre triple en plus du citycode dans la requête
-    acResults = (data.features || []).filter(f =>
-      f.properties.citycode === BIARRITZ_CODE &&
-      f.properties.postcode === BIARRITZ_CP   &&
-      (f.properties.city || '').toLowerCase() === 'biarritz'
-    );
+    // Filtre défensif : citycode dans la réponse = vérité terrain
+    acResults = (data.features || []).filter(isBZC);
     renderDropdown();
   } catch(e) { closeDropdown(); }
 }
@@ -496,9 +484,11 @@ async function fetchSuggestions(q) {
 function renderDropdown() {
   if (!acResults.length) { closeDropdown(); return; }
   acIndex = -1;
-  dropdown.innerHTML = acResults.map((f, i) => {
+  dropdown.innerHTML = acResults.map((f,i) => {
     const p = f.properties;
-    return `<div class="ac-item" data-i="${i}"><i class="ti ti-map-pin"></i><div><div class="ac-main">${p.name || p.street}</div><div class="ac-sub">${p.postcode} ${p.city}</div></div></div>`;
+    return `<div class="ac-item" data-i="${i}"><i class="ti ti-map-pin"></i><div>
+      <div class="ac-main">${p.name || p.street}</div>
+      <div class="ac-sub">${p.postcode} ${p.city}</div></div></div>`;
   }).join('');
   dropdown.querySelectorAll('.ac-item').forEach(el =>
     el.addEventListener('mousedown', e => { e.preventDefault(); selectSuggestion(acResults[+el.dataset.i]); })
