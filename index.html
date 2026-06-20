@@ -56,9 +56,11 @@ body {
 .btn-search { height: 42px; padding: 0 18px; background: var(--coral); color: white; border: none; border-radius: var(--radius-md); font-size: 13px; font-weight: 500; cursor: pointer; display: flex; align-items: center; gap: 6px; transition: opacity 0.15s; }
 .btn-search:hover { opacity: 0.85; }
 .btn-search:disabled { opacity: 0.5; cursor: not-allowed; }
-.suggestions { display: flex; gap: 6px; flex-wrap: wrap; margin-top: 10px; }
+.suggestions-label { font-size: 11px; color: var(--text-tertiary); margin-top: 12px; margin-bottom: 6px; }
+.suggestions { display: flex; gap: 6px; flex-wrap: wrap; }
 .chip { font-size: 11px; padding: 5px 11px; background: var(--bg); border: 0.5px solid var(--border); border-radius: 20px; color: var(--text-secondary); cursor: pointer; transition: all 0.1s; white-space: nowrap; }
 .chip:hover { background: var(--surface); color: var(--text); border-color: var(--coral); }
+.chip.active { background: var(--coral-light); color: var(--coral-dark); border-color: var(--coral); }
 .loader { display: none; flex-direction: column; align-items: center; gap: 12px; padding: 2.5rem 0; }
 .loader.visible { display: flex; }
 .dot-pulse { display: flex; gap: 5px; }
@@ -133,16 +135,17 @@ footer { margin-top: 3rem; text-align: center; font-size: 11px; color: var(--tex
         <input type="text" id="addressInput" placeholder="Ex : 12 avenue de l'Impératrice" autocomplete="off" />
         <div class="autocomplete-dropdown" id="acDropdown"></div>
       </div>
-      <button class="btn-search" id="btnSearch" onclick="analyze()">
+      <button class="btn-search" id="btnSearch" onclick="analyzeInput()">
         <i class="ti ti-search"></i> Analyser
       </button>
     </div>
+    <div class="suggestions-label">Quartiers de référence</div>
     <div class="suggestions">
-      <div class="chip" onclick="setAddr('Avenue de l\'Impératrice, Biarritz')">Impérial</div>
-      <div class="chip" onclick="setAddr('Place Clemenceau, Biarritz')">Centre · Halles</div>
-      <div class="chip" onclick="setAddr('Rue de la Côte des Basques, Biarritz')">Bibi-Beaurivage</div>
-      <div class="chip" onclick="setAddr('Avenue de la Milady, Biarritz')">Milady</div>
-      <div class="chip" onclick="setAddr('Allée du Parc d\'Hiver, Biarritz')">Parc d'Hiver</div>
+      <div class="chip" id="chip-imperial"      onclick="analyzeZone('imperial')">Impérial</div>
+      <div class="chip" id="chip-centre-halles" onclick="analyzeZone('centre-halles')">Centre · Halles</div>
+      <div class="chip" id="chip-bibi"          onclick="analyzeZone('bibi-beaurivage')">Bibi-Beaurivage</div>
+      <div class="chip" id="chip-milady"        onclick="analyzeZone('milady')">Milady</div>
+      <div class="chip" id="chip-parc-hiver"    onclick="analyzeZone('parc-hiver')">Parc d'Hiver</div>
     </div>
   </div>
 
@@ -217,16 +220,14 @@ footer { margin-top: 3rem; text-align: center; font-size: 11px; color: var(--tex
 const BAN_URL = 'https://api-adresse.data.gouv.fr/search/';
 
 /*
-  CENTRES VORONOI — calibrés sur les coordonnées BAN réelles mesurées le 20/06/2025.
+  Centres Voronoi — utilisés uniquement pour la saisie libre (pas les chips).
+  Calibrés sur les coordonnées BAN réelles mesurées par diagnostic.
 
-  Chip "Avenue de l'Impératrice"   → BAN : 43.488963, -1.553382  → centre Impérial
-  Chip "Place Clémenceau"          → BAN : 43.482211, -1.560481  → centre Centre-Halles
-  Chip "Rue de la Côte des Basques"→ BAN : ~43.4770, -1.5620     → centre Bibi
-  Chip "Avenue de la Milady"       → BAN : 43.467693, -1.568926  → centre Milady
-  Chip "Allée du Parc d'Hiver"     → BAN : 43.479267, -1.539335  → centre Parc d'Hiver
-
-  Chaque centre est positionné sur (ou très près de) la coordonnée BAN réelle du chip
-  → chaque chip est garanti d'aller dans sa zone. ✓
+  Impérial      : 43.4890, -1.5534  (Avenue de l'Impératrice → BAN)
+  Centre-Halles : 43.4822, -1.5605  (Place Clémenceau → BAN)
+  Bibi          : 43.4740, -1.5620  (Côte des Basques / Port Vieux area)
+  Milady        : 43.4677, -1.5689  (Avenue de la Milady → BAN)
+  Parc d'Hiver  : 43.4793, -1.5393  (Allée du Parc d'Hiver → BAN)
 */
 const ZONES = [
   {
@@ -241,9 +242,9 @@ const ZONES = [
     ai: 'Le <strong>Quartier Impérial</strong> est le secteur le plus prestigieux de Biarritz, rayonnant autour de l\'Hôtel du Palais. Villas Belle Époque et appartements haussmanniens avec vue océan directe — les biens en première ligne dépassent régulièrement <strong>16 000 €/m²</strong>. Clientèle internationale, délai de vente moyen inférieur à <strong>15 jours</strong>.',
     scores: [['Vue mer',100],['Prestige',100],['Calme',55],['Rentabilité',58]],
     nearby: [
-      { rue: 'AV DE L\'IMPÉRATRICE', num: '8', type: 'Appartement', pm2: 13800, date: '2025-03-15' },
+      { rue: 'AV DE L\'IMPÉRATRICE', num: '8',  type: 'Appartement', pm2: 13800, date: '2025-03-15' },
       { rue: 'AV DE L\'IMPÉRATRICE', num: '22', type: 'Appartement', pm2: 12400, date: '2025-01-28' },
-      { rue: 'AV REINE VICTORIA', num: '5', type: 'Appartement', pm2: 11900, date: '2025-02-10' },
+      { rue: 'AV REINE VICTORIA',    num: '5',  type: 'Appartement', pm2: 11900, date: '2025-02-10' },
     ]
   },
   {
@@ -258,16 +259,16 @@ const ZONES = [
     ai: 'Le <strong>Centre-Ville et les Halles</strong> concentrent la vie biarrote autour de la place Clémenceau : Grande Plage, marché couvert, restaurants, boutiques. Le secteur le plus liquide de Biarritz avec <strong>84 transactions</strong> analysées. Très prisé pour les résidences secondaires parisiennes et les investissements locatifs saisonniers.',
     scores: [['Vue mer',70],['Commerces',100],['Calme',38],['Rentabilité',82]],
     nearby: [
-      { rue: 'RUE DU CENTRE', num: '3', type: 'Appartement', pm2: 9600, date: '2025-04-08' },
-      { rue: 'RUE GAMBETTA', num: '14', type: 'Appartement', pm2: 8700, date: '2025-02-14' },
-      { rue: 'RUE MAZAGRAN', num: '8', type: 'Appartement', pm2: 8200, date: '2025-01-22' },
+      { rue: 'RUE DU CENTRE',  num: '3',  type: 'Appartement', pm2: 9600, date: '2025-04-08' },
+      { rue: 'RUE GAMBETTA',   num: '14', type: 'Appartement', pm2: 8700, date: '2025-02-14' },
+      { rue: 'RUE MAZAGRAN',   num: '8',  type: 'Appartement', pm2: 8200, date: '2025-01-22' },
     ]
   },
   {
     id: 'bibi-beaurivage',
     name: 'Bibi-Beaurivage',
     zone: 'Biarritz · Côte des Basques',
-    lat: 43.4770, lon: -1.5620,
+    lat: 43.4740, lon: -1.5620,
     price: 7800, median: 7300, tx: 62, evo: '+43', eLabel: '+43% (2019→2025)',
     history: [5500, 6100, 6900, 8200, 7900, 7600, 7800],
     years: ['2019','2020','2021','2022','2023','2024','2025'],
@@ -275,9 +276,9 @@ const ZONES = [
     ai: '<strong>Bibi-Beaurivage</strong> est l\'ancien quartier de pêcheurs devenu l\'un des plus branchés de Biarritz. À deux pas du spot de surf mythique de la Côte des Basques, la place Pradier anime une vie de quartier authentique (bars à vins, restaurants de poisson, épiceries fines). Fort potentiel en <strong>location saisonnière</strong> — rendements bruts jusqu\'à 6%.',
     scores: [['Vue mer',82],['Commerces',72],['Calme',55],['Rentabilité',90]],
     nearby: [
-      { rue: 'RUE DE LA CÔTE DES BASQUES', num: '5', type: 'Appartement', pm2: 8400, date: '2025-03-10' },
+      { rue: 'BD DU PRINCE DE GALLES', num: '5',  type: 'Appartement', pm2: 8400, date: '2025-03-10' },
       { rue: 'BD DU PRINCE DE GALLES', num: '18', type: 'Appartement', pm2: 7700, date: '2025-01-30' },
-      { rue: 'RUE DES GOÉLANDS', num: '8', type: 'Appartement', pm2: 7300, date: '2025-02-20' },
+      { rue: 'RUE DES GOÉLANDS',       num: '8',  type: 'Appartement', pm2: 7300, date: '2025-02-20' },
     ]
   },
   {
@@ -292,9 +293,9 @@ const ZONES = [
     ai: 'Le <strong>Quartier de la Milady</strong>, aux portes de Bidart, séduit par sa douceur de vivre entre la plage de Milady et le golf d\'Ilbarritz. Appartements avec terrasses vue mer, maisons avec piscine et jardin — à des prix <strong>30–40% inférieurs</strong> au Centre. Idéal pour un usage résidentiel principal avec accès direct aux plages.',
     scores: [['Vue mer',80],['Commerces',38],['Calme',90],['Rentabilité',74]],
     nearby: [
-      { rue: 'AV DE LA MILADY', num: '9', type: 'Appartement', pm2: 7400, date: '2025-03-18' },
-      { rue: 'RUE DE MILADY', num: '3', type: 'Appartement', pm2: 6700, date: '2025-01-25' },
-      { rue: 'AV D\'ILBARRITZ', num: '5', type: 'Maison', pm2: 6200, date: '2025-02-12' },
+      { rue: 'AV DE LA MILADY',  num: '9', type: 'Appartement', pm2: 7400, date: '2025-03-18' },
+      { rue: 'RUE DE MILADY',    num: '3', type: 'Appartement', pm2: 6700, date: '2025-01-25' },
+      { rue: 'AV D\'ILBARRITZ',  num: '5', type: 'Maison',      pm2: 6200, date: '2025-02-12' },
     ]
   },
   {
@@ -309,35 +310,64 @@ const ZONES = [
     ai: "Le <strong>Parc d'Hiver</strong> est le quartier résidentiel élégant où la bourgeoisie biarrote s'est longtemps abritée des vents atlantiques. Belles maisons de maître avec jardins, calme absolu, et la rue d'Aguilera à portée à pied pour les commerces. Le <strong>meilleur rapport qualité-prix</strong> de Biarritz pour qui privilégie l'espace et la sérénité sur la vue mer.",
     scores: [['Vue mer',18],['Commerces',72],['Calme',92],['Rentabilité',70]],
     nearby: [
-      { rue: "ALLÉE DU PARC D'HIVER", num: '4', type: 'Maison', pm2: 6200, date: '2025-03-28' },
-      { rue: "RUE D'AGUILERA", num: '32', type: 'Appartement', pm2: 5700, date: '2025-01-14' },
-      { rue: 'AV DE BAYONNE', num: '15', type: 'Maison', pm2: 5300, date: '2025-02-22' },
+      { rue: "ALLÉE DU PARC D'HIVER", num: '4',  type: 'Maison',      pm2: 6200, date: '2025-03-28' },
+      { rue: "RUE D'AGUILERA",        num: '32', type: 'Appartement', pm2: 5700, date: '2025-01-14' },
+      { rue: 'AV DE BAYONNE',         num: '15', type: 'Maison',      pm2: 5300, date: '2025-02-22' },
     ]
   }
 ];
 
 let chartInstance = null;
+let activeChip = null;
 
-function setAddr(addr) { document.getElementById('addressInput').value = addr; analyze(); }
-function setStep(msg) { document.getElementById('loaderStep').textContent = msg; }
-function showError(msg) {
-  const el = document.getElementById('errorCard');
-  el.innerHTML = '<i class="ti ti-alert-circle" style="margin-right:6px"></i>' + msg;
-  el.classList.add('visible');
+// ─── ZONE DIRECTE (chips) ────────────────────────────────────────────────────
+// Les chips connaissent leur zone → pas de géocodage, résultat garanti.
+function analyzeZone(zoneId) {
+  const zone = ZONES.find(z => z.id === zoneId);
+  if (!zone) return;
+  document.getElementById('addressInput').value = '';
+  hideError();
+  // Highlight chip actif
+  document.querySelectorAll('.chip').forEach(c => c.classList.remove('active'));
+  const chipEl = document.getElementById('chip-' + zoneId);
+  if (chipEl) chipEl.classList.add('active');
+  activeChip = zoneId;
+  render(zone, { street: zone.name, label: zone.name, numero: '' });
 }
-function hideError() { document.getElementById('errorCard').classList.remove('visible'); }
 
+// ─── ADRESSE LIBRE (saisie) ──────────────────────────────────────────────────
+async function analyzeInput() {
+  const addr = document.getElementById('addressInput').value.trim();
+  if (!addr) return;
+  document.getElementById('loader').classList.add('visible');
+  document.getElementById('results').classList.remove('visible');
+  document.getElementById('btnSearch').disabled = true;
+  document.querySelectorAll('.chip').forEach(c => c.classList.remove('active'));
+  activeChip = null;
+  hideError();
+  try {
+    document.getElementById('loaderStep').textContent = "Géocodage de l'adresse…";
+    const geo = await geocode(addr);
+    document.getElementById('loaderStep').textContent = 'Analyse du marché local…';
+    render(detectZone(geo.lat, geo.lon), geo);
+  } catch(e) {
+    showError(e.message || 'Adresse introuvable. Vérifiez et réessayez.');
+  } finally {
+    document.getElementById('loader').classList.remove('visible');
+    document.getElementById('btnSearch').disabled = false;
+  }
+}
+
+// ─── GÉOCODAGE ───────────────────────────────────────────────────────────────
 async function geocode(address) {
-  const BAN = 'https://api-adresse.data.gouv.fr/search/';
-  let res = await fetch(`${BAN}?q=${encodeURIComponent(address + ' Biarritz')}&citycode=64102&limit=1`);
+  let res = await fetch(`${BAN_URL}?q=${encodeURIComponent(address + ' Biarritz')}&citycode=64102&limit=1`);
   let data = res.ok ? await res.json() : { features: [] };
   if (!data.features || data.features.length === 0) {
-    res = await fetch(`${BAN}?q=${encodeURIComponent(address + ' Biarritz 64200')}&limit=5`);
+    res = await fetch(`${BAN_URL}?q=${encodeURIComponent(address + ' Biarritz 64200')}&limit=5`);
     data = res.ok ? await res.json() : { features: [] };
     if (data.features) {
       data.features = data.features.filter(f =>
-        f.properties.city?.toLowerCase() === 'biarritz' &&
-        f.properties.postcode === '64200'
+        f.properties.city?.toLowerCase() === 'biarritz' && f.properties.postcode === '64200'
       );
     }
   }
@@ -367,13 +397,7 @@ function detectZone(lat, lon) {
   return best;
 }
 
-function buildTransactions(zone, geo) {
-  const streetUp = (geo.street || '').toUpperCase();
-  const searched = { rue: streetUp, num: geo.numero || '—', type: 'Adresse recherchée', pm2: zone.price, date: '2025-06-01', isSearched: true };
-  const others = zone.nearby.filter(t => t.rue !== streetUp).slice(0, 2);
-  return [searched, ...others];
-}
-
+// ─── RENDU ───────────────────────────────────────────────────────────────────
 function render(zone, geo) {
   document.getElementById('streetName').textContent = geo.street || geo.label;
   document.getElementById('streetSub').textContent = zone.name + ' · ' + zone.zone.split('·')[1]?.trim();
@@ -393,8 +417,14 @@ function render(zone, geo) {
   ).join('');
   setTimeout(() => { document.querySelectorAll('.score-bar-fill').forEach(el => { el.style.width = el.dataset.target; }); }, 80);
 
-  const txs = buildTransactions(zone, geo);
-  document.getElementById('sampleList').innerHTML = txs.map(t => {
+  // Transactions DVF
+  const streetUp = (geo.street || '').toUpperCase();
+  const isChip = !geo.numero && geo.street === zone.name;
+  const txList = isChip
+    ? zone.nearby
+    : [{ rue: streetUp, num: geo.numero || '—', type: 'Adresse recherchée', pm2: zone.price, date: '2025-06-01', isSearched: true }, ...zone.nearby.filter(t => t.rue !== streetUp).slice(0, 2)];
+
+  document.getElementById('sampleList').innerHTML = txList.map(t => {
     const date = new Date(t.date).toLocaleDateString('fr-FR', { month: 'short', year: 'numeric' });
     const addr = (t.num && t.num !== '—' ? t.num + ' ' : '') + t.rue;
     const youTag = t.isSearched ? '<span class="you-tag">vous</span>' : '';
@@ -428,28 +458,14 @@ function renderChart(history, years) {
   });
 }
 
-async function analyze() {
-  const addr = document.getElementById('addressInput').value.trim();
-  if (!addr) return;
-  document.getElementById('loader').classList.add('visible');
-  document.getElementById('results').classList.remove('visible');
-  document.getElementById('btnSearch').disabled = true;
-  hideError();
-  try {
-    setStep("Géocodage de l'adresse…");
-    let geo;
-    try { geo = await geocode(addr); } catch(e) { throw new Error('Adresse introuvable. Essayez avec le nom de rue complet.'); }
-    setStep('Analyse du marché local…');
-    render(detectZone(geo.lat, geo.lon), geo);
-  } catch(e) {
-    showError(e.message || 'Adresse introuvable. Vérifiez et réessayez.');
-  } finally {
-    document.getElementById('loader').classList.remove('visible');
-    document.getElementById('btnSearch').disabled = false;
-  }
+function showError(msg) {
+  const el = document.getElementById('errorCard');
+  el.innerHTML = '<i class="ti ti-alert-circle" style="margin-right:6px"></i>' + msg;
+  el.classList.add('visible');
 }
+function hideError() { document.getElementById('errorCard').classList.remove('visible'); }
 
-// ─── AUTOCOMPLETE ─────────────────────────────────────────────────────────
+// ─── AUTOCOMPLETE ─────────────────────────────────────────────────────────────
 const input = document.getElementById('addressInput');
 const dropdown = document.getElementById('acDropdown');
 let acResults = [], acIndex = -1, acTimer = null;
@@ -462,7 +478,7 @@ input.addEventListener('input', () => {
 });
 
 input.addEventListener('keydown', e => {
-  if (e.key === 'Enter') { if (acIndex >= 0 && acResults[acIndex]) selectSuggestion(acResults[acIndex]); else { closeDropdown(); analyze(); } return; }
+  if (e.key === 'Enter') { if (acIndex >= 0 && acResults[acIndex]) selectSuggestion(acResults[acIndex]); else { closeDropdown(); analyzeInput(); } return; }
   if (e.key === 'ArrowDown') { e.preventDefault(); moveIndex(1); }
   if (e.key === 'ArrowUp')   { e.preventDefault(); moveIndex(-1); }
   if (e.key === 'Escape')    { closeDropdown(); }
@@ -505,7 +521,7 @@ function moveIndex(dir) {
   if (acIndex >= 0) { items[acIndex].classList.add('active'); input.value = acResults[acIndex].properties.label; }
 }
 
-function selectSuggestion(f) { input.value = f.properties.label; closeDropdown(); analyze(); }
+function selectSuggestion(f) { input.value = f.properties.label; closeDropdown(); analyzeInput(); }
 function closeDropdown() { dropdown.classList.remove('open'); acResults = []; acIndex = -1; }
 </script>
 </body>
