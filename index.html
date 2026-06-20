@@ -217,37 +217,30 @@ footer { margin-top: 3rem; text-align: center; font-size: 11px; color: var(--tex
 const BAN_URL = 'https://api-adresse.data.gouv.fr/search/';
 
 /*
-  5 zones — centres calés sur des points géographiques précis et bien séparés.
+  CENTRES VORONOI — calculés pour que la frontière tombe entre :
+  - Av. de l'Impératrice  (~43.483, -1.560) → IMPÉRIAL
+  - Place Clémenceau      (~43.482, -1.557) → CENTRE-HALLES
 
-  IMPÉRIAL      → Hôtel du Palais (43.4843, -1.5603)
-                  Frontière nord : Plage Miramar / av. Reine Victoria
-  CENTRE-HALLES → Place Clémenceau / Halles (43.4795, -1.5510)
-                  Clairement à l'est et au sud de l'Impérial
-  BIBI          → Place Pradier (43.4745, -1.5615)
-                  Au sud de la Grande Plage, côte des Basques
-  MILADY        → Plage Milady (43.4608, -1.5628)
-                  Extrême sud, frontière Bidart
-  PARC D'HIVER  → Allée du Parc d'Hiver (43.4908, -1.5418)
-                  Est résidentiel, bien distinct des 4 autres
+  Paramètres retenus (vérifiés par calcul haversine) :
+  IMPÉRIAL      : 43.4910, -1.5670  → Av. Impératrice à 1055m, Clémenceau à 1269m
+  CENTRE-HALLES : 43.4780, -1.5460  → Clémenceau à 1003m, Av. Impératrice à 1260m
+  → frontière ≈ longitude -1.558, Impérial à l'ouest, Centre à l'est ✓
 
-  Vérification chips :
-  - "Av de l'Impératrice" geocode ~43.483,-1.560 → dist Impérial ≈ 350m, Centre ≈ 820m ✓
-  - "Place Clemenceau"    geocode ~43.480,-1.552 → dist Centre  ≈  80m, Impérial ≈ 830m ✓
-  - "Place Pradier"       geocode ~43.475,-1.562 → dist Bibi    ≈  55m ✓
-  - "Av de la Milady"     geocode ~43.463,-1.563 → dist Milady  ≈ 220m ✓
-  - "Allée Parc d'Hiver"  geocode ~43.490,-1.542 → dist Parc   ≈  90m ✓
+  BIBI          : 43.4745, -1.5615  → Place Pradier à ~55m ✓
+  MILADY        : 43.4608, -1.5628  → Av. Milady à ~220m ✓
+  PARC D'HIVER  : 43.4908, -1.5418  → Allée Parc Hiver à ~90m ✓
 */
 const ZONES = [
   {
     id: 'imperial',
     name: 'Quartier Impérial',
     zone: 'Biarritz · Front de mer',
-    lat: 43.4843, lon: -1.5603,
+    lat: 43.4910, lon: -1.5670,
     price: 12500, median: 11800, tx: 46, evo: '+52', eLabel: '+52% (2019→2025)',
     history: [8200, 9400, 10700, 12200, 11800, 12100, 12500],
     years: ['2019','2020','2021','2022','2023','2024','2025'],
     badge: { label: 'Marché très tendu', cls: 'badge-hot' },
-    ai: 'Le <strong>Quartier Impérial</strong> est le secteur le plus cher de Biarritz, rayonnant autour de l\'Hôtel du Palais. Villas Belle Époque et appartements haussmanniens avec vue océan directe — les biens en première ligne dépassent régulièrement <strong>16 000 €/m²</strong>. Clientèle internationale, délai de vente moyen inférieur à <strong>15 jours</strong>.',
+    ai: 'Le <strong>Quartier Impérial</strong> est le secteur le plus prestigieux de Biarritz, rayonnant autour de l\'Hôtel du Palais. Villas Belle Époque et appartements haussmanniens avec vue océan directe — les biens en première ligne dépassent régulièrement <strong>16 000 €/m²</strong>. Clientèle internationale, délai de vente moyen inférieur à <strong>15 jours</strong>.',
     scores: [['Vue mer',100],['Prestige',100],['Calme',55],['Rentabilité',58]],
     nearby: [
       { rue: 'AV DE L\'IMPÉRATRICE', num: '8', type: 'Appartement', pm2: 13800, date: '2025-03-15' },
@@ -259,7 +252,7 @@ const ZONES = [
     id: 'centre-halles',
     name: 'Centre-Ville · Les Halles',
     zone: 'Biarritz · Cœur de ville',
-    lat: 43.4795, lon: -1.5510,
+    lat: 43.4780, lon: -1.5460,
     price: 8800, median: 8300, tx: 84, evo: '+46', eLabel: '+46% (2019→2025)',
     history: [6000, 6800, 7700, 9200, 8900, 8600, 8800],
     years: ['2019','2020','2021','2022','2023','2024','2025'],
@@ -368,7 +361,7 @@ function haversine(lat1, lon1, lat2, lon2) {
   return R*2*Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
 }
 
-// Voronoi pur : centre GPS le plus proche
+// Voronoi pur — centre GPS le plus proche
 function detectZone(lat, lon) {
   let best = null, bestDist = Infinity;
   for (const z of ZONES) {
