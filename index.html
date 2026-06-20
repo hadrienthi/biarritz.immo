@@ -57,7 +57,7 @@ body {
 .btn-search:hover { opacity: 0.85; }
 .btn-search:disabled { opacity: 0.5; cursor: not-allowed; }
 .suggestions { display: flex; gap: 6px; flex-wrap: wrap; margin-top: 10px; }
-.chip { font-size: 11px; padding: 5px 11px; background: var(--bg); border: 0.5px solid var(--border); border-radius: 20px; color: var(--text-secondary); cursor: pointer; transition: all 0.1s; }
+.chip { font-size: 11px; padding: 5px 11px; background: var(--bg); border: 0.5px solid var(--border); border-radius: 20px; color: var(--text-secondary); cursor: pointer; transition: all 0.1s; white-space: nowrap; }
 .chip:hover { background: var(--surface); color: var(--text); border-color: var(--coral); }
 .loader { display: none; flex-direction: column; align-items: center; gap: 12px; padding: 2.5rem 0; }
 .loader.visible { display: flex; }
@@ -140,8 +140,11 @@ footer { margin-top: 3rem; text-align: center; font-size: 11px; color: var(--tex
     <div class="suggestions">
       <div class="chip" onclick="setAddr('Avenue de l\'Impératrice, Biarritz')">Impérial</div>
       <div class="chip" onclick="setAddr('Rue du Port Vieux, Biarritz')">Centre · Halles</div>
-      <div class="chip" onclick="setAddr('Allée du Parc d\'Hiver, Biarritz')">Parc d\'Hiver</div>
-      <div class="chip" onclick="setAddr('Rue de la Côte des Basques, Biarritz')">Bibi-Beaurivage</div>
+      <div class="chip" onclick="setAddr('Rue Saint Charles, Biarritz')">Saint Charles</div>
+      <div class="chip" onclick="setAddr('Place Pradier, Biarritz')">Bibi-Beaurivage</div>
+      <div class="chip" onclick="setAddr('Avenue du Phare, Biarritz')">Le Phare</div>
+      <div class="chip" onclick="setAddr('Avenue de la Milady, Biarritz')">Milady</div>
+      <div class="chip" onclick="setAddr('Allée du Parc d\'Hiver, Biarritz')">Parc d'Hiver</div>
     </div>
   </div>
 
@@ -216,13 +219,12 @@ footer { margin-top: 3rem; text-align: center; font-size: 11px; color: var(--tex
 <script>
 const BAN_URL = 'https://api-adresse.data.gouv.fr/search/';
 
-// 7 quartiers selon nomenclature Sotheby's Biarritz
 const ZONES = [
   {
     id: 'imperial',
     name: 'Quartier Impérial',
     zone: 'Biarritz · Front de mer',
-    lat: 43.4848, lon: -1.5595, radius: 420,
+    lat: 43.4842, lon: -1.5600, radius: 260,
     price: 11700, median: 11100, tx: 46, evo: '+48', eLabel: '+48% (2019→2025)',
     history: [7900, 9200, 10500, 11800, 11200, 11400, 11700],
     years: ['2019','2020','2021','2022','2023','2024','2025'],
@@ -239,7 +241,7 @@ const ZONES = [
     id: 'centre-halles',
     name: 'Centre-Ville · Les Halles',
     zone: 'Biarritz · Cœur de ville',
-    lat: 43.4825, lon: -1.5548, radius: 380,
+    lat: 43.4808, lon: -1.5554, radius: 340,
     price: 8500, median: 8100, tx: 84, evo: '+44', eLabel: '+44% (2019→2025)',
     history: [5900, 6700, 7500, 8900, 8600, 8300, 8500],
     years: ['2019','2020','2021','2022','2023','2024','2025'],
@@ -256,7 +258,7 @@ const ZONES = [
     id: 'saint-charles',
     name: 'Quartier Saint Charles',
     zone: 'Biarritz · Résidentiel calme',
-    lat: 43.4878, lon: -1.5508, radius: 380,
+    lat: 43.4882, lon: -1.5500, radius: 320,
     price: 9000, median: 8600, tx: 38, evo: '+45', eLabel: '+45% (2019→2025)',
     history: [6200, 7000, 7900, 9400, 9100, 8800, 9000],
     years: ['2019','2020','2021','2022','2023','2024','2025'],
@@ -273,7 +275,7 @@ const ZONES = [
     id: 'bibi-beaurivage',
     name: 'Bibi-Beaurivage',
     zone: 'Biarritz · Côte des Basques',
-    lat: 43.4745, lon: -1.5608, radius: 480,
+    lat: 43.4758, lon: -1.5608, radius: 420,
     price: 7800, median: 7400, tx: 62, evo: '+42', eLabel: '+42% (2019→2025)',
     history: [5500, 6100, 6900, 8100, 7900, 7700, 7800],
     years: ['2019','2020','2021','2022','2023','2024','2025'],
@@ -290,7 +292,7 @@ const ZONES = [
     id: 'phare',
     name: 'Quartier du Phare',
     zone: 'Biarritz · Hauteurs résidentielles',
-    lat: 43.4918, lon: -1.5648, radius: 500,
+    lat: 43.4914, lon: -1.5643, radius: 440,
     price: 8200, median: 7800, tx: 29, evo: '+44', eLabel: '+44% (2019→2025)',
     history: [5700, 6300, 7100, 8500, 8200, 8000, 8200],
     years: ['2019','2020','2021','2022','2023','2024','2025'],
@@ -307,7 +309,7 @@ const ZONES = [
     id: 'milady',
     name: 'Quartier de la Milady',
     zone: 'Biarritz · Extrême Sud',
-    lat: 43.4618, lon: -1.5638, radius: 520,
+    lat: 43.4612, lon: -1.5632, radius: 480,
     price: 7200, median: 6800, tx: 44, evo: '+38', eLabel: '+38% (2019→2025)',
     history: [5200, 5700, 6300, 7500, 7200, 7000, 7200],
     years: ['2019','2020','2021','2022','2023','2024','2025'],
@@ -322,18 +324,18 @@ const ZONES = [
   },
   {
     id: 'parc-hiver',
-    name: 'Parc d\'Hiver',
+    name: "Parc d'Hiver",
     zone: 'Biarritz · Résidentiel bourgeois',
-    lat: 43.4895, lon: -1.5442, radius: 500,
+    lat: 43.4896, lon: -1.5438, radius: 440,
     price: 6200, median: 5850, tx: 71, evo: '+36', eLabel: '+36% (2019→2025)',
     history: [4600, 5000, 5600, 6600, 6300, 6100, 6200],
     years: ['2019','2020','2021','2022','2023','2024','2025'],
     badge: { label: 'Marché dynamique', cls: 'badge-warm' },
-    ai: 'Le <strong>Parc d\'Hiver</strong> est le quartier résidentiel élégant où la bourgeoisie du début du XXe siècle se protégeait des vents marins. Superbes maisons d\'époque avec jardins arborés, principalement habitées à l\'année. À moins de 2km de la Grande Plage et proche des commerces de la rue d\'Aguilera — le meilleur rapport qualité-prix de Biarritz.',
+    ai: "Le <strong>Parc d'Hiver</strong> est le quartier résidentiel élégant où la bourgeoisie du début du XXe siècle se protégeait des vents marins. Superbes maisons d'époque avec jardins arborés, principalement habitées à l'année. À moins de 2km de la Grande Plage et proche des commerces de la rue d'Aguilera — le meilleur rapport qualité-prix de Biarritz.",
     scores: [['Vue mer',20],['Commerces',75],['Calme',88],['Rentabilité',72]],
     nearby: [
-      { rue: 'ALLÉE DU PARC D\'HIVER', num: '4', type: 'Maison', pm2: 6500, date: '2025-03-28' },
-      { rue: 'RUE D\'AGUILERA', num: '32', type: 'Appartement', pm2: 6000, date: '2025-01-14' },
+      { rue: "ALLÉE DU PARC D'HIVER", num: '4', type: 'Maison', pm2: 6500, date: '2025-03-28' },
+      { rue: "RUE D'AGUILERA", num: '32', type: 'Appartement', pm2: 6000, date: '2025-01-14' },
       { rue: 'AV DE BAYONNE', num: '15', type: 'Maison', pm2: 5800, date: '2025-02-22' },
     ]
   }
@@ -460,7 +462,7 @@ async function analyze() {
   document.getElementById('btnSearch').disabled = true;
   hideError();
   try {
-    setStep('Géocodage de l\'adresse…');
+    setStep("Géocodage de l'adresse…");
     let geo;
     try { geo = await geocode(addr); } catch(e) { throw new Error('Adresse introuvable. Essayez avec le nom de rue complet.'); }
     setStep('Analyse du marché local…');
