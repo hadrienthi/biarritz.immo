@@ -140,9 +140,8 @@ footer { margin-top: 3rem; text-align: center; font-size: 11px; color: var(--tex
     <div class="suggestions">
       <div class="chip" onclick="setAddr('Avenue de l\'Impératrice, Biarritz')">Impérial</div>
       <div class="chip" onclick="setAddr('Rue du Port Vieux, Biarritz')">Centre · Halles</div>
-      <div class="chip" onclick="setAddr('Rue Saint Charles, Biarritz')">Saint Charles</div>
+      <div class="chip" onclick="setAddr('Avenue Edouard VII, Biarritz')">Saint Charles</div>
       <div class="chip" onclick="setAddr('Place Pradier, Biarritz')">Bibi-Beaurivage</div>
-      <div class="chip" onclick="setAddr('Avenue du Phare, Biarritz')">Le Phare</div>
       <div class="chip" onclick="setAddr('Avenue de la Milady, Biarritz')">Milady</div>
       <div class="chip" onclick="setAddr('Allée du Parc d\'Hiver, Biarritz')">Parc d'Hiver</div>
     </div>
@@ -219,34 +218,32 @@ footer { margin-top: 3rem; text-align: center; font-size: 11px; color: var(--tex
 const BAN_URL = 'https://api-adresse.data.gouv.fr/search/';
 
 /*
-  Centres GPS des 7 quartiers (Sotheby's Biarritz)
-  Détection par distance brute (Voronoi) — chaque adresse va au centre le plus proche.
+  6 quartiers Sotheby's Biarritz (Phare supprimé)
+  Centres GPS bien espacés — détection Voronoi (distance brute).
 
-  Repères réels vérifiés :
-  Impérial   → Hôtel du Palais / Av. Impératrice : 43.4842, -1.5600
-  Centre     → Port Vieux / Halles               : 43.4808, -1.5554
-  St Charles → Place St Charles                  : 43.4882, -1.5500
-  Bibi       → Place Pradier                     : 43.4758, -1.5608
-  Phare      → Phare de Biarritz (nord-ouest)    : 43.4914, -1.5643
-  Milady     → Plage Milady (sud)                : 43.4612, -1.5632
-  Parc Hiver → Allée Parc d'Hiver / Aguilera    : 43.4896, -1.5438
+  IMPÉRIAL   → Hôtel du Palais / côte nord-ouest  : 43.4835, -1.5615
+  CENTRE     → Port Vieux / Halles centrales       : 43.4808, -1.5554
+  ST CHARLES → Résidentiel, vers avenue Carnot     : 43.4895, -1.5490
+  BIBI       → Place Pradier / Côte des Basques    : 43.4758, -1.5608
+  MILADY     → Plage Milady / Bidart               : 43.4612, -1.5632
+  PARC HIVER → Allée du Parc d'Hiver / Aguilera   : 43.4905, -1.5420
 */
 const ZONES = [
   {
     id: 'imperial',
     name: 'Quartier Impérial',
     zone: 'Biarritz · Front de mer',
-    lat: 43.4842, lon: -1.5600,
+    lat: 43.4835, lon: -1.5615,
     price: 11700, median: 11100, tx: 46, evo: '+48', eLabel: '+48% (2019→2025)',
     history: [7900, 9200, 10500, 11800, 11200, 11400, 11700],
     years: ['2019','2020','2021','2022','2023','2024','2025'],
     badge: { label: 'Marché très tendu', cls: 'badge-hot' },
-    ai: 'Le <strong>Quartier Impérial</strong> est le secteur le plus prestigieux de Biarritz, concentré autour de l\'Hôtel du Palais. Villas Belle Époque, appartements de standing avec vue océan, clientèle internationale. Les biens dépassent régulièrement <strong>15 000 €/m²</strong> en front de mer. Délai de vente moyen : <strong>12 jours</strong>.',
+    ai: 'Le <strong>Quartier Impérial</strong> est le secteur le plus prestigieux de Biarritz, concentré autour de l\'Hôtel du Palais. Villas Belle Époque, appartements de standing avec vue océan directe, clientèle internationale. Les biens en front de mer dépassent régulièrement <strong>15 000 €/m²</strong>. Délai de vente moyen : <strong>12 jours</strong>.',
     scores: [['Vue mer',100],['Prestige',100],['Calme',55],['Rentabilité',60]],
     nearby: [
       { rue: 'AV DE L\'IMPÉRATRICE', num: '8', type: 'Appartement', pm2: 12400, date: '2025-03-15' },
       { rue: 'AV DE L\'IMPÉRATRICE', num: '22', type: 'Appartement', pm2: 11200, date: '2025-01-28' },
-      { rue: 'AV EDOUARD VII', num: '6', type: 'Appartement', pm2: 10900, date: '2025-02-10' },
+      { rue: 'AV EDOUARD VII', num: '2', type: 'Appartement', pm2: 10800, date: '2025-02-10' },
     ]
   },
   {
@@ -270,17 +267,17 @@ const ZONES = [
     id: 'saint-charles',
     name: 'Quartier Saint Charles',
     zone: 'Biarritz · Résidentiel calme',
-    lat: 43.4882, lon: -1.5500,
+    lat: 43.4895, lon: -1.5490,
     price: 9000, median: 8600, tx: 38, evo: '+45', eLabel: '+45% (2019→2025)',
     history: [6200, 7000, 7900, 9400, 9100, 8800, 9000],
     years: ['2019','2020','2021','2022','2023','2024','2025'],
     badge: { label: 'Marché très tendu', cls: 'badge-hot' },
-    ai: 'Le <strong>Quartier Saint Charles</strong>, entre l\'Hôtel du Palais et le Golf, est un véritable village dans la ville. Sa place centrale bordée de commerces, son architecture ancienne et sa proximité immédiate des plages (<strong>600m de la Grande Plage</strong>) en font l\'un des secteurs les plus recherchés pour vivre à l\'année.',
+    ai: 'Le <strong>Quartier Saint Charles</strong>, entre l\'Hôtel du Palais et la colline du Golf, est un véritable village dans la ville. Sa place centrale animée, ses ruelles calmes et sa proximité immédiate des plages (<strong>700m de la Grande Plage</strong>) en font l\'un des secteurs les plus recherchés pour vivre à l\'année. Belle clientèle de primo-accédants aisés.',
     scores: [['Vue mer',65],['Commerces',82],['Calme',80],['Rentabilité',72]],
     nearby: [
-      { rue: 'RUE SAINT CHARLES', num: '3', type: 'Appartement', pm2: 9200, date: '2025-03-22' },
-      { rue: 'AV DE LA MARNE', num: '8', type: 'Maison', pm2: 8800, date: '2025-01-15' },
-      { rue: 'RUE DU LYCÉE', num: '11', type: 'Appartement', pm2: 8500, date: '2025-02-18' },
+      { rue: 'AV EDOUARD VII', num: '18', type: 'Appartement', pm2: 9400, date: '2025-03-22' },
+      { rue: 'RUE DU LYCÉE', num: '7', type: 'Appartement', pm2: 8800, date: '2025-01-15' },
+      { rue: 'AV DE LA MARNE', num: '11', type: 'Maison', pm2: 8500, date: '2025-02-18' },
     ]
   },
   {
@@ -298,23 +295,6 @@ const ZONES = [
       { rue: 'RUE DE LA CÔTE DES BASQUES', num: '5', type: 'Appartement', pm2: 8200, date: '2025-03-10' },
       { rue: 'BD DU PRINCE DE GALLES', num: '18', type: 'Appartement', pm2: 7700, date: '2025-01-30' },
       { rue: 'RUE DES GOÉLANDS', num: '8', type: 'Appartement', pm2: 7400, date: '2025-02-20' },
-    ]
-  },
-  {
-    id: 'phare',
-    name: 'Quartier du Phare',
-    zone: 'Biarritz · Hauteurs résidentielles',
-    lat: 43.4914, lon: -1.5643,
-    price: 8200, median: 7800, tx: 29, evo: '+44', eLabel: '+44% (2019→2025)',
-    history: [5700, 6300, 7100, 8500, 8200, 8000, 8200],
-    years: ['2019','2020','2021','2022','2023','2024','2025'],
-    badge: { label: 'Marché très tendu', cls: 'badge-hot' },
-    ai: 'Le <strong>Quartier du Phare</strong>, perché sur les hauteurs au nord de Biarritz, offre des <strong>vues panoramiques sur l\'Atlantique</strong> et les montagnes espagnoles. Somptueuses demeures Belle Époque avec jardins, convoitées par les familles aisées. Peu de biens en vente, ce qui maintient les prix à un niveau élevé.',
-    scores: [['Vue mer',92],['Commerces',45],['Calme',90],['Rentabilité',62]],
-    nearby: [
-      { rue: 'AV DU PHARE', num: '14', type: 'Maison', pm2: 8800, date: '2025-02-05' },
-      { rue: 'AV DU PHARE', num: '28', type: 'Appartement', pm2: 7900, date: '2025-04-12' },
-      { rue: 'RUE DU PHARE', num: '6', type: 'Maison', pm2: 7700, date: '2025-01-08' },
     ]
   },
   {
@@ -338,7 +318,7 @@ const ZONES = [
     id: 'parc-hiver',
     name: "Parc d'Hiver",
     zone: 'Biarritz · Résidentiel bourgeois',
-    lat: 43.4896, lon: -1.5438,
+    lat: 43.4905, lon: -1.5420,
     price: 6200, median: 5850, tx: 71, evo: '+36', eLabel: '+36% (2019→2025)',
     history: [4600, 5000, 5600, 6600, 6300, 6100, 6200],
     years: ['2019','2020','2021','2022','2023','2024','2025'],
@@ -396,7 +376,7 @@ function haversine(lat1, lon1, lat2, lon2) {
   return R*2*Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
 }
 
-// Voronoi pur : zone dont le centre GPS est le plus proche
+// Voronoi pur : centre GPS le plus proche
 function detectZone(lat, lon) {
   let best = null, bestDist = Infinity;
   for (const z of ZONES) {
@@ -488,7 +468,7 @@ async function analyze() {
   }
 }
 
-// ─── AUTOCOMPLETE ───────────────────────────────────────────────────────────
+// ─── AUTOCOMPLETE ────────────────────────────────────────────────────────────
 const input = document.getElementById('addressInput');
 const dropdown = document.getElementById('acDropdown');
 let acResults = [], acIndex = -1, acTimer = null;
