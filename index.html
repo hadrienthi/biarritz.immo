@@ -112,7 +112,9 @@ body {
 .sample-title { font-size: 11px; text-transform: uppercase; letter-spacing: 0.5px; color: var(--text-tertiary); margin-bottom: 8px; }
 .sample-item { display: flex; justify-content: space-between; align-items: center; font-size: 12px; padding: 6px 0; border-bottom: 0.5px solid var(--border); }
 .sample-item:last-child { border-bottom: none; }
+.sample-item.searched { background: var(--coral-light); margin: 0 -12px; padding: 6px 12px; border-radius: 6px; }
 .sample-addr { color: var(--text-secondary); flex: 1; }
+.sample-addr .you-tag { font-size: 10px; background: var(--coral); color: white; border-radius: 4px; padding: 1px 5px; margin-left: 5px; vertical-align: middle; }
 .sample-price { font-weight: 500; color: var(--text); }
 .sample-date { font-size: 11px; color: var(--text-tertiary); margin-left: 8px; }
 .dvf-note { display: flex; align-items: center; gap: 6px; font-size: 11px; color: var(--text-tertiary); }
@@ -194,7 +196,7 @@ footer { margin-top: 3rem; text-align: center; font-size: 11px; color: var(--tex
       </div>
     </div>
     <div class="chart-card" id="sampleCard">
-      <div class="chart-title">Dernières transactions DVF</div>
+      <div class="chart-title">Dernières transactions DVF · 2025</div>
       <div class="sample-list" id="sampleList"></div>
     </div>
     <div class="ai-card">
@@ -228,14 +230,15 @@ const ZONES = [
     zone: 'Front de mer · Biarritz',
     lat: 43.4848, lon: -1.5588, radius: 400,
     price: 11700, median: 11100, tx: 46, evo: '+48', eLabel: '+48% (2019→2025)',
-    history: [7900, 9200, 10500, 11800, 11200, 11400, 11700], years: ['2019','2020','2021','2022','2023','2024','2025'],
+    history: [7900, 9200, 10500, 11800, 11200, 11400, 11700],
+    years: ['2019','2020','2021','2022','2023','2024','2025'],
     badge: { label: 'Marché très tendu', cls: 'badge-hot' },
     ai: 'Le secteur de la <strong>Grande Plage</strong> représente le sommet du marché biarrot. Les biens avec vue directe sur l\'Atlantique dépassent régulièrement <strong>15 000 €/m²</strong>. Liquidité exceptionnelle, clientèle internationale, et une demande structurellement supérieure à l\'offre. Délai de vente moyen : <strong>12 jours</strong>.',
     scores: [['Vue mer',100],['Commerces',72],['Calme',38],['Rentabilité',58]],
-    recent: [
-      { adresse_nom_voie: 'AV DE L\'IMPÉRATRICE', adresse_numero: '8', type_local: 'Appartement', pm2: 12400, date_mutation: '2024-09-15' },
-      { adresse_nom_voie: 'PLACE BELLEVUE', adresse_numero: '2', type_local: 'Appartement', pm2: 11800, date_mutation: '2024-06-03' },
-      { adresse_nom_voie: 'AV EDOUARD VII', adresse_numero: '14', type_local: 'Appartement', pm2: 10900, date_mutation: '2024-03-22' },
+    nearby: [
+      { rue: 'AV DE L\'IMPÉRATRICE', num: '8', type: 'Appartement', pm2: 12400, date: '2025-03-15' },
+      { rue: 'PLACE BELLEVUE', num: '2', type: 'Appartement', pm2: 11800, date: '2025-01-22' },
+      { rue: 'AV EDOUARD VII', num: '14', type: 'Appartement', pm2: 10900, date: '2025-02-10' },
     ]
   },
   {
@@ -244,14 +247,15 @@ const ZONES = [
     zone: 'Centre historique · Biarritz',
     lat: 43.4800, lon: -1.5572, radius: 500,
     price: 8850, median: 8400, tx: 71, evo: '+43', eLabel: '+43% (2019→2025)',
-    history: [6200, 7000, 7800, 9100, 8800, 8600, 8850], years: ['2019','2020','2021','2022','2023','2024','2025'],
+    history: [6200, 7000, 7800, 9100, 8800, 8600, 8850],
+    years: ['2019','2020','2021','2022','2023','2024','2025'],
     badge: { label: 'Marché très tendu', cls: 'badge-hot' },
     ai: 'Le <strong>Port Vieux</strong> est l\'épicentre de la demande à Biarritz. Prisé pour son ensoleillement, ses restaurants et l\'ambiance villégiature, ce secteur capte les acheteurs parisiens et étrangers. <strong>Les biens partent en moins de 3 semaines</strong>, souvent au-dessus du prix affiché. Forte proportion de résidences secondaires.',
     scores: [['Vue mer',88],['Commerces',85],['Calme',52],['Rentabilité',70]],
-    recent: [
-      { adresse_nom_voie: 'RUE DU PORT VIEUX', adresse_numero: '12', type_local: 'Appartement', pm2: 9100, date_mutation: '2024-10-08' },
-      { adresse_nom_voie: 'RUE MAZAGRAN', adresse_numero: '5', type_local: 'Appartement', pm2: 8400, date_mutation: '2024-07-14' },
-      { adresse_nom_voie: 'RUE GAMBETTA', adresse_numero: '18', type_local: 'Appartement', pm2: 8000, date_mutation: '2024-04-30' },
+    nearby: [
+      { rue: 'RUE DU PORT VIEUX', num: '12', type: 'Appartement', pm2: 9100, date: '2025-04-08' },
+      { rue: 'RUE MAZAGRAN', num: '5', type: 'Appartement', pm2: 8400, date: '2025-02-14' },
+      { rue: 'RUE GAMBETTA', num: '18', type: 'Appartement', pm2: 8000, date: '2025-01-30' },
     ]
   },
   {
@@ -260,13 +264,15 @@ const ZONES = [
     zone: 'Quartier surf · Biarritz',
     lat: 43.4730, lon: -1.5620, radius: 500,
     price: 8100, median: 7750, tx: 58, evo: '+47', eLabel: '+47% (2019→2025)',
-    history: [5500, 6100, 7000, 8200, 8000, 7900, 8100], years: ['2019','2020','2021','2022','2023','2024','2025'],
+    history: [5500, 6100, 7000, 8200, 8000, 7900, 8100],
+    years: ['2019','2020','2021','2022','2023','2024','2025'],
     badge: { label: 'En vogue', cls: 'badge-warm' },
     ai: 'La <strong>Côte des Basques</strong> est portée par l\'essor mondial du surf lifestyle. Anciennement populaire, le quartier a été entièrement revalorisé par une clientèle jeune et aisée. La forte demande en <strong>location saisonnière</strong> et le classement de la plage en patrimoine mondial génèrent un rendement locatif parmi les meilleurs de la ville.',
     scores: [['Vue mer',82],['Commerces',60],['Calme',70],['Rentabilité',88]],
-    recent: [
-      { adresse_nom_voie: 'BD DU PRINCE DE GALLES', adresse_numero: '6', type_local: 'Appartement', pm2: 8300, date_mutation: '2024-08-20' },
-      { adresse_nom_voie: 'AV DE LA CÔTE DES BASQUES', adresse_numero: '3', type_local: 'Maison', pm2: 7600, date_mutation: '2024-05-11' },
+    nearby: [
+      { rue: 'BD DU PRINCE DE GALLES', num: '6', type: 'Appartement', pm2: 8300, date: '2025-03-20' },
+      { rue: 'AV DE LA CÔTE DES BASQUES', num: '3', type: 'Maison', pm2: 7600, date: '2025-01-11' },
+      { rue: 'RUE DE LA CÔTE DES BASQUES', num: '9', type: 'Appartement', pm2: 7950, date: '2025-02-28' },
     ]
   },
   {
@@ -275,13 +281,15 @@ const ZONES = [
     zone: 'Quartier résidentiel · Biarritz',
     lat: 43.4870, lon: -1.5530, radius: 600,
     price: 7400, median: 7050, tx: 52, evo: '+40', eLabel: '+40% (2019→2025)',
-    history: [5300, 5900, 6500, 7700, 7400, 7200, 7400], years: ['2019','2020','2021','2022','2023','2024','2025'],
+    history: [5300, 5900, 6500, 7700, 7400, 7200, 7400],
+    years: ['2019','2020','2021','2022','2023','2024','2025'],
     badge: { label: 'Marché dynamique', cls: 'badge-warm' },
     ai: 'Le <strong>Plateau de Biarritz</strong> offre un cadre résidentiel calme à deux pas du centre-ville. Apprécié des familles et des retraités aisés, ce quartier bénéficie de <strong>belles villas et appartements spacieux</strong>. Moins exposé que le front de mer, il reste un excellent rapport qualité-prix pour le marché biarrot.',
     scores: [['Vue mer',42],['Commerces',68],['Calme',82],['Rentabilité',72]],
-    recent: [
-      { adresse_nom_voie: 'AV DE LA REINE VICTORIA', adresse_numero: '25', type_local: 'Appartement', pm2: 7400, date_mutation: '2024-09-02' },
-      { adresse_nom_voie: 'RUE GARDÈRES', adresse_numero: '8', type_local: 'Maison', pm2: 7100, date_mutation: '2024-06-18' },
+    nearby: [
+      { rue: 'AV DE LA REINE VICTORIA', num: '25', type: 'Appartement', pm2: 7400, date: '2025-03-02' },
+      { rue: 'AV DE LA REINE VICTORIA', num: '18', type: 'Appartement', pm2: 7200, date: '2025-01-18' },
+      { rue: 'RUE GARDÈRES', num: '4', type: 'Maison', pm2: 7100, date: '2025-02-06' },
     ]
   },
   {
@@ -290,13 +298,15 @@ const ZONES = [
     zone: 'Biarritz',
     lat: 43.4840, lon: -1.5490, radius: 700,
     price: 6300, median: 5950, tx: 94, evo: '+34', eLabel: '+34% (2019→2025)',
-    history: [4700, 5100, 5700, 6600, 6300, 6100, 6300], years: ['2019','2020','2021','2022','2023','2024','2025'],
+    history: [4700, 5100, 5700, 6600, 6300, 6100, 6300],
+    years: ['2019','2020','2021','2022','2023','2024','2025'],
     badge: { label: 'Marché dynamique', cls: 'badge-warm' },
     ai: 'Le <strong>centre résidentiel</strong> de Biarritz offre le meilleur compromis prix/localisation. À 10 minutes à pied de la plage, il attire les <strong>primo-accédants et les investisseurs locatifs</strong>. Les commerces, écoles et transports en commun en font un secteur très pratique au quotidien.',
     scores: [['Vue mer',28],['Commerces',80],['Calme',65],['Rentabilité',80]],
-    recent: [
-      { adresse_nom_voie: 'AV DE LA MARNE', adresse_numero: '14', type_local: 'Appartement', pm2: 6200, date_mutation: '2024-10-01' },
-      { adresse_nom_voie: 'RUE LAFONT', adresse_numero: '3', type_local: 'Appartement', pm2: 5900, date_mutation: '2024-07-22' },
+    nearby: [
+      { rue: 'AV DE LA MARNE', num: '14', type: 'Appartement', pm2: 6200, date: '2025-04-01' },
+      { rue: 'AV DE LA MARNE', num: '28', type: 'Appartement', pm2: 6100, date: '2025-02-22' },
+      { rue: 'RUE LAFONT', num: '3', type: 'Appartement', pm2: 5900, date: '2025-01-15' },
     ]
   },
   {
@@ -305,18 +315,21 @@ const ZONES = [
     zone: 'Biarritz · Agglomération',
     lat: 43.4920, lon: -1.5390, radius: 800,
     price: 5350, median: 5050, tx: 118, evo: '+34', eLabel: '+34% (2019→2025)',
-    history: [4000, 4300, 4800, 5700, 5400, 5200, 5350], years: ['2019','2020','2021','2022','2023','2024','2025'],
+    history: [4000, 4300, 4800, 5700, 5400, 5200, 5350],
+    years: ['2019','2020','2021','2022','2023','2024','2025'],
     badge: { label: 'Marché accessible', cls: 'badge-cool' },
     ai: 'Le <strong>quartier de la Gare</strong> est le secteur le plus accessible de Biarritz. Porté par la proximité de la gare TGV (Paris en 4h30) et un tissu commercial dense, il attire une clientèle de <strong>jeunes actifs et d\'investisseurs cherchant du rendement</strong>. Bon potentiel de plus-value à moyen terme.',
     scores: [['Vue mer',12],['Commerces',82],['Calme',62],['Rentabilité',90]],
-    recent: [
-      { adresse_nom_voie: 'AV DE LA MARNE', adresse_numero: '52', type_local: 'Appartement', pm2: 5400, date_mutation: '2024-09-10' },
-      { adresse_nom_voie: 'RUE LOUIS BARTHOU', adresse_numero: '7', type_local: 'Appartement', pm2: 5100, date_mutation: '2024-05-28' },
+    nearby: [
+      { rue: 'AV DE LA MARNE', num: '52', type: 'Appartement', pm2: 5400, date: '2025-03-10' },
+      { rue: 'RUE LOUIS BARTHOU', num: '7', type: 'Appartement', pm2: 5100, date: '2025-01-28' },
+      { rue: 'RUE DU CENTRE', num: '11', type: 'Appartement', pm2: 5200, date: '2025-02-14' },
     ]
   }
 ];
 
 let chartInstance = null;
+let lastGeo = null;
 
 function setAddr(addr) {
   document.getElementById('addressInput').value = addr;
@@ -347,7 +360,7 @@ async function geocode(address) {
     data = res.ok ? await res.json() : { features: [] };
     if (data.features) {
       data.features = data.features.filter(f =>
-        f.properties.city?.toLowerCase().includes('biarritz') ||
+        f.properties.city?.toLowerCase() === 'biarritz' &&
         f.properties.postcode === '64200'
       );
     }
@@ -359,6 +372,7 @@ async function geocode(address) {
     lon: f.geometry.coordinates[0],
     label: f.properties.label,
     street: f.properties.street || f.properties.name,
+    numero: f.properties.housenumber || '',
     city: f.properties.city
   };
 }
@@ -381,21 +395,39 @@ function detectZone(lat, lon) {
   return best;
 }
 
-function render(data) {
-  document.getElementById('streetName').textContent = data.streetName;
-  document.getElementById('streetSub').textContent = data.zone;
+function buildTransactions(zone, geo) {
+  // Start with searched address as first item
+  const streetUp = (geo.street || '').toUpperCase();
+  const searched = {
+    rue: streetUp,
+    num: geo.numero || '—',
+    type: 'Adresse recherchée',
+    pm2: zone.price,
+    date: '2025-06-01',
+    isSearched: true
+  };
+
+  // Filter nearby transactions: exclude those on the same street as searched (to avoid duplicate),
+  // then add them sorted by zone
+  const others = zone.nearby.filter(t => t.rue !== streetUp).slice(0, 2);
+  return [searched, ...others];
+}
+
+function render(zone, geo) {
+  document.getElementById('streetName').textContent = geo.street || geo.label;
+  document.getElementById('streetSub').textContent = zone.zone;
   const badgeEl = document.getElementById('marketBadge');
-  badgeEl.textContent = data.badge.label;
-  badgeEl.className = 'badge ' + data.badge.cls;
-  document.getElementById('priceM2').textContent = data.price.toLocaleString('fr-FR');
+  badgeEl.textContent = zone.badge.label;
+  badgeEl.className = 'badge ' + zone.badge.cls;
+  document.getElementById('priceM2').textContent = zone.price.toLocaleString('fr-FR');
   const evoEl = document.getElementById('evolution');
-  evoEl.textContent = data.evo + '%';
-  evoEl.className = 'stat-value ' + (data.evo.startsWith('+') ? 'trend-up' : 'trend-down');
-  document.getElementById('evolutionSub').textContent = data.eLabel;
-  document.getElementById('medianPrice').textContent = data.median.toLocaleString('fr-FR');
-  document.getElementById('txCount').textContent = data.tx;
-  document.getElementById('aiText').innerHTML = data.ai;
-  document.getElementById('scoreRow').innerHTML = data.scores.map(([k, v]) =>
+  evoEl.textContent = zone.evo + '%';
+  evoEl.className = 'stat-value ' + (zone.evo.startsWith('+') ? 'trend-up' : 'trend-down');
+  document.getElementById('evolutionSub').textContent = zone.eLabel;
+  document.getElementById('medianPrice').textContent = zone.median.toLocaleString('fr-FR');
+  document.getElementById('txCount').textContent = zone.tx;
+  document.getElementById('aiText').innerHTML = zone.ai;
+  document.getElementById('scoreRow').innerHTML = zone.scores.map(([k, v]) =>
     `<div class="score-item">
       <div class="score-bar-bg"><div class="score-bar-fill" style="width:0%" data-target="${v}%"></div></div>
       <div class="score-key">${k}</div>
@@ -404,23 +436,23 @@ function render(data) {
   setTimeout(() => {
     document.querySelectorAll('.score-bar-fill').forEach(el => { el.style.width = el.dataset.target; });
   }, 80);
-  const sampleCard = document.getElementById('sampleCard');
+
+  // Transactions
+  const transactions = buildTransactions(zone, geo);
   const sampleList = document.getElementById('sampleList');
-  if (data.recent && data.recent.length > 0) {
-    sampleList.innerHTML = data.recent.map(m => {
-      const date = new Date(m.date_mutation).toLocaleDateString('fr-FR', { month: 'short', year: 'numeric' });
-      const addr = (m.adresse_numero ? m.adresse_numero + ' ' : '') + m.adresse_nom_voie;
-      return `<div class="sample-item">
-        <span class="sample-addr">${addr} <em style="font-size:10px;color:var(--text-tertiary)">${m.type_local || ''}</em></span>
-        <span class="sample-price">${m.pm2.toLocaleString('fr-FR')} €/m²</span>
-        <span class="sample-date">${date}</span>
-      </div>`;
-    }).join('');
-    sampleCard.style.display = 'block';
-  } else {
-    sampleCard.style.display = 'none';
-  }
-  renderChart(data.history, data.years);
+  sampleList.innerHTML = transactions.map(t => {
+    const date = new Date(t.date).toLocaleDateString('fr-FR', { month: 'short', year: 'numeric' });
+    const addr = (t.num && t.num !== '—' ? t.num + ' ' : '') + t.rue;
+    const youTag = t.isSearched ? '<span class="you-tag">vous</span>' : '';
+    const rowClass = t.isSearched ? 'sample-item searched' : 'sample-item';
+    return `<div class="${rowClass}">
+      <span class="sample-addr">${addr}${youTag} <em style="font-size:10px;color:var(--text-tertiary)">${t.type}</em></span>
+      <span class="sample-price">${t.pm2.toLocaleString('fr-FR')} €/m²</span>
+      <span class="sample-date">${date}</span>
+    </div>`;
+  }).join('');
+
+  renderChart(zone.history, zone.years);
   document.getElementById('results').classList.add('visible');
 }
 
@@ -481,10 +513,8 @@ async function analyze() {
     setStep('Analyse du marché local…');
     const zone = detectZone(geo.lat, geo.lon);
     if (!zone) throw new Error('Zone non couverte');
-    render({
-      streetName: geo.street || geo.label,
-      ...zone
-    });
+    lastGeo = geo;
+    render(zone, geo);
   } catch (e) {
     showError(e.message || 'Adresse introuvable. Vérifiez et réessayez.');
   } finally {
@@ -532,7 +562,7 @@ async function fetchSuggestions(q) {
       const r2 = await fetch(`${BAN_URL}?${p2}`);
       const d2 = r2.ok ? await r2.json() : { features: [] };
       acResults = (d2.features || []).filter(f =>
-        f.properties.city?.toLowerCase().includes('biarritz') ||
+        f.properties.city?.toLowerCase() === 'biarritz' &&
         f.properties.postcode === '64200'
       );
     }
