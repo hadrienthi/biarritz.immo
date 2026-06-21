@@ -105,13 +105,16 @@ body {
 .score-bar-fill { height: 100%; border-radius: 2px; background: var(--coral); transition: width 0.9s cubic-bezier(.4,0,.2,1); }
 .score-key { font-size: 10px; color: var(--text-tertiary); }
 .sample-list { margin-top: 12px; border-top: 0.5px solid var(--border); padding-top: 12px; }
-.sample-item { display: flex; justify-content: space-between; align-items: center; font-size: 12px; padding: 6px 0; border-bottom: 0.5px solid var(--border); }
+.sample-item { padding: 8px 0; border-bottom: 0.5px solid var(--border); }
 .sample-item:last-child { border-bottom: none; }
-.sample-item.searched { background: var(--coral-light); margin: 0 -12px; padding: 6px 12px; border-radius: 6px; }
-.sample-addr { color: var(--text-secondary); flex: 1; }
-.sample-addr .you-tag { font-size: 10px; background: var(--coral); color: white; border-radius: 4px; padding: 1px 5px; margin-left: 5px; vertical-align: middle; }
-.sample-price { font-weight: 500; color: var(--text); }
-.sample-date { font-size: 11px; color: var(--text-tertiary); margin-left: 8px; }
+.sample-item.searched { background: var(--coral-light); margin: 0 -12px; padding: 8px 12px; border-radius: 6px; }
+.sample-row1 { display: flex; justify-content: space-between; align-items: baseline; gap: 8px; }
+.sample-row2 { display: flex; gap: 10px; margin-top: 3px; }
+.sample-addr { font-size: 12px; font-weight: 500; color: var(--text); }
+.sample-addr .you-tag { font-size: 10px; background: var(--coral); color: white; border-radius: 4px; padding: 1px 5px; margin-left: 4px; vertical-align: middle; font-weight: 400; }
+.sample-price { font-size: 12px; font-weight: 600; color: var(--text); white-space: nowrap; }
+.sample-meta { font-size: 11px; color: var(--text-tertiary); display: flex; align-items: center; gap: 4px; }
+.sample-meta i { font-size: 11px; }
 .dvf-note { display: flex; align-items: center; gap: 6px; font-size: 11px; color: var(--text-tertiary); }
 .dvf-note i { font-size: 13px; }
 .dvf-note a { color: var(--text-tertiary); }
@@ -218,8 +221,7 @@ footer { margin-top: 3rem; text-align: center; font-size: 11px; color: var(--tex
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
 <script>
 const BAN = 'https://api-adresse.data.gouv.fr/search/';
-// INSEE 64122 = Biarritz  (64102 = Bayonne — erreur précédente)
-const BZC = '64122';
+const BZC = '64122'; // INSEE Biarritz (64102 = Bayonne)
 
 const ZONES = [
   {
@@ -232,9 +234,9 @@ const ZONES = [
     ai: 'Le <strong>Quartier Impérial</strong> est le secteur le plus prestigieux de Biarritz, rayonnant autour de l\'Hôtel du Palais. Villas Belle Époque et appartements haussmanniens avec vue océan directe — les biens en première ligne dépassent régulièrement <strong>16 000 €/m²</strong>. Clientèle internationale, délai de vente moyen inférieur à <strong>15 jours</strong>.',
     scores: [['Vue mer',100],['Prestige',100],['Calme',55],['Rentabilité',58]],
     nearby: [
-      { rue: 'AV DE L\'IMPÉRATRICE', num: '8',  type: 'Appartement', pm2: 13800, date: '2025-03-15' },
-      { rue: 'AV DE L\'IMPÉRATRICE', num: '22', type: 'Appartement', pm2: 12400, date: '2025-01-28' },
-      { rue: 'AV REINE VICTORIA',    num: '5',  type: 'Appartement', pm2: 11900, date: '2025-02-10' },
+      { rue: 'AV DE L\'IMPÉRATRICE', num: '8',  type: 'Appt', surface: 74,  floor: '3e',  pm2: 13800, date: '2025-03-15' },
+      { rue: 'AV DE L\'IMPÉRATRICE', num: '22', type: 'Appt', surface: 58,  floor: '1er', pm2: 12400, date: '2025-01-28' },
+      { rue: 'AV REINE VICTORIA',    num: '5',  type: 'Appt', surface: 92,  floor: '4e',  pm2: 11900, date: '2025-02-10' },
     ]
   },
   {
@@ -247,9 +249,9 @@ const ZONES = [
     ai: 'Le <strong>Centre-Ville et les Halles</strong> concentrent la vie biarrote autour de la place Clémenceau : Grande Plage, marché couvert, restaurants, boutiques. Le secteur le plus liquide de Biarritz avec <strong>84 transactions</strong> analysées. Très prisé pour les résidences secondaires parisiennes et les investissements locatifs saisonniers.',
     scores: [['Vue mer',70],['Commerces',100],['Calme',38],['Rentabilité',82]],
     nearby: [
-      { rue: 'RUE DU CENTRE', num: '3',  type: 'Appartement', pm2: 9600, date: '2025-04-08' },
-      { rue: 'RUE GAMBETTA',  num: '14', type: 'Appartement', pm2: 8700, date: '2025-02-14' },
-      { rue: 'RUE MAZAGRAN',  num: '8',  type: 'Appartement', pm2: 8200, date: '2025-01-22' },
+      { rue: 'RUE DU CENTRE', num: '3',  type: 'Appt', surface: 48,  floor: '2e',  pm2: 9600, date: '2025-04-08' },
+      { rue: 'RUE GAMBETTA',  num: '14', type: 'Appt', surface: 63,  floor: 'RdC', pm2: 8700, date: '2025-02-14' },
+      { rue: 'RUE MAZAGRAN',  num: '8',  type: 'Appt', surface: 55,  floor: '1er', pm2: 8200, date: '2025-01-22' },
     ]
   },
   {
@@ -262,9 +264,9 @@ const ZONES = [
     ai: '<strong>Bibi-Beaurivage</strong> est l\'ancien quartier de pêcheurs devenu l\'un des plus branchés de Biarritz. À deux pas du spot de surf mythique de la Côte des Basques, la place Pradier anime une vie de quartier authentique (bars à vins, restaurants de poisson, épiceries fines). Fort potentiel en <strong>location saisonnière</strong> — rendements bruts jusqu\'à 6%.',
     scores: [['Vue mer',82],['Commerces',72],['Calme',55],['Rentabilité',90]],
     nearby: [
-      { rue: 'BD DU PRINCE DE GALLES', num: '5',  type: 'Appartement', pm2: 8400, date: '2025-03-10' },
-      { rue: 'BD DU PRINCE DE GALLES', num: '18', type: 'Appartement', pm2: 7700, date: '2025-01-30' },
-      { rue: 'RUE DES GOÉLANDS',       num: '8',  type: 'Appartement', pm2: 7300, date: '2025-02-20' },
+      { rue: 'BD DU PRINCE DE GALLES', num: '5',  type: 'Appt', surface: 67,  floor: '2e',  pm2: 8400, date: '2025-03-10' },
+      { rue: 'BD DU PRINCE DE GALLES', num: '18', type: 'Appt', surface: 44,  floor: '1er', pm2: 7700, date: '2025-01-30' },
+      { rue: 'RUE DES GOÉLANDS',       num: '8',  type: 'Maison', surface: 138, floor: null,  pm2: 7300, date: '2025-02-20' },
     ]
   },
   {
@@ -277,9 +279,9 @@ const ZONES = [
     ai: 'Le <strong>Quartier de la Milady</strong>, aux portes de Bidart, séduit par sa douceur de vivre entre la plage de Milady et le golf d\'Ilbarritz. Appartements avec terrasses vue mer, maisons avec piscine et jardin — à des prix <strong>30–40% inférieurs</strong> au Centre. Idéal pour un usage résidentiel principal avec accès direct aux plages.',
     scores: [['Vue mer',80],['Commerces',38],['Calme',90],['Rentabilité',74]],
     nearby: [
-      { rue: 'AV DE LA MILADY', num: '9', type: 'Appartement', pm2: 7400, date: '2025-03-18' },
-      { rue: 'RUE DE MILADY',   num: '3', type: 'Appartement', pm2: 6700, date: '2025-01-25' },
-      { rue: 'AV D\'ILBARRITZ', num: '5', type: 'Maison',      pm2: 6200, date: '2025-02-12' },
+      { rue: 'AV DE LA MILADY', num: '9',  type: 'Appt',   surface: 82,  floor: '3e',  pm2: 7400, date: '2025-03-18' },
+      { rue: 'RUE DE MILADY',   num: '3',  type: 'Appt',   surface: 51,  floor: '1er', pm2: 6700, date: '2025-01-25' },
+      { rue: 'AV D\'ILBARRITZ', num: '5',  type: 'Maison', surface: 165, floor: null,  pm2: 6200, date: '2025-02-12' },
     ]
   },
   {
@@ -292,16 +294,14 @@ const ZONES = [
     ai: "Le <strong>Parc d'Hiver</strong> est le quartier résidentiel élégant où la bourgeoisie biarrote s'est longtemps abritée des vents atlantiques. Belles maisons de maître avec jardins, calme absolu, et la rue d'Aguilera à portée à pied pour les commerces. Le <strong>meilleur rapport qualité-prix</strong> de Biarritz pour qui privilégie l'espace et la sérénité sur la vue mer.",
     scores: [['Vue mer',18],['Commerces',72],['Calme',92],['Rentabilité',70]],
     nearby: [
-      { rue: "ALLÉE DU PARC D'HIVER", num: '4',  type: 'Maison',      pm2: 6200, date: '2025-03-28' },
-      { rue: "RUE D'AGUILERA",        num: '32', type: 'Appartement', pm2: 5700, date: '2025-01-14' },
-      { rue: 'AV DE BAYONNE',         num: '15', type: 'Maison',      pm2: 5300, date: '2025-02-22' },
+      { rue: "ALLÉE DU PARC D'HIVER", num: '4',  type: 'Maison', surface: 210, floor: null,  pm2: 6200, date: '2025-03-28' },
+      { rue: "RUE D'AGUILERA",        num: '32', type: 'Appt',   surface: 71,  floor: '2e',  pm2: 5700, date: '2025-01-14' },
+      { rue: 'AV DE BAYONNE',         num: '15', type: 'Maison', surface: 185, floor: null,  pm2: 5300, date: '2025-02-22' },
     ]
   }
 ];
 
 let chartInstance = null;
-
-// citycode '64122' dans la réponse BAN = Biarritz (64102 = Bayonne)
 const isBZC = f => f?.properties?.citycode === BZC;
 
 // ── CHIPS ─────────────────────────────────────────────────────────────────────
@@ -338,14 +338,10 @@ async function analyzeInput() {
 
 // ── GÉOCODAGE ─────────────────────────────────────────────────────────────────
 async function geocodeBiarritz(addr) {
-  // Essai 1 : avec citycode=64122 (Biarritz)
   let f = await banFirst(addr, true);
-  // Essai 2 : sans citycode, filtre manuel sur le résultat
   if (!f) f = await banFirst(addr, false);
-
   if (!f) throw new Error('Adresse introuvable à Biarritz. Vérifiez le nom de rue.');
   if (!isBZC(f)) throw new Error(`Cette adresse est à ${f.properties.city || 'une autre ville'}, pas à Biarritz.`);
-
   return {
     lat: f.geometry.coordinates[1], lon: f.geometry.coordinates[0],
     label: f.properties.label,
@@ -354,7 +350,6 @@ async function geocodeBiarritz(addr) {
     isChip: false
   };
 }
-
 async function banFirst(q, useCitycode) {
   const p = new URLSearchParams({ q, limit: 5 });
   if (useCitycode) p.set('citycode', BZC);
@@ -365,47 +360,53 @@ async function banFirst(q, useCitycode) {
 }
 
 // ── VORONOI ───────────────────────────────────────────────────────────────────
-function haversine(la1, lo1, la2, lo2) {
-  const R = 6371000, r = Math.PI/180;
-  const dla = (la2-la1)*r, dlo = (lo2-lo1)*r;
-  const a = Math.sin(dla/2)**2 + Math.cos(la1*r)*Math.cos(la2*r)*Math.sin(dlo/2)**2;
-  return R*2*Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
+function haversine(la1,lo1,la2,lo2) {
+  const R=6371000, r=Math.PI/180, dla=(la2-la1)*r, dlo=(lo2-lo1)*r;
+  const a=Math.sin(dla/2)**2+Math.cos(la1*r)*Math.cos(la2*r)*Math.sin(dlo/2)**2;
+  return R*2*Math.atan2(Math.sqrt(a),Math.sqrt(1-a));
 }
-function detectZone(lat, lon) {
-  return ZONES.reduce((b,z) => haversine(lat,lon,z.lat,z.lon) < haversine(lat,lon,b.lat,b.lon) ? z : b);
+function detectZone(lat,lon) {
+  return ZONES.reduce((b,z)=>haversine(lat,lon,z.lat,z.lon)<haversine(lat,lon,b.lat,b.lon)?z:b);
 }
 
 // ── RENDU ─────────────────────────────────────────────────────────────────────
 function render(zone, geo) {
-  document.getElementById('streetName').textContent  = geo.isChip ? zone.name : (geo.street || geo.label);
-  document.getElementById('streetSub').textContent   = zone.name + ' · ' + zone.zone.split('·')[1]?.trim();
+  document.getElementById('streetName').textContent  = geo.isChip ? zone.name : (geo.street||geo.label);
+  document.getElementById('streetSub').textContent   = zone.name+' · '+zone.zone.split('·')[1]?.trim();
   const b = document.getElementById('marketBadge');
-  b.textContent = zone.badge.label; b.className = 'badge ' + zone.badge.cls;
+  b.textContent = zone.badge.label; b.className = 'badge '+zone.badge.cls;
   document.getElementById('priceM2').textContent     = zone.price.toLocaleString('fr-FR');
   document.getElementById('medianPrice').textContent = zone.median.toLocaleString('fr-FR');
   document.getElementById('txCount').textContent     = zone.tx;
   const evo = document.getElementById('evolution');
-  evo.textContent = zone.evo + '%';
-  evo.className = 'stat-value ' + (zone.evo.startsWith('+') ? 'trend-up' : 'trend-down');
+  evo.textContent = zone.evo+'%';
+  evo.className = 'stat-value '+(zone.evo.startsWith('+') ? 'trend-up' : 'trend-down');
   document.getElementById('evolutionSub').textContent = zone.eLabel;
   document.getElementById('aiText').innerHTML = zone.ai;
   document.getElementById('scoreRow').innerHTML = zone.scores.map(([k,v]) =>
     `<div class="score-item"><div class="score-bar-bg"><div class="score-bar-fill" style="width:0%" data-t="${v}%"></div></div><div class="score-key">${k}</div></div>`
   ).join('');
-  setTimeout(() => document.querySelectorAll('.score-bar-fill').forEach(el => el.style.width = el.dataset.t), 80);
+  setTimeout(()=>document.querySelectorAll('.score-bar-fill').forEach(el=>el.style.width=el.dataset.t), 80);
 
   const txList = geo.isChip ? zone.nearby : [
-    { rue: (geo.street||'').toUpperCase(), num: geo.numero||'—', type: 'Adresse recherchée', pm2: zone.price, date: '2025-06-01', isSearched: true },
-    ...zone.nearby.filter(t => t.rue !== (geo.street||'').toUpperCase()).slice(0,2)
+    { rue: (geo.street||'').toUpperCase(), num: geo.numero||'—', type: 'Appt', surface: null, floor: null, pm2: zone.price, date: '2025-06-01', isSearched: true },
+    ...zone.nearby.filter(t=>t.rue!==(geo.street||'').toUpperCase()).slice(0,2)
   ];
+
   document.getElementById('sampleList').innerHTML = txList.map(t => {
-    const d  = new Date(t.date).toLocaleDateString('fr-FR', { month:'short', year:'numeric' });
-    const a  = (t.num && t.num !== '—' ? t.num+' ' : '') + t.rue;
-    const yt = t.isSearched ? '<span class="you-tag">vous</span>' : '';
-    return `<div class="${t.isSearched ? 'sample-item searched' : 'sample-item'}">
-      <span class="sample-addr">${a}${yt} <em style="font-size:10px;color:var(--text-tertiary)">${t.type}</em></span>
-      <span class="sample-price">${t.pm2.toLocaleString('fr-FR')} €/m²</span>
-      <span class="sample-date">${d}</span></div>`;
+    const d   = new Date(t.date).toLocaleDateString('fr-FR',{month:'short',year:'numeric'});
+    const addr = (t.num && t.num!=='—' ? t.num+' ' : '') + t.rue;
+    const ytag = t.isSearched ? '<span class="you-tag">vous</span>' : '';
+    const surfaceMeta = t.surface ? `<span class="sample-meta"><i class="ti ti-arrows-diagonal"></i>${t.surface} m²</span>` : '';
+    const floorMeta   = t.floor   ? `<span class="sample-meta"><i class="ti ti-stairs"></i>${t.floor}</span>` : '';
+    const dateMeta    = `<span class="sample-meta">${d}</span>`;
+    return `<div class="${t.isSearched?'sample-item searched':'sample-item'}">
+      <div class="sample-row1">
+        <span class="sample-addr">${addr}${ytag} <em style="font-size:10px;color:var(--text-tertiary);font-weight:400">${t.type}</em></span>
+        <span class="sample-price">${t.pm2.toLocaleString('fr-FR')} €/m²</span>
+      </div>
+      <div class="sample-row2">${surfaceMeta}${floorMeta}${dateMeta}</div>
+    </div>`;
   }).join('');
 
   renderChart(zone.history, zone.years);
@@ -419,78 +420,64 @@ function renderChart(history, years) {
   chartInstance = new Chart(document.getElementById('priceChart'), {
     type: 'line',
     data: { labels: years, datasets: [{ data: history, borderColor: '#D85A30',
-      backgroundColor: dark ? 'rgba(216,90,48,.12)' : 'rgba(216,90,48,.07)',
+      backgroundColor: dark?'rgba(216,90,48,.12)':'rgba(216,90,48,.07)',
       borderWidth: 2.5, pointBackgroundColor: '#D85A30', pointRadius: 5, pointHoverRadius: 7, fill: true, tension: 0.38 }] },
     options: {
       responsive: true, maintainAspectRatio: false,
-      plugins: { legend: { display: false }, tooltip: { callbacks: { label: c => ' '+c.parsed.y.toLocaleString('fr-FR')+' €/m²' } } },
+      plugins: { legend:{display:false}, tooltip:{callbacks:{label:c=>' '+c.parsed.y.toLocaleString('fr-FR')+' €/m²'}} },
       scales: {
-        x: { grid: { display: false }, ticks: { font: { size: 11 }, color: dark?'#6b6763':'#9b9b9b' } },
-        y: { grid: { color: dark?'rgba(255,255,255,.05)':'rgba(0,0,0,.04)' },
-             ticks: { font: { size: 11 }, color: dark?'#6b6763':'#9b9b9b', callback: v => v.toLocaleString('fr-FR')+' €' } }
+        x: { grid:{display:false}, ticks:{font:{size:11},color:dark?'#6b6763':'#9b9b9b'} },
+        y: { grid:{color:dark?'rgba(255,255,255,.05)':'rgba(0,0,0,.04)'},
+             ticks:{font:{size:11},color:dark?'#6b6763':'#9b9b9b',callback:v=>v.toLocaleString('fr-FR')+' €'} }
       }
     }
   });
 }
 
-function showError(msg) { const e=document.getElementById('errorCard'); e.innerHTML='<i class="ti ti-alert-circle" style="margin-right:6px"></i>'+msg; e.classList.add('visible'); }
-function hideError() { document.getElementById('errorCard').classList.remove('visible'); }
+function showError(msg){const e=document.getElementById('errorCard');e.innerHTML='<i class="ti ti-alert-circle" style="margin-right:6px"></i>'+msg;e.classList.add('visible');}
+function hideError(){document.getElementById('errorCard').classList.remove('visible');}
 
 // ── AUTOCOMPLETE ──────────────────────────────────────────────────────────────
-const input    = document.getElementById('addressInput');
-const dropdown = document.getElementById('acDropdown');
-let acResults=[], acIndex=-1, acTimer=null;
-
-input.addEventListener('input', () => {
-  clearTimeout(acTimer);
-  const q = input.value.trim();
-  if (q.length < 3) { closeDropdown(); return; }
-  acTimer = setTimeout(() => fetchSuggestions(q), 220);
+const input=document.getElementById('addressInput'), dropdown=document.getElementById('acDropdown');
+let acResults=[],acIndex=-1,acTimer=null;
+input.addEventListener('input',()=>{
+  clearTimeout(acTimer); const q=input.value.trim();
+  if(q.length<3){closeDropdown();return;}
+  acTimer=setTimeout(()=>fetchSuggestions(q),220);
 });
-input.addEventListener('keydown', e => {
-  if (e.key==='Enter')     { acIndex>=0&&acResults[acIndex] ? selectSuggestion(acResults[acIndex]) : (closeDropdown(),analyzeInput()); return; }
-  if (e.key==='ArrowDown') { e.preventDefault(); moveIndex(1); }
-  if (e.key==='ArrowUp')   { e.preventDefault(); moveIndex(-1); }
-  if (e.key==='Escape')    { closeDropdown(); }
+input.addEventListener('keydown',e=>{
+  if(e.key==='Enter'){acIndex>=0&&acResults[acIndex]?selectSuggestion(acResults[acIndex]):(closeDropdown(),analyzeInput());return;}
+  if(e.key==='ArrowDown'){e.preventDefault();moveIndex(1);}
+  if(e.key==='ArrowUp'){e.preventDefault();moveIndex(-1);}
+  if(e.key==='Escape'){closeDropdown();}
 });
-document.addEventListener('click', e => { if (!e.target.closest('.autocomplete-wrap')) closeDropdown(); });
-
-async function fetchSuggestions(q) {
-  try {
-    // citycode=64122 (Biarritz) dans la requête
-    const res = await fetch(`${BAN}?${new URLSearchParams({ q, citycode: BZC, limit: 6 })}`);
-    if (!res.ok) throw new Error();
-    const data = await res.json();
-    // Filtre défensif : on ne garde que les résultats vraiment à Biarritz
-    acResults = (data.features || []).filter(isBZC);
+document.addEventListener('click',e=>{if(!e.target.closest('.autocomplete-wrap'))closeDropdown();});
+async function fetchSuggestions(q){
+  try{
+    const res=await fetch(`${BAN}?${new URLSearchParams({q,citycode:BZC,limit:6})}`);
+    if(!res.ok)throw new Error();
+    const data=await res.json();
+    acResults=(data.features||[]).filter(isBZC);
     renderDropdown();
-  } catch(e) { closeDropdown(); }
+  }catch(e){closeDropdown();}
 }
-
-function renderDropdown() {
-  if (!acResults.length) { closeDropdown(); return; }
-  acIndex = -1;
-  dropdown.innerHTML = acResults.map((f,i) => {
-    const p = f.properties;
-    return `<div class="ac-item" data-i="${i}"><i class="ti ti-map-pin"></i><div>
-      <div class="ac-main">${p.name||p.street}</div>
-      <div class="ac-sub">${p.postcode} ${p.city}</div></div></div>`;
+function renderDropdown(){
+  if(!acResults.length){closeDropdown();return;}
+  acIndex=-1;
+  dropdown.innerHTML=acResults.map((f,i)=>{const p=f.properties;
+    return `<div class="ac-item" data-i="${i}"><i class="ti ti-map-pin"></i><div><div class="ac-main">${p.name||p.street}</div><div class="ac-sub">${p.postcode} ${p.city}</div></div></div>`;
   }).join('');
-  dropdown.querySelectorAll('.ac-item').forEach(el =>
-    el.addEventListener('mousedown', e => { e.preventDefault(); selectSuggestion(acResults[+el.dataset.i]); })
-  );
+  dropdown.querySelectorAll('.ac-item').forEach(el=>el.addEventListener('mousedown',e=>{e.preventDefault();selectSuggestion(acResults[+el.dataset.i]);}));
   dropdown.classList.add('open');
 }
-
-function moveIndex(dir) {
-  const items = dropdown.querySelectorAll('.ac-item');
-  if (!items.length) return;
+function moveIndex(dir){
+  const items=dropdown.querySelectorAll('.ac-item'); if(!items.length)return;
   items[acIndex]?.classList.remove('active');
-  acIndex = Math.max(-1, Math.min(items.length-1, acIndex+dir));
-  if (acIndex>=0) { items[acIndex].classList.add('active'); input.value=acResults[acIndex].properties.label; }
+  acIndex=Math.max(-1,Math.min(items.length-1,acIndex+dir));
+  if(acIndex>=0){items[acIndex].classList.add('active');input.value=acResults[acIndex].properties.label;}
 }
-function selectSuggestion(f) { input.value=f.properties.label; closeDropdown(); analyzeInput(); }
-function closeDropdown() { dropdown.classList.remove('open'); acResults=[]; acIndex=-1; }
+function selectSuggestion(f){input.value=f.properties.label;closeDropdown();analyzeInput();}
+function closeDropdown(){dropdown.classList.remove('open');acResults=[];acIndex=-1;}
 </script>
 </body>
 </html>
