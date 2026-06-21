@@ -217,8 +217,9 @@ footer { margin-top: 3rem; text-align: center; font-size: 11px; color: var(--tex
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
 <script>
-const BAN      = 'https://api-adresse.data.gouv.fr/search/';
-const BZC      = '64102'; // citycode INSEE Biarritz — seul juge de paix
+const BAN = 'https://api-adresse.data.gouv.fr/search/';
+// INSEE 64122 = Biarritz  (64102 = Bayonne — erreur précédente)
+const BZC = '64122';
 
 const ZONES = [
   {
@@ -300,10 +301,10 @@ const ZONES = [
 
 let chartInstance = null;
 
-// citycode '64102' dans la RÉPONSE BAN = seul critère fiable pour "est à Biarritz"
+// citycode '64122' dans la réponse BAN = Biarritz (64102 = Bayonne)
 const isBZC = f => f?.properties?.citycode === BZC;
 
-// ── CHIPS : zéro géocodage, résultat direct ───────────────────────────────────
+// ── CHIPS ─────────────────────────────────────────────────────────────────────
 function analyzeZone(zoneId) {
   const zone = ZONES.find(z => z.id === zoneId);
   if (!zone) return;
@@ -328,34 +329,25 @@ async function analyzeInput() {
     const geo = await geocodeBiarritz(addr);
     document.getElementById('loaderStep').textContent = 'Analyse du marché local…';
     render(detectZone(geo.lat, geo.lon), geo);
-  } catch(e) {
-    showError(e.message);
-  } finally {
+  } catch(e) { showError(e.message); }
+  finally {
     document.getElementById('loader').classList.remove('visible');
     document.getElementById('btnSearch').disabled = false;
   }
 }
 
 // ── GÉOCODAGE ─────────────────────────────────────────────────────────────────
-// Stratégie : on envoie la requête avec citycode=64102.
-// On vérifie que le résultat porte bien citycode=64102 (pas Bayonne etc.).
-// Si rien trouvé avec citycode, on essaie sans, puis on filtre.
 async function geocodeBiarritz(addr) {
-  // Essai 1 : citycode Biarritz strict
+  // Essai 1 : avec citycode=64122 (Biarritz)
   let f = await banFirst(addr, true);
-
-  // Essai 2 : sans citycode — on filtre manuellement
+  // Essai 2 : sans citycode, filtre manuel sur le résultat
   if (!f) f = await banFirst(addr, false);
 
-  if (!f) throw new Error('Adresse introuvable. Précisez le numéro ou le nom de rue complet.');
-
-  if (!isBZC(f)) {
-    throw new Error(`Cette adresse est à ${f.properties.city || 'une autre ville'}, pas à Biarritz.`);
-  }
+  if (!f) throw new Error('Adresse introuvable à Biarritz. Vérifiez le nom de rue.');
+  if (!isBZC(f)) throw new Error(`Cette adresse est à ${f.properties.city || 'une autre ville'}, pas à Biarritz.`);
 
   return {
-    lat: f.geometry.coordinates[1],
-    lon: f.geometry.coordinates[0],
+    lat: f.geometry.coordinates[1], lon: f.geometry.coordinates[0],
     label: f.properties.label,
     street: f.properties.street || f.properties.name,
     numero: f.properties.housenumber || '',
@@ -364,12 +356,11 @@ async function geocodeBiarritz(addr) {
 }
 
 async function banFirst(q, useCitycode) {
-  const params = new URLSearchParams({ q, limit: 5 });
-  if (useCitycode) params.set('citycode', BZC);
-  const res = await fetch(`${BAN}?${params}`);
+  const p = new URLSearchParams({ q, limit: 5 });
+  if (useCitycode) p.set('citycode', BZC);
+  const res = await fetch(`${BAN}?${p}`);
   if (!res.ok) return null;
   const data = await res.json();
-  // On prend le premier résultat qui est à Biarritz
   return (data.features || []).find(isBZC) || null;
 }
 
@@ -377,10 +368,11 @@ async function banFirst(q, useCitycode) {
 function haversine(la1, lo1, la2, lo2) {
   const R = 6371000, r = Math.PI/180;
   const dla = (la2-la1)*r, dlo = (lo2-lo1)*r;
-  return R*2*Math.atan2(Math.sqrt(Math.sin(dla/2)**2 + Math.cos(la1*r)*Math.cos(la2*r)*Math.sin(dlo/2)**2), Math.sqrt(1-Math.sin(dla/2)**2 - Math.cos(la1*r)*Math.cos(la2*r)*Math.sin(dlo/2)**2));
+  const a = Math.sin(dla/2)**2 + Math.cos(la1*r)*Math.cos(la2*r)*Math.sin(dlo/2)**2;
+  return R*2*Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
 }
 function detectZone(lat, lon) {
-  return ZONES.reduce((b, z) => haversine(lat,lon,z.lat,z.lon) < haversine(lat,lon,b.lat,b.lon) ? z : b);
+  return ZONES.reduce((b,z) => haversine(lat,lon,z.lat,z.lon) < haversine(lat,lon,b.lat,b.lon) ? z : b);
 }
 
 // ── RENDU ─────────────────────────────────────────────────────────────────────
@@ -408,7 +400,7 @@ function render(zone, geo) {
   ];
   document.getElementById('sampleList').innerHTML = txList.map(t => {
     const d  = new Date(t.date).toLocaleDateString('fr-FR', { month:'short', year:'numeric' });
-    const a  = (t.num && t.num !== '—' ? t.num + ' ' : '') + t.rue;
+    const a  = (t.num && t.num !== '—' ? t.num+' ' : '') + t.rue;
     const yt = t.isSearched ? '<span class="you-tag">vous</span>' : '';
     return `<div class="${t.isSearched ? 'sample-item searched' : 'sample-item'}">
       <span class="sample-addr">${a}${yt} <em style="font-size:10px;color:var(--text-tertiary)">${t.type}</em></span>
@@ -431,29 +423,23 @@ function renderChart(history, years) {
       borderWidth: 2.5, pointBackgroundColor: '#D85A30', pointRadius: 5, pointHoverRadius: 7, fill: true, tension: 0.38 }] },
     options: {
       responsive: true, maintainAspectRatio: false,
-      plugins: { legend: { display: false }, tooltip: { callbacks: { label: c => ' ' + c.parsed.y.toLocaleString('fr-FR') + ' €/m²' } } },
+      plugins: { legend: { display: false }, tooltip: { callbacks: { label: c => ' '+c.parsed.y.toLocaleString('fr-FR')+' €/m²' } } },
       scales: {
-        x: { grid: { display: false }, ticks: { font: { size: 11 }, color: dark ? '#6b6763' : '#9b9b9b' } },
-        y: { grid: { color: dark ? 'rgba(255,255,255,.05)' : 'rgba(0,0,0,.04)' },
-             ticks: { font: { size: 11 }, color: dark ? '#6b6763' : '#9b9b9b', callback: v => v.toLocaleString('fr-FR') + ' €' } }
+        x: { grid: { display: false }, ticks: { font: { size: 11 }, color: dark?'#6b6763':'#9b9b9b' } },
+        y: { grid: { color: dark?'rgba(255,255,255,.05)':'rgba(0,0,0,.04)' },
+             ticks: { font: { size: 11 }, color: dark?'#6b6763':'#9b9b9b', callback: v => v.toLocaleString('fr-FR')+' €' } }
       }
     }
   });
 }
 
-function showError(msg) {
-  const e = document.getElementById('errorCard');
-  e.innerHTML = '<i class="ti ti-alert-circle" style="margin-right:6px"></i>' + msg;
-  e.classList.add('visible');
-}
+function showError(msg) { const e=document.getElementById('errorCard'); e.innerHTML='<i class="ti ti-alert-circle" style="margin-right:6px"></i>'+msg; e.classList.add('visible'); }
 function hideError() { document.getElementById('errorCard').classList.remove('visible'); }
 
 // ── AUTOCOMPLETE ──────────────────────────────────────────────────────────────
-// Requête avec citycode=64102, filtre sur citycode dans la réponse.
-// La query reste la saisie brute de l'utilisateur (pas de "Biarritz" ajouté).
 const input    = document.getElementById('addressInput');
 const dropdown = document.getElementById('acDropdown');
-let acResults = [], acIndex = -1, acTimer = null;
+let acResults=[], acIndex=-1, acTimer=null;
 
 input.addEventListener('input', () => {
   clearTimeout(acTimer);
@@ -462,20 +448,20 @@ input.addEventListener('input', () => {
   acTimer = setTimeout(() => fetchSuggestions(q), 220);
 });
 input.addEventListener('keydown', e => {
-  if (e.key === 'Enter')     { acIndex >= 0 && acResults[acIndex] ? selectSuggestion(acResults[acIndex]) : (closeDropdown(), analyzeInput()); return; }
-  if (e.key === 'ArrowDown') { e.preventDefault(); moveIndex(1); }
-  if (e.key === 'ArrowUp')   { e.preventDefault(); moveIndex(-1); }
-  if (e.key === 'Escape')    { closeDropdown(); }
+  if (e.key==='Enter')     { acIndex>=0&&acResults[acIndex] ? selectSuggestion(acResults[acIndex]) : (closeDropdown(),analyzeInput()); return; }
+  if (e.key==='ArrowDown') { e.preventDefault(); moveIndex(1); }
+  if (e.key==='ArrowUp')   { e.preventDefault(); moveIndex(-1); }
+  if (e.key==='Escape')    { closeDropdown(); }
 });
 document.addEventListener('click', e => { if (!e.target.closest('.autocomplete-wrap')) closeDropdown(); });
 
 async function fetchSuggestions(q) {
   try {
-    // citycode=64102 dans la requête : l'API ne cherche qu'à Biarritz
+    // citycode=64122 (Biarritz) dans la requête
     const res = await fetch(`${BAN}?${new URLSearchParams({ q, citycode: BZC, limit: 6 })}`);
     if (!res.ok) throw new Error();
     const data = await res.json();
-    // Filtre défensif : citycode dans la réponse = vérité terrain
+    // Filtre défensif : on ne garde que les résultats vraiment à Biarritz
     acResults = (data.features || []).filter(isBZC);
     renderDropdown();
   } catch(e) { closeDropdown(); }
@@ -487,7 +473,7 @@ function renderDropdown() {
   dropdown.innerHTML = acResults.map((f,i) => {
     const p = f.properties;
     return `<div class="ac-item" data-i="${i}"><i class="ti ti-map-pin"></i><div>
-      <div class="ac-main">${p.name || p.street}</div>
+      <div class="ac-main">${p.name||p.street}</div>
       <div class="ac-sub">${p.postcode} ${p.city}</div></div></div>`;
   }).join('');
   dropdown.querySelectorAll('.ac-item').forEach(el =>
@@ -501,10 +487,10 @@ function moveIndex(dir) {
   if (!items.length) return;
   items[acIndex]?.classList.remove('active');
   acIndex = Math.max(-1, Math.min(items.length-1, acIndex+dir));
-  if (acIndex >= 0) { items[acIndex].classList.add('active'); input.value = acResults[acIndex].properties.label; }
+  if (acIndex>=0) { items[acIndex].classList.add('active'); input.value=acResults[acIndex].properties.label; }
 }
-function selectSuggestion(f) { input.value = f.properties.label; closeDropdown(); analyzeInput(); }
-function closeDropdown() { dropdown.classList.remove('open'); acResults = []; acIndex = -1; }
+function selectSuggestion(f) { input.value=f.properties.label; closeDropdown(); analyzeInput(); }
+function closeDropdown() { dropdown.classList.remove('open'); acResults=[]; acIndex=-1; }
 </script>
 </body>
 </html>
