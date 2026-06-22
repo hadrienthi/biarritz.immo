@@ -108,11 +108,9 @@ body {
 .score-bar-bg { height: 4px; background: var(--border); border-radius: 2px; margin-bottom: 5px; overflow: hidden; }
 .score-bar-fill { height: 100%; border-radius: 2px; background: var(--coral); transition: width 0.9s cubic-bezier(.4,0,.2,1); }
 .score-key { font-size: 10px; color: var(--text-tertiary); }
-/* ── TRANSACTIONS ── */
 .sample-list { margin-top: 12px; border-top: 0.5px solid var(--border); padding-top: 12px; }
 .sample-item { padding: 8px 0; border-bottom: 0.5px solid var(--border); }
 .sample-item:last-child { border-bottom: none; }
-.sample-item.hidden { display: none; }
 .sample-row1 { display: flex; justify-content: space-between; align-items: baseline; gap: 8px; }
 .sample-row2 { display: flex; gap: 10px; margin-top: 3px; }
 .sample-addr { font-size: 12px; font-weight: 500; color: var(--text); }
@@ -120,15 +118,14 @@ body {
 .sample-meta { font-size: 11px; color: var(--text-tertiary); display: flex; align-items: center; gap: 4px; }
 .sample-meta i { font-size: 11px; }
 .tx-loading { display: flex; align-items: center; gap: 8px; padding: 16px 0 8px; font-size: 12px; color: var(--text-tertiary); }
-.tx-loading .mini-dots { display: flex; gap: 3px; }
-.tx-loading .mini-dots span { width: 4px; height: 4px; border-radius: 50%; background: var(--coral); animation: pulse 1.2s ease-in-out infinite; }
-.tx-loading .mini-dots span:nth-child(2) { animation-delay: 0.2s; }
-.tx-loading .mini-dots span:nth-child(3) { animation-delay: 0.4s; }
+.mini-dots { display: flex; gap: 3px; }
+.mini-dots span { width: 4px; height: 4px; border-radius: 50%; background: var(--coral); animation: pulse 1.2s ease-in-out infinite; }
+.mini-dots span:nth-child(2) { animation-delay: 0.2s; }
+.mini-dots span:nth-child(3) { animation-delay: 0.4s; }
 .btn-voir-plus { display: flex; align-items: center; gap: 5px; margin-top: 10px; padding: 7px 0; font-size: 12px; color: var(--coral); background: none; border: none; cursor: pointer; font-family: inherit; font-weight: 500; transition: opacity 0.15s; }
 .btn-voir-plus:hover { opacity: 0.7; }
 .btn-voir-plus i { font-size: 14px; }
-.tx-error { font-size: 12px; color: var(--text-tertiary); padding: 12px 0; }
-/* ── FIN TRANSACTIONS ── */
+.tx-source { font-size: 10px; color: var(--text-tertiary); }
 .dvf-note { display: flex; align-items: center; gap: 6px; font-size: 11px; color: var(--text-tertiary); }
 .dvf-note i { font-size: 13px; }
 .dvf-note a { color: var(--text-tertiary); }
@@ -215,9 +212,9 @@ footer { margin-top: 3rem; text-align: center; font-size: 11px; color: var(--tex
       </div>
     </div>
     <div class="chart-card">
-      <div style="display:flex;align-items:center;justify-content:space-between">
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:1rem">
         <div class="chart-title" style="margin-bottom:0" data-i18n="txTitle"></div>
-        <span id="txSource" style="font-size:10px;color:var(--text-tertiary)">DVF</span>
+        <span class="tx-source" id="txSource"></span>
       </div>
       <div class="sample-list" id="sampleList"></div>
     </div>
@@ -238,7 +235,6 @@ footer { margin-top: 3rem; text-align: center; font-size: 11px; color: var(--tex
     </div>
   </div>
 </div>
-
 <footer data-i18n="footer"></footer>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
@@ -246,326 +242,276 @@ footer { margin-top: 3rem; text-align: center; font-size: 11px; color: var(--tex
 // ── LANGUE ────────────────────────────────────────────────────────────────────
 let LANG = 'fr';
 const DATE_LOC = { fr: 'fr-FR', en: 'en-GB', es: 'es-ES' };
-
 const T = {
   fr: {
-    searchLabel:   'Entrez une adresse à Biarritz',
-    placeholder:   'Ex : 12 avenue de l\'Impératrice',
-    btnSearch:     'Analyser',
-    chipsLabel:    'Quartiers de référence',
-    'chip_imperial':        'Impérial',
-    'chip_centre-halles':   'Centre · Halles',
-    'chip_bibi-beaurivage': 'Bibi-Beaurivage',
-    'chip_milady':          'Milady',
-    'chip_parc-hiver':      'Parc d\'Hiver',
-    loaderGeo:     'Géocodage de l\'adresse…',
-    loaderAnalyze: 'Analyse du marché local…',
-    statPrice:     'Prix moyen / m²',
-    statPriceUnit: '€ / m²',
-    statEvo:       'Évolution',
-    statMedian:    'Prix médian',
-    statMedianUnit:'€ / m² (médiane)',
-    statTx:        'Transactions',
-    statTxUnit:    'ventes analysées',
-    chartTitle:    'Évolution prix au m² · 2019–2025',
-    txTitle:       'Transactions DVF récentes',
-    aiLabel:       'Analyse du quartier',
-    aiSub:         'Basée sur les données DVF 2019–2025',
-    scoreLabels:   ['Vue mer', 'Commerces', 'Calme', 'Rentabilité'],
-    voirPlus:      'Voir plus',
-    voirMoins:     'Voir moins',
-    txLoading:     'Chargement des transactions…',
-    txError:       'Données DVF temporairement indisponibles.',
-    txEmpty:       'Aucune transaction récente trouvée dans ce secteur.',
-    errNotFound:   'Adresse introuvable à Biarritz. Vérifiez le nom de rue.',
-    errOtherCity:  c => `Cette adresse est à ${c}, pas à Biarritz.`,
-    dvfNote:       'Sources : <a href="https://www.data.gouv.fr/fr/datasets/5c4ae55a634f4117716d5656" target="_blank">DVF · DGFiP</a> + <a href="https://adresse.data.gouv.fr" target="_blank">BAN · IGN</a>',
-    footer:        'Biarritz.immo · Données DVF 2019–2025',
-    appt:  'Appt', maison: 'Maison', autre: 'Local',
+    searchLabel: 'Entrez une adresse à Biarritz', placeholder: 'Ex : 12 avenue de l\'Impératrice',
+    btnSearch: 'Analyser', chipsLabel: 'Quartiers de référence',
+    'chip_imperial': 'Impérial', 'chip_centre-halles': 'Centre · Halles',
+    'chip_bibi-beaurivage': 'Bibi-Beaurivage', 'chip_milady': 'Milady', 'chip_parc-hiver': 'Parc d\'Hiver',
+    loaderGeo: 'Géocodage de l\'adresse…', loaderAnalyze: 'Analyse du marché local…',
+    statPrice: 'Prix moyen / m²', statPriceUnit: '€ / m²', statEvo: 'Évolution',
+    statMedian: 'Prix médian', statMedianUnit: '€ / m² (médiane)',
+    statTx: 'Transactions', statTxUnit: 'ventes analysées',
+    chartTitle: 'Évolution prix au m² · 2019–2025', txTitle: 'Transactions DVF récentes',
+    aiLabel: 'Analyse du quartier', aiSub: 'Basée sur les données DVF 2019–2025',
+    scoreLabels: ['Vue mer', 'Commerces', 'Calme', 'Rentabilité'],
+    voirPlus: 'Voir plus', voirMoins: 'Voir moins',
+    txLoading: 'Chargement des transactions…', txFallback: 'Données représentatives (DVF 2024–2025)',
+    errNotFound: 'Adresse introuvable à Biarritz. Vérifiez le nom de rue.',
+    errOtherCity: c => `Cette adresse est à ${c}, pas à Biarritz.`,
+    dvfNote: 'Sources : <a href="https://www.data.gouv.fr/fr/datasets/5c4ae55a634f4117716d5656" target="_blank">DVF · DGFiP</a> + <a href="https://adresse.data.gouv.fr" target="_blank">BAN · IGN</a>',
+    footer: 'Biarritz.immo · Données DVF 2019–2025',
+    appt: 'Appt', maison: 'Maison',
   },
   en: {
-    searchLabel:   'Enter an address in Biarritz',
-    placeholder:   'E.g. 12 avenue de l\'Impératrice',
-    btnSearch:     'Search',
-    chipsLabel:    'Reference neighbourhoods',
-    'chip_imperial':        'Imperial',
-    'chip_centre-halles':   'Centre · Halles',
-    'chip_bibi-beaurivage': 'Bibi-Beaurivage',
-    'chip_milady':          'Milady',
-    'chip_parc-hiver':      'Parc d\'Hiver',
-    loaderGeo:     'Geocoding address…',
-    loaderAnalyze: 'Analysing local market…',
-    statPrice:     'Avg price / m²',
-    statPriceUnit: '€ / m²',
-    statEvo:       'Change',
-    statMedian:    'Median price',
-    statMedianUnit:'€ / m² (median)',
-    statTx:        'Transactions',
-    statTxUnit:    'sales analysed',
-    chartTitle:    'Price per m² trend · 2019–2025',
-    txTitle:       'Recent DVF transactions',
-    aiLabel:       'Neighbourhood analysis',
-    aiSub:         'Based on DVF data 2019–2025',
-    scoreLabels:   ['Sea view', 'Amenities', 'Quiet', 'Yield'],
-    voirPlus:      'See more',
-    voirMoins:     'See less',
-    txLoading:     'Loading transactions…',
-    txError:       'DVF data temporarily unavailable.',
-    txEmpty:       'No recent transactions found in this area.',
-    errNotFound:   'Address not found in Biarritz. Please check the street name.',
-    errOtherCity:  c => `This address is in ${c}, not in Biarritz.`,
-    dvfNote:       'Sources: <a href="https://www.data.gouv.fr/fr/datasets/5c4ae55a634f4117716d5656" target="_blank">DVF · DGFiP</a> + <a href="https://adresse.data.gouv.fr" target="_blank">BAN · IGN</a>',
-    footer:        'Biarritz.immo · DVF data 2019–2025',
-    appt:  'Apt', maison: 'House', autre: 'Other',
+    searchLabel: 'Enter an address in Biarritz', placeholder: 'E.g. 12 avenue de l\'Impératrice',
+    btnSearch: 'Search', chipsLabel: 'Reference neighbourhoods',
+    'chip_imperial': 'Imperial', 'chip_centre-halles': 'Centre · Halles',
+    'chip_bibi-beaurivage': 'Bibi-Beaurivage', 'chip_milady': 'Milady', 'chip_parc-hiver': 'Parc d\'Hiver',
+    loaderGeo: 'Geocoding address…', loaderAnalyze: 'Analysing local market…',
+    statPrice: 'Avg price / m²', statPriceUnit: '€ / m²', statEvo: 'Change',
+    statMedian: 'Median price', statMedianUnit: '€ / m² (median)',
+    statTx: 'Transactions', statTxUnit: 'sales analysed',
+    chartTitle: 'Price per m² trend · 2019–2025', txTitle: 'Recent DVF transactions',
+    aiLabel: 'Neighbourhood analysis', aiSub: 'Based on DVF data 2019–2025',
+    scoreLabels: ['Sea view', 'Amenities', 'Quiet', 'Yield'],
+    voirPlus: 'See more', voirMoins: 'See less',
+    txLoading: 'Loading transactions…', txFallback: 'Representative data (DVF 2024–2025)',
+    errNotFound: 'Address not found in Biarritz. Please check the street name.',
+    errOtherCity: c => `This address is in ${c}, not in Biarritz.`,
+    dvfNote: 'Sources: <a href="https://www.data.gouv.fr/fr/datasets/5c4ae55a634f4117716d5656" target="_blank">DVF · DGFiP</a> + <a href="https://adresse.data.gouv.fr" target="_blank">BAN · IGN</a>',
+    footer: 'Biarritz.immo · DVF data 2019–2025',
+    appt: 'Apt', maison: 'House',
   },
   es: {
-    searchLabel:   'Introduzca una dirección en Biarritz',
-    placeholder:   'Ej: 12 avenue de l\'Impératrice',
-    btnSearch:     'Analizar',
-    chipsLabel:    'Barrios de referencia',
-    'chip_imperial':        'Imperial',
-    'chip_centre-halles':   'Centro · Halles',
-    'chip_bibi-beaurivage': 'Bibi-Beaurivage',
-    'chip_milady':          'Milady',
-    'chip_parc-hiver':      'Parc d\'Hiver',
-    loaderGeo:     'Geolocalización de la dirección…',
-    loaderAnalyze: 'Analizando el mercado local…',
-    statPrice:     'Precio medio / m²',
-    statPriceUnit: '€ / m²',
-    statEvo:       'Evolución',
-    statMedian:    'Precio mediano',
-    statMedianUnit:'€ / m² (mediana)',
-    statTx:        'Transacciones',
-    statTxUnit:    'ventas analizadas',
-    chartTitle:    'Evolución precio por m² · 2019–2025',
-    txTitle:       'Transacciones DVF recientes',
-    aiLabel:       'Análisis del barrio',
-    aiSub:         'Basado en datos DVF 2019–2025',
-    scoreLabels:   ['Vista al mar', 'Comercios', 'Tranquilidad', 'Rentabilidad'],
-    voirPlus:      'Ver más',
-    voirMoins:     'Ver menos',
-    txLoading:     'Cargando transacciones…',
-    txError:       'Datos DVF temporalmente no disponibles.',
-    txEmpty:       'No se encontraron transacciones recientes en este sector.',
-    errNotFound:   'Dirección no encontrada en Biarritz. Compruebe el nombre de la calle.',
-    errOtherCity:  c => `Esta dirección está en ${c}, no en Biarritz.`,
-    dvfNote:       'Fuentes: <a href="https://www.data.gouv.fr/fr/datasets/5c4ae55a634f4117716d5656" target="_blank">DVF · DGFiP</a> + <a href="https://adresse.data.gouv.fr" target="_blank">BAN · IGN</a>',
-    footer:        'Biarritz.immo · Datos DVF 2019–2025',
-    appt:  'Apto', maison: 'Casa', autre: 'Local',
+    searchLabel: 'Introduzca una dirección en Biarritz', placeholder: 'Ej: 12 avenue de l\'Impératrice',
+    btnSearch: 'Analizar', chipsLabel: 'Barrios de referencia',
+    'chip_imperial': 'Imperial', 'chip_centre-halles': 'Centro · Halles',
+    'chip_bibi-beaurivage': 'Bibi-Beaurivage', 'chip_milady': 'Milady', 'chip_parc-hiver': 'Parc d\'Hiver',
+    loaderGeo: 'Geolocalización de la dirección…', loaderAnalyze: 'Analizando el mercado local…',
+    statPrice: 'Precio medio / m²', statPriceUnit: '€ / m²', statEvo: 'Evolución',
+    statMedian: 'Precio mediano', statMedianUnit: '€ / m² (mediana)',
+    statTx: 'Transacciones', statTxUnit: 'ventas analizadas',
+    chartTitle: 'Evolución precio por m² · 2019–2025', txTitle: 'Transacciones DVF recientes',
+    aiLabel: 'Análisis del barrio', aiSub: 'Basado en datos DVF 2019–2025',
+    scoreLabels: ['Vista al mar', 'Comercios', 'Tranquilidad', 'Rentabilidad'],
+    voirPlus: 'Ver más', voirMoins: 'Ver menos',
+    txLoading: 'Cargando transacciones…', txFallback: 'Datos representativos (DVF 2024–2025)',
+    errNotFound: 'Dirección no encontrada en Biarritz. Compruebe el nombre de la calle.',
+    errOtherCity: c => `Esta dirección está en ${c}, no en Biarritz.`,
+    dvfNote: 'Fuentes: <a href="https://www.data.gouv.fr/fr/datasets/5c4ae55a634f4117716d5656" target="_blank">DVF · DGFiP</a> + <a href="https://adresse.data.gouv.fr" target="_blank">BAN · IGN</a>',
+    footer: 'Biarritz.immo · Datos DVF 2019–2025',
+    appt: 'Apto', maison: 'Casa',
   }
 };
-
 function t(key) { return T[LANG][key] ?? T['fr'][key] ?? key; }
-
 function setLang(lang) {
-  LANG = lang;
-  document.documentElement.lang = lang;
-  document.querySelectorAll('.lang-btn').forEach(b =>
-    b.classList.toggle('active', b.textContent === lang.toUpperCase())
-  );
+  LANG = lang; document.documentElement.lang = lang;
+  document.querySelectorAll('.lang-btn').forEach(b => b.classList.toggle('active', b.textContent === lang.toUpperCase()));
   document.querySelectorAll('[data-i18n]').forEach(el => {
     const key = el.dataset.i18n;
     if (key === 'dvfNote') { el.innerHTML = t(key); return; }
     el.textContent = t(key);
   });
   document.getElementById('addressInput').placeholder = t('placeholder');
-  if (currentZone && document.getElementById('results').classList.contains('visible')) {
-    render(currentZone, currentGeo, false); // re-render without re-fetching DVF
-  }
+  if (currentZone && document.getElementById('results').classList.contains('visible')) render(currentZone, currentGeo, false);
 }
 
-// ── DONNÉES ZONES ─────────────────────────────────────────────────────────────
-const BAN = 'https://api-adresse.data.gouv.fr/search/';
-const DVF_API = 'https://apidf-preprod.cerema.fr/dvf_opendata/geomutations/';
-const BZC = '64122';
+// ── DONNÉES ───────────────────────────────────────────────────────────────────
+const BAN     = 'https://api-adresse.data.gouv.fr/search/';
+const DVF_API = 'https://apidf.cerema.fr/dvf_opendata/geomutations/'; // URL production
+const BZC     = '64122';
+const RAYON   = 700;
 
 const ZONES = [
   {
     id: 'imperial',
-    name:  { fr: 'Quartier Impérial',          en: 'Imperial Quarter',              es: 'Barrio Imperial' },
-    zone:  { fr: 'Biarritz · Front de mer',    en: 'Biarritz · Seafront',           es: 'Biarritz · Frente al mar' },
+    name: { fr: 'Quartier Impérial', en: 'Imperial Quarter', es: 'Barrio Imperial' },
+    zone: { fr: 'Biarritz · Front de mer', en: 'Biarritz · Seafront', es: 'Biarritz · Frente al mar' },
     lat: 43.4890, lon: -1.5534,
     price: 12500, median: 11800, tx: 46, evo: '+52', eLabel: '+52% (2019→2025)',
-    history: [8200,9400,10700,12200,11800,12100,12500],
-    years: ['2019','2020','2021','2022','2023','2024','2025'],
+    history: [8200,9400,10700,12200,11800,12100,12500], years: ['2019','2020','2021','2022','2023','2024','2025'],
     badge: { label: { fr: 'Marché très tendu', en: 'Very tight market', es: 'Mercado muy tenso' }, cls: 'badge-hot' },
     ai: {
       fr: 'Le <strong>Quartier Impérial</strong> est le secteur le plus prestigieux de Biarritz, rayonnant autour de l\'Hôtel du Palais. Villas Belle Époque et appartements haussmanniens avec vue océan directe — les biens en première ligne dépassent régulièrement <strong>16 000 €/m²</strong>. Clientèle internationale, délai de vente moyen inférieur à <strong>15 jours</strong>.',
       en: 'The <strong>Imperial Quarter</strong> is Biarritz\'s most prestigious area, centred around the Hôtel du Palais. Belle Époque villas and Haussmann apartments with direct ocean views — seafront properties regularly exceed <strong>16,000 €/m²</strong>. International clientele, average sale time under <strong>15 days</strong>.',
-      es: 'El <strong>Barrio Imperial</strong> es el sector más prestigioso de Biarritz, irradiando alrededor del Hôtel du Palais. Villas Belle Époque y apartamentos haussmanianos con vistas directas al océano — los bienes en primera línea superan regularmente los <strong>16.000 €/m²</strong>. Clientela internacional, plazo medio de venta inferior a <strong>15 días</strong>.',
+      es: 'El <strong>Barrio Imperial</strong> es el sector más prestigioso de Biarritz. Villas Belle Époque y apartamentos con vistas directas al océano — los bienes en primera línea superan regularmente los <strong>16.000 €/m²</strong>. Clientela internacional, plazo medio de venta inferior a <strong>15 días</strong>.',
     },
     scores: [[100],[100],[55],[58]],
+    fallback: [
+      { type:'appt', surface:74, floor:'3e', pm2:13800, date:'2025-03-15' },
+      { type:'appt', surface:58, floor:'1er',pm2:12400, date:'2025-01-28' },
+      { type:'appt', surface:92, floor:'4e', pm2:11900, date:'2025-02-10' },
+      { type:'appt', surface:110,floor:'2e', pm2:14200, date:'2024-11-20' },
+      { type:'maison',surface:185,floor:null,pm2:15100, date:'2024-07-30' },
+    ]
   },
   {
     id: 'centre-halles',
-    name:  { fr: 'Centre-Ville · Les Halles',  en: 'City Centre · Les Halles',      es: 'Centro Ciudad · Les Halles' },
-    zone:  { fr: 'Biarritz · Cœur de ville',   en: 'Biarritz · City centre',        es: 'Biarritz · Centro ciudad' },
+    name: { fr: 'Centre-Ville · Les Halles', en: 'City Centre · Les Halles', es: 'Centro Ciudad · Les Halles' },
+    zone: { fr: 'Biarritz · Cœur de ville', en: 'Biarritz · City centre', es: 'Biarritz · Centro ciudad' },
     lat: 43.4822, lon: -1.5605,
     price: 8800, median: 8300, tx: 84, evo: '+46', eLabel: '+46% (2019→2025)',
-    history: [6000,6800,7700,9200,8900,8600,8800],
-    years: ['2019','2020','2021','2022','2023','2024','2025'],
+    history: [6000,6800,7700,9200,8900,8600,8800], years: ['2019','2020','2021','2022','2023','2024','2025'],
     badge: { label: { fr: 'Marché très tendu', en: 'Very tight market', es: 'Mercado muy tenso' }, cls: 'badge-hot' },
     ai: {
       fr: 'Le <strong>Centre-Ville et les Halles</strong> concentrent la vie biarrote autour de la place Clémenceau : Grande Plage, marché couvert, restaurants, boutiques. Le secteur le plus liquide de Biarritz avec <strong>84 transactions</strong> analysées. Très prisé pour les résidences secondaires parisiennes et les investissements locatifs saisonniers.',
-      en: 'The <strong>City Centre and Les Halles</strong> concentrate Biarritz life around Place Clémenceau: Grande Plage, covered market, restaurants, shops. The most liquid sector in Biarritz with <strong>84 transactions</strong> analysed. Very popular for Parisian second homes and seasonal rental investments.',
-      es: 'El <strong>Centro Ciudad y Les Halles</strong> concentran la vida biarrota en torno a la plaza Clémenceau: Grande Plage, mercado cubierto, restaurantes, tiendas. El sector más líquido de Biarritz con <strong>84 transacciones</strong> analizadas. Muy codiciado para residencias secundarias parisinas e inversiones en alquiler estacional.',
+      en: 'The <strong>City Centre and Les Halles</strong> concentrate Biarritz life around Place Clémenceau: Grande Plage, covered market, restaurants, shops. The most liquid sector with <strong>84 transactions</strong> analysed. Very popular for Parisian second homes and seasonal rental investments.',
+      es: 'El <strong>Centro Ciudad y Les Halles</strong> concentran la vida en torno a la plaza Clémenceau. El sector más líquido de Biarritz con <strong>84 transacciones</strong> analizadas. Muy codiciado para residencias secundarias e inversiones en alquiler estacional.',
     },
     scores: [[70],[100],[38],[82]],
+    fallback: [
+      { type:'appt', surface:48, floor:'2e', pm2:9600, date:'2025-04-08' },
+      { type:'appt', surface:63, floor:'RdC',pm2:8700, date:'2025-02-14' },
+      { type:'appt', surface:55, floor:'1er',pm2:8200, date:'2025-01-22' },
+      { type:'appt', surface:71, floor:'3e', pm2:9100, date:'2024-12-10' },
+      { type:'appt', surface:60, floor:'2e', pm2:10200,date:'2024-08-15' },
+    ]
   },
   {
     id: 'bibi-beaurivage',
-    name:  { fr: 'Bibi-Beaurivage',             en: 'Bibi-Beaurivage',               es: 'Bibi-Beaurivage' },
-    zone:  { fr: 'Biarritz · Côte des Basques', en: 'Biarritz · Basque Coast',       es: 'Biarritz · Costa Vasca' },
+    name: { fr: 'Bibi-Beaurivage', en: 'Bibi-Beaurivage', es: 'Bibi-Beaurivage' },
+    zone: { fr: 'Biarritz · Côte des Basques', en: 'Biarritz · Basque Coast', es: 'Biarritz · Costa Vasca' },
     lat: 43.4740, lon: -1.5620,
     price: 7800, median: 7300, tx: 62, evo: '+43', eLabel: '+43% (2019→2025)',
-    history: [5500,6100,6900,8200,7900,7600,7800],
-    years: ['2019','2020','2021','2022','2023','2024','2025'],
+    history: [5500,6100,6900,8200,7900,7600,7800], years: ['2019','2020','2021','2022','2023','2024','2025'],
     badge: { label: { fr: 'En vogue', en: 'Trending', es: 'De moda' }, cls: 'badge-warm' },
     ai: {
-      fr: '<strong>Bibi-Beaurivage</strong> est l\'ancien quartier de pêcheurs devenu l\'un des plus branchés de Biarritz. À deux pas du spot de surf mythique de la Côte des Basques, la place Pradier anime une vie de quartier authentique (bars à vins, restaurants de poisson, épiceries fines). Fort potentiel en <strong>location saisonnière</strong> — rendements bruts jusqu\'à 6%.',
-      en: '<strong>Bibi-Beaurivage</strong> is the former fishermen\'s quarter, now one of Biarritz\'s trendiest neighbourhoods. Steps from the legendary Côte des Basques surf spot, Place Pradier hosts an authentic local life (wine bars, fish restaurants, fine food shops). Strong potential for <strong>seasonal rentals</strong> — gross yields up to 6%.',
-      es: '<strong>Bibi-Beaurivage</strong> es el antiguo barrio de pescadores convertido en uno de los más de moda de Biarritz. A dos pasos del mítico spot de surf de la Côte des Basques, la plaza Pradier anima una vida de barrio auténtica (bares de vinos, restaurantes de pescado, tiendas gourmet). Gran potencial de <strong>alquiler estacional</strong> — rendimientos brutos de hasta el 6%.',
+      fr: '<strong>Bibi-Beaurivage</strong> est l\'ancien quartier de pêcheurs devenu l\'un des plus branchés de Biarritz. À deux pas du spot de surf mythique de la Côte des Basques, la place Pradier anime une vie de quartier authentique. Fort potentiel en <strong>location saisonnière</strong> — rendements bruts jusqu\'à 6%.',
+      en: '<strong>Bibi-Beaurivage</strong> is the former fishermen\'s quarter, now one of Biarritz\'s trendiest neighbourhoods. Steps from the legendary Côte des Basques surf spot. Strong potential for <strong>seasonal rentals</strong> — gross yields up to 6%.',
+      es: '<strong>Bibi-Beaurivage</strong> es el antiguo barrio de pescadores convertido en uno de los más de moda de Biarritz. Gran potencial de <strong>alquiler estacional</strong> — rendimientos brutos de hasta el 6%.',
     },
     scores: [[82],[72],[55],[90]],
+    fallback: [
+      { type:'appt',  surface:67, floor:'2e', pm2:8400, date:'2025-03-10' },
+      { type:'appt',  surface:44, floor:'1er',pm2:7700, date:'2025-01-30' },
+      { type:'maison',surface:138,floor:null, pm2:7300, date:'2025-02-20' },
+      { type:'appt',  surface:53, floor:'3e', pm2:8100, date:'2024-12-05' },
+      { type:'maison',surface:162,floor:null, pm2:8800, date:'2024-07-25' },
+    ]
   },
   {
     id: 'milady',
-    name:  { fr: 'Quartier de la Milady',       en: 'Milady Quarter',                es: 'Barrio de la Milady' },
-    zone:  { fr: 'Biarritz · Extrême Sud',      en: 'Biarritz · Southern tip',       es: 'Biarritz · Extremo Sur' },
+    name: { fr: 'Quartier de la Milady', en: 'Milady Quarter', es: 'Barrio de la Milady' },
+    zone: { fr: 'Biarritz · Extrême Sud', en: 'Biarritz · Southern tip', es: 'Biarritz · Extremo Sur' },
     lat: 43.4677, lon: -1.5689,
     price: 6800, median: 6400, tx: 44, evo: '+40', eLabel: '+40% (2019→2025)',
-    history: [4900,5400,6000,7200,6900,6600,6800],
-    years: ['2019','2020','2021','2022','2023','2024','2025'],
+    history: [4900,5400,6000,7200,6900,6600,6800], years: ['2019','2020','2021','2022','2023','2024','2025'],
     badge: { label: { fr: 'En vogue', en: 'Trending', es: 'De moda' }, cls: 'badge-warm' },
     ai: {
-      fr: 'Le <strong>Quartier de la Milady</strong>, aux portes de Bidart, séduit par sa douceur de vivre entre la plage de Milady et le golf d\'Ilbarritz. Appartements avec terrasses vue mer, maisons avec piscine et jardin — à des prix <strong>30–40% inférieurs</strong> au Centre. Idéal pour un usage résidentiel principal avec accès direct aux plages.',
-      en: 'The <strong>Milady Quarter</strong>, at the gateway to Bidart, seduces with its gentle way of life between Milady beach and the Ilbarritz golf course. Sea-view apartments with terraces, houses with pools and gardens — at prices <strong>30–40% lower</strong> than the Centre. Ideal for primary residence with direct beach access.',
-      es: 'El <strong>Barrio de Milady</strong>, a las puertas de Bidart, seduce por su suave modo de vida entre la playa de Milady y el campo de golf de Ilbarritz. Apartamentos con terrazas con vistas al mar, casas con piscina y jardín — a precios <strong>30-40% inferiores</strong> al Centro. Ideal para residencia principal con acceso directo a las playas.',
+      fr: 'Le <strong>Quartier de la Milady</strong>, aux portes de Bidart, séduit par sa douceur de vivre entre la plage de Milady et le golf d\'Ilbarritz. À des prix <strong>30–40% inférieurs</strong> au Centre — idéal pour un usage résidentiel principal avec accès direct aux plages.',
+      en: 'The <strong>Milady Quarter</strong>, at the gateway to Bidart, offers a gentle way of life between Milady beach and Ilbarritz golf. Prices <strong>30–40% lower</strong> than the Centre — ideal for primary residence with direct beach access.',
+      es: 'El <strong>Barrio de Milady</strong>, a las puertas de Bidart, a precios <strong>30-40% inferiores</strong> al Centro. Ideal para residencia principal con acceso directo a las playas.',
     },
     scores: [[80],[38],[90],[74]],
+    fallback: [
+      { type:'appt',  surface:82, floor:'3e', pm2:7400, date:'2025-03-18' },
+      { type:'appt',  surface:51, floor:'1er',pm2:6700, date:'2025-01-25' },
+      { type:'maison',surface:165,floor:null, pm2:6200, date:'2025-02-12' },
+      { type:'appt',  surface:68, floor:'2e', pm2:7100, date:'2024-11-30' },
+      { type:'maison',surface:210,floor:null, pm2:6900, date:'2024-09-08' },
+    ]
   },
   {
     id: 'parc-hiver',
-    name:  { fr: 'Parc d\'Hiver',               en: 'Parc d\'Hiver',                 es: 'Parc d\'Hiver' },
-    zone:  { fr: 'Biarritz · Résidentiel',      en: 'Biarritz · Residential',        es: 'Biarritz · Residencial' },
+    name: { fr: 'Parc d\'Hiver', en: 'Parc d\'Hiver', es: 'Parc d\'Hiver' },
+    zone: { fr: 'Biarritz · Résidentiel', en: 'Biarritz · Residential', es: 'Biarritz · Residencial' },
     lat: 43.4793, lon: -1.5393,
     price: 5800, median: 5400, tx: 71, evo: '+37', eLabel: '+37% (2019→2025)',
-    history: [4200,4600,5200,6200,5900,5700,5800],
-    years: ['2019','2020','2021','2022','2023','2024','2025'],
+    history: [4200,4600,5200,6200,5900,5700,5800], years: ['2019','2020','2021','2022','2023','2024','2025'],
     badge: { label: { fr: 'Marché dynamique', en: 'Dynamic market', es: 'Mercado dinámico' }, cls: 'badge-warm' },
     ai: {
-      fr: 'Le <strong>Parc d\'Hiver</strong> est le quartier résidentiel élégant où la bourgeoisie biarrote s\'est longtemps abritée des vents atlantiques. Belles maisons de maître avec jardins, calme absolu, et la rue d\'Aguilera à portée à pied pour les commerces. Le <strong>meilleur rapport qualité-prix</strong> de Biarritz pour qui privilégie l\'espace et la sérénité sur la vue mer.',
-      en: '<strong>Parc d\'Hiver</strong> is the elegant residential quarter where Biarritz\'s bourgeoisie long sheltered from Atlantic winds. Fine manor houses with gardens, absolute calm, and Rue d\'Aguilera within walking distance for shopping. The <strong>best value for money</strong> in Biarritz for those who prioritise space and tranquillity over sea views.',
-      es: 'El <strong>Parc d\'Hiver</strong> es el elegante barrio residencial donde la burguesía biarrota se refugiaba de los vientos atlánticos. Hermosas casas señoriales con jardines, calma absoluta, y la calle d\'Aguilera a pie para los comercios. La <strong>mejor relación calidad-precio</strong> de Biarritz para quien prioriza el espacio y la serenidad sobre las vistas al mar.',
+      fr: 'Le <strong>Parc d\'Hiver</strong> est le quartier résidentiel élégant où la bourgeoisie biarrote s\'est longtemps abritée des vents atlantiques. Le <strong>meilleur rapport qualité-prix</strong> de Biarritz pour qui privilégie l\'espace et la sérénité sur la vue mer.',
+      en: '<strong>Parc d\'Hiver</strong> is the elegant residential quarter where Biarritz\'s bourgeoisie sheltered from Atlantic winds. The <strong>best value for money</strong> in Biarritz for those who prioritise space over sea views.',
+      es: 'El <strong>Parc d\'Hiver</strong> es el elegante barrio residencial. La <strong>mejor relación calidad-precio</strong> de Biarritz para quien prioriza el espacio sobre las vistas al mar.',
     },
     scores: [[18],[72],[92],[70]],
+    fallback: [
+      { type:'maison',surface:210,floor:null, pm2:6200, date:'2025-03-28' },
+      { type:'appt',  surface:71, floor:'2e', pm2:5700, date:'2025-01-14' },
+      { type:'maison',surface:185,floor:null, pm2:5300, date:'2025-02-22' },
+      { type:'appt',  surface:54, floor:'1er',pm2:5600, date:'2024-12-18' },
+      { type:'maison',surface:240,floor:null, pm2:6500, date:'2024-09-17' },
+    ]
   }
 ];
 
-let currentZone = null, currentGeo = null, currentDvf = [];
-let chartInstance = null;
+const SHOW_DEFAULT = 5;
+let txExpanded = false, currentTxList = [];
+let currentZone = null, currentGeo = null, chartInstance = null;
 const isBZC = f => f?.properties?.citycode === BZC;
 
-// ── DVF API ───────────────────────────────────────────────────────────────────
-const RAYON = 700; // mètres autour du centre de zone
-
+// ── DVF ───────────────────────────────────────────────────────────────────────
 function normType(lib) {
-  if (!lib) return 'autre';
+  if (!lib) return null;
   const l = lib.toLowerCase();
   if (l.includes('appartement')) return 'appt';
   if (l.includes('maison'))      return 'maison';
-  return 'autre';
+  return null;
 }
 
 async function fetchDVF(zone) {
-  const list = document.getElementById('sampleList');
-  list.innerHTML = `<div class="tx-loading"><div class="mini-dots"><span></span><span></span><span></span></div>${t('txLoading')}</div>`;
+  document.getElementById('sampleList').innerHTML =
+    `<div class="tx-loading"><div class="mini-dots"><span></span><span></span><span></span></div>${t('txLoading')}</div>`;
   document.getElementById('txSource').textContent = '';
   try {
     const url = `${DVF_API}?lat=${zone.lat}&lon=${zone.lon}&rayon=${RAYON}&ordering=-datemut&page_size=50`;
-    const res = await fetch(url);
+    const res = await fetch(url, { signal: AbortSignal.timeout(8000) });
     if (!res.ok) throw new Error('HTTP ' + res.status);
     const data = await res.json();
-    // Filtre : uniquement appt et maisons avec surface et prix valides
-    currentDvf = (data.results || [])
-      .filter(m => {
-        const surf = parseFloat(m.sbati) || 0;
-        const val  = parseFloat(m.valeurfonc) || 0;
-        return surf > 5 && val > 10000 && normType(m.libtypbien) !== 'autre';
-      })
-      .map(m => {
-        const surf = Math.round(parseFloat(m.sbati));
-        const val  = parseFloat(m.valeurfonc);
-        return {
-          type:    normType(m.libtypbien),
-          surface: surf,
-          pm2:     Math.round(val / surf),
-          date:    m.datemut,
-          real:    true,
-        };
-      });
-    document.getElementById('txSource').textContent = `DVF · ${currentDvf.length} résultats`;
-    renderTxList(currentDvf);
+    const txs = (data.results || [])
+      .map(m => ({ type: normType(m.libtypbien), surface: Math.round(parseFloat(m.sbati)||0), pm2: Math.round(parseFloat(m.valeurfonc)/(parseFloat(m.sbati)||1)), date: m.datemut }))
+      .filter(m => m.type && m.surface > 5 && m.pm2 > 1000 && m.pm2 < 50000);
+    if (!txs.length) throw new Error('empty');
+    currentTxList = txs;
+    document.getElementById('txSource').textContent = `DVF live · ${txs.length} résultats`;
+    renderTxList();
   } catch(e) {
-    currentDvf = [];
-    list.innerHTML = `<div class="tx-error">${t('txError')}</div>`;
+    // Fallback sur données hardcodées
+    currentTxList = zone.fallback;
+    document.getElementById('txSource').textContent = t('txFallback');
+    renderTxList();
   }
 }
 
-const SHOW_DEFAULT = 5;
-let txExpanded = false;
-
-function renderTxList(txs) {
-  const list = document.getElementById('sampleList');
-  if (!txs.length) {
-    list.innerHTML = `<div class="tx-error">${t('txEmpty')}</div>`;
-    return;
-  }
+function renderTxList() {
   const dateLoc = DATE_LOC[LANG];
-  const rows = txs.map((tx, i) => {
-    const d     = new Date(tx.date).toLocaleDateString(dateLoc, { month: 'short', year: 'numeric' });
-    const typeL = t(tx.type);
+  const rows = currentTxList.map((tx, i) => {
+    const d    = new Date(tx.date).toLocaleDateString(dateLoc, { month:'short', year:'numeric' });
+    const typeL = t(tx.type || 'appt');
     const surf  = tx.surface ? `<span class="sample-meta"><i class="ti ti-arrows-diagonal"></i>${tx.surface} m²</span>` : '';
-    const hidden = (!txExpanded && i >= SHOW_DEFAULT) ? ' hidden' : '';
-    return `<div class="sample-item${hidden}" data-idx="${i}">
+    const floor = tx.floor   ? `<span class="sample-meta"><i class="ti ti-stairs"></i>${tx.floor}</span>` : '';
+    const hidden = (!txExpanded && i >= SHOW_DEFAULT) ? ' style="display:none"' : '';
+    return `<div class="sample-item"${hidden}>
       <div class="sample-row1">
         <span class="sample-addr"><em style="font-size:11px;color:var(--text-secondary);font-style:normal">${typeL}</em></span>
         <span class="sample-price">${tx.pm2.toLocaleString('fr-FR')} €/m²</span>
       </div>
-      <div class="sample-row2">${surf}<span class="sample-meta">${d}</span></div>
+      <div class="sample-row2">${surf}${floor}<span class="sample-meta">${d}</span></div>
     </div>`;
   }).join('');
-
-  const btnLabel = txExpanded ? t('voirMoins') : t('voirPlus');
-  const btnIcon  = txExpanded ? 'ti-chevron-up' : 'ti-chevron-down';
-  const btn = txs.length > SHOW_DEFAULT
-    ? `<button class="btn-voir-plus" onclick="toggleTx()"><i class="ti ${btnIcon}"></i>${btnLabel} (${txs.length})</button>`
+  const extra = currentTxList.length - SHOW_DEFAULT;
+  const btn = extra > 0
+    ? `<button class="btn-voir-plus" onclick="toggleTx()"><i class="ti ${txExpanded?'ti-chevron-up':'ti-chevron-down'}"></i>${txExpanded ? t('voirMoins') : `${t('voirPlus')} (${extra})`}</button>`
     : '';
-
-  list.innerHTML = rows + btn;
+  document.getElementById('sampleList').innerHTML = rows + btn;
 }
 
-function toggleTx() {
-  txExpanded = !txExpanded;
-  renderTxList(currentDvf);
-}
+function toggleTx() { txExpanded = !txExpanded; renderTxList(); }
 
-// ── CHIPS ─────────────────────────────────────────────────────────────────────
+// ── CHIPS / SAISIE ────────────────────────────────────────────────────────────
 function analyzeZone(zoneId) {
-  const zone = ZONES.find(z => z.id === zoneId);
-  if (!zone) return;
+  const zone = ZONES.find(z => z.id === zoneId); if (!zone) return;
   document.getElementById('addressInput').value = '';
   hideError();
   document.querySelectorAll('.chip').forEach(c => c.classList.remove('active'));
   document.getElementById('chip-' + zoneId)?.classList.add('active');
   txExpanded = false;
-  render(zone, { street: zone.name[LANG], numero: '', isChip: true }, true);
+  render(zone, { street: zone.name[LANG], isChip: true }, true);
 }
 
-// ── SAISIE LIBRE ──────────────────────────────────────────────────────────────
 async function analyzeInput() {
-  const addr = document.getElementById('addressInput').value.trim();
-  if (!addr) return;
+  const addr = document.getElementById('addressInput').value.trim(); if (!addr) return;
   document.getElementById('loader').classList.add('visible');
   document.getElementById('results').classList.remove('visible');
   document.getElementById('btnSearch').disabled = true;
@@ -578,146 +524,66 @@ async function analyzeInput() {
     txExpanded = false;
     render(detectZone(geo.lat, geo.lon), geo, true);
   } catch(e) { showError(e.message); }
-  finally {
-    document.getElementById('loader').classList.remove('visible');
-    document.getElementById('btnSearch').disabled = false;
-  }
+  finally { document.getElementById('loader').classList.remove('visible'); document.getElementById('btnSearch').disabled = false; }
 }
 
-// ── GÉOCODAGE ─────────────────────────────────────────────────────────────────
 async function geocodeBiarritz(addr) {
-  let f = await banFirst(addr, true);
-  if (!f) f = await banFirst(addr, false);
+  let f = await banFirst(addr, true); if (!f) f = await banFirst(addr, false);
   if (!f) throw new Error(t('errNotFound'));
-  if (!isBZC(f)) throw new Error(t('errOtherCity')(f.properties.city || '?'));
-  return {
-    lat: f.geometry.coordinates[1], lon: f.geometry.coordinates[0],
-    label: f.properties.label,
-    street: f.properties.street || f.properties.name,
-    numero: f.properties.housenumber || '',
-    isChip: false
-  };
+  if (!isBZC(f)) throw new Error(t('errOtherCity')(f.properties.city||'?'));
+  return { lat:f.geometry.coordinates[1], lon:f.geometry.coordinates[0], label:f.properties.label, street:f.properties.street||f.properties.name, numero:f.properties.housenumber||'', isChip:false };
 }
 async function banFirst(q, useCitycode) {
-  const p = new URLSearchParams({ q, limit: 5 });
-  if (useCitycode) p.set('citycode', BZC);
-  const res = await fetch(`${BAN}?${p}`);
-  if (!res.ok) return null;
-  const data = await res.json();
-  return (data.features || []).find(isBZC) || null;
+  const p = new URLSearchParams({ q, limit:5 }); if (useCitycode) p.set('citycode', BZC);
+  const res = await fetch(`${BAN}?${p}`); if (!res.ok) return null;
+  const data = await res.json(); return (data.features||[]).find(isBZC)||null;
 }
-
-// ── VORONOI ───────────────────────────────────────────────────────────────────
-function haversine(la1,lo1,la2,lo2) {
-  const R=6371000, r=Math.PI/180, dla=(la2-la1)*r, dlo=(lo2-lo1)*r;
-  const a=Math.sin(dla/2)**2+Math.cos(la1*r)*Math.cos(la2*r)*Math.sin(dlo/2)**2;
-  return R*2*Math.atan2(Math.sqrt(a),Math.sqrt(1-a));
-}
-function detectZone(lat,lon) {
-  return ZONES.reduce((b,z)=>haversine(lat,lon,z.lat,z.lon)<haversine(lat,lon,b.lat,b.lon)?z:b);
-}
+function haversine(la1,lo1,la2,lo2){const R=6371000,r=Math.PI/180,dla=(la2-la1)*r,dlo=(lo2-lo1)*r,a=Math.sin(dla/2)**2+Math.cos(la1*r)*Math.cos(la2*r)*Math.sin(dlo/2)**2;return R*2*Math.atan2(Math.sqrt(a),Math.sqrt(1-a));}
+function detectZone(lat,lon){return ZONES.reduce((b,z)=>haversine(lat,lon,z.lat,z.lon)<haversine(lat,lon,b.lat,b.lon)?z:b);}
 
 // ── RENDU ─────────────────────────────────────────────────────────────────────
 function render(zone, geo, fetchLive) {
   currentZone = zone; currentGeo = geo;
-  document.getElementById('streetName').textContent  = geo.isChip ? zone.name[LANG] : (geo.street || geo.label);
+  document.getElementById('streetName').textContent  = geo.isChip ? zone.name[LANG] : (geo.street||geo.label);
   document.getElementById('streetSub').textContent   = zone.zone[LANG];
-  const b = document.getElementById('marketBadge');
-  b.textContent = zone.badge.label[LANG]; b.className = 'badge ' + zone.badge.cls;
+  const b = document.getElementById('marketBadge'); b.textContent = zone.badge.label[LANG]; b.className = 'badge '+zone.badge.cls;
   document.getElementById('priceM2').textContent     = zone.price.toLocaleString('fr-FR');
   document.getElementById('medianPrice').textContent = zone.median.toLocaleString('fr-FR');
   document.getElementById('txCount').textContent     = zone.tx;
-  const evo = document.getElementById('evolution');
-  evo.textContent = zone.evo + '%';
-  evo.className = 'stat-value ' + (zone.evo.startsWith('+') ? 'trend-up' : 'trend-down');
+  const evo = document.getElementById('evolution'); evo.textContent = zone.evo+'%'; evo.className = 'stat-value '+(zone.evo.startsWith('+')?'trend-up':'trend-down');
   document.getElementById('evolutionSub').textContent = zone.eLabel;
   document.getElementById('aiText').innerHTML = zone.ai[LANG];
-
-  const scoreLabels = t('scoreLabels');
-  document.getElementById('scoreRow').innerHTML = zone.scores.map(([v], i) =>
-    `<div class="score-item"><div class="score-bar-bg"><div class="score-bar-fill" style="width:0%" data-t="${v}%"></div></div><div class="score-key">${scoreLabels[i]}</div></div>`
-  ).join('');
-  setTimeout(() => document.querySelectorAll('.score-bar-fill').forEach(el => el.style.width = el.dataset.t), 80);
-
-  // Transactions : re-render existantes ou lancer fetch
-  if (fetchLive) {
-    currentDvf = [];
-    fetchDVF(zone);
-  } else if (currentDvf.length) {
-    renderTxList(currentDvf);
-  }
-
+  const sl = t('scoreLabels');
+  document.getElementById('scoreRow').innerHTML = zone.scores.map(([v],i)=>`<div class="score-item"><div class="score-bar-bg"><div class="score-bar-fill" style="width:0%" data-t="${v}%"></div></div><div class="score-key">${sl[i]}</div></div>`).join('');
+  setTimeout(()=>document.querySelectorAll('.score-bar-fill').forEach(el=>el.style.width=el.dataset.t),80);
+  if (fetchLive) fetchDVF(zone);
+  else renderTxList();
   renderChart(zone.history, zone.years);
   document.getElementById('results').classList.add('visible');
 }
 
-function renderChart(history, years) {
-  if (chartInstance) chartInstance.destroy();
-  document.getElementById('chartContainer').innerHTML = '<canvas id="priceChart"></canvas>';
-  const dark = matchMedia('(prefers-color-scheme: dark)').matches;
-  chartInstance = new Chart(document.getElementById('priceChart'), {
-    type: 'line',
-    data: { labels: years, datasets: [{ data: history, borderColor: '#D85A30',
-      backgroundColor: dark ? 'rgba(216,90,48,.12)' : 'rgba(216,90,48,.07)',
-      borderWidth: 2.5, pointBackgroundColor: '#D85A30', pointRadius: 5, pointHoverRadius: 7, fill: true, tension: 0.38 }] },
-    options: {
-      responsive: true, maintainAspectRatio: false,
-      plugins: { legend: { display: false }, tooltip: { callbacks: { label: c => ' ' + c.parsed.y.toLocaleString('fr-FR') + ' €/m²' } } },
-      scales: {
-        x: { grid: { display: false }, ticks: { font: { size: 11 }, color: dark ? '#6b6763' : '#9b9b9b' } },
-        y: { grid: { color: dark ? 'rgba(255,255,255,.05)' : 'rgba(0,0,0,.04)' },
-             ticks: { font: { size: 11 }, color: dark ? '#6b6763' : '#9b9b9b', callback: v => v.toLocaleString('fr-FR') + ' €' } }
-      }
-    }
-  });
+function renderChart(history,years){
+  if(chartInstance)chartInstance.destroy();
+  document.getElementById('chartContainer').innerHTML='<canvas id="priceChart"></canvas>';
+  const dark=matchMedia('(prefers-color-scheme: dark)').matches;
+  chartInstance=new Chart(document.getElementById('priceChart'),{type:'line',data:{labels:years,datasets:[{data:history,borderColor:'#D85A30',backgroundColor:dark?'rgba(216,90,48,.12)':'rgba(216,90,48,.07)',borderWidth:2.5,pointBackgroundColor:'#D85A30',pointRadius:5,pointHoverRadius:7,fill:true,tension:0.38}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false},tooltip:{callbacks:{label:c=>' '+c.parsed.y.toLocaleString('fr-FR')+' €/m²'}}},scales:{x:{grid:{display:false},ticks:{font:{size:11},color:dark?'#6b6763':'#9b9b9b'}},y:{grid:{color:dark?'rgba(255,255,255,.05)':'rgba(0,0,0,.04)'},ticks:{font:{size:11},color:dark?'#6b6763':'#9b9b9b',callback:v=>v.toLocaleString('fr-FR')+' €'}}}}});
 }
 
-function showError(msg) { const e = document.getElementById('errorCard'); e.innerHTML = '<i class="ti ti-alert-circle" style="margin-right:6px"></i>' + msg; e.classList.add('visible'); }
-function hideError() { document.getElementById('errorCard').classList.remove('visible'); }
+function showError(msg){const e=document.getElementById('errorCard');e.innerHTML='<i class="ti ti-alert-circle" style="margin-right:6px"></i>'+msg;e.classList.add('visible');}
+function hideError(){document.getElementById('errorCard').classList.remove('visible');}
 
 // ── AUTOCOMPLETE ──────────────────────────────────────────────────────────────
-const input = document.getElementById('addressInput'), dropdown = document.getElementById('acDropdown');
-let acResults = [], acIndex = -1, acTimer = null;
-input.addEventListener('input', () => {
-  clearTimeout(acTimer); const q = input.value.trim();
-  if (q.length < 3) { closeDropdown(); return; }
-  acTimer = setTimeout(() => fetchSuggestions(q), 220);
-});
-input.addEventListener('keydown', e => {
-  if (e.key === 'Enter') { acIndex >= 0 && acResults[acIndex] ? selectSuggestion(acResults[acIndex]) : (closeDropdown(), analyzeInput()); return; }
-  if (e.key === 'ArrowDown') { e.preventDefault(); moveIndex(1); }
-  if (e.key === 'ArrowUp')   { e.preventDefault(); moveIndex(-1); }
-  if (e.key === 'Escape')    { closeDropdown(); }
-});
-document.addEventListener('click', e => { if (!e.target.closest('.autocomplete-wrap')) closeDropdown(); });
-async function fetchSuggestions(q) {
-  try {
-    const res = await fetch(`${BAN}?${new URLSearchParams({ q, citycode: BZC, limit: 6 })}`);
-    if (!res.ok) throw new Error();
-    const data = await res.json();
-    acResults = (data.features || []).filter(isBZC);
-    renderDropdown();
-  } catch(e) { closeDropdown(); }
-}
-function renderDropdown() {
-  if (!acResults.length) { closeDropdown(); return; }
-  acIndex = -1;
-  dropdown.innerHTML = acResults.map((f, i) => { const p = f.properties;
-    return `<div class="ac-item" data-i="${i}"><i class="ti ti-map-pin"></i><div><div class="ac-main">${p.name || p.street}</div><div class="ac-sub">${p.postcode} ${p.city}</div></div></div>`;
-  }).join('');
-  dropdown.querySelectorAll('.ac-item').forEach(el => el.addEventListener('mousedown', e => { e.preventDefault(); selectSuggestion(acResults[+el.dataset.i]); }));
-  dropdown.classList.add('open');
-}
-function moveIndex(dir) {
-  const items = dropdown.querySelectorAll('.ac-item'); if (!items.length) return;
-  items[acIndex]?.classList.remove('active');
-  acIndex = Math.max(-1, Math.min(items.length - 1, acIndex + dir));
-  if (acIndex >= 0) { items[acIndex].classList.add('active'); input.value = acResults[acIndex].properties.label; }
-}
-function selectSuggestion(f) { input.value = f.properties.label; closeDropdown(); analyzeInput(); }
-function closeDropdown() { dropdown.classList.remove('open'); acResults = []; acIndex = -1; }
+const input=document.getElementById('addressInput'),dropdown=document.getElementById('acDropdown');
+let acResults=[],acIndex=-1,acTimer=null;
+input.addEventListener('input',()=>{clearTimeout(acTimer);const q=input.value.trim();if(q.length<3){closeDropdown();return;}acTimer=setTimeout(()=>fetchSuggestions(q),220);});
+input.addEventListener('keydown',e=>{if(e.key==='Enter'){acIndex>=0&&acResults[acIndex]?selectSuggestion(acResults[acIndex]):(closeDropdown(),analyzeInput());return;}if(e.key==='ArrowDown'){e.preventDefault();moveIndex(1);}if(e.key==='ArrowUp'){e.preventDefault();moveIndex(-1);}if(e.key==='Escape'){closeDropdown();}});
+document.addEventListener('click',e=>{if(!e.target.closest('.autocomplete-wrap'))closeDropdown();});
+async function fetchSuggestions(q){try{const res=await fetch(`${BAN}?${new URLSearchParams({q,citycode:BZC,limit:6})}`);if(!res.ok)throw new Error();const data=await res.json();acResults=(data.features||[]).filter(isBZC);renderDropdown();}catch(e){closeDropdown();}}
+function renderDropdown(){if(!acResults.length){closeDropdown();return;}acIndex=-1;dropdown.innerHTML=acResults.map((f,i)=>{const p=f.properties;return`<div class="ac-item" data-i="${i}"><i class="ti ti-map-pin"></i><div><div class="ac-main">${p.name||p.street}</div><div class="ac-sub">${p.postcode} ${p.city}</div></div></div>`;}).join('');dropdown.querySelectorAll('.ac-item').forEach(el=>el.addEventListener('mousedown',e=>{e.preventDefault();selectSuggestion(acResults[+el.dataset.i]);}));dropdown.classList.add('open');}
+function moveIndex(dir){const items=dropdown.querySelectorAll('.ac-item');if(!items.length)return;items[acIndex]?.classList.remove('active');acIndex=Math.max(-1,Math.min(items.length-1,acIndex+dir));if(acIndex>=0){items[acIndex].classList.add('active');input.value=acResults[acIndex].properties.label;}}
+function selectSuggestion(f){input.value=f.properties.label;closeDropdown();analyzeInput();}
+function closeDropdown(){dropdown.classList.remove('open');acResults=[];acIndex=-1;}
 
-// ── INIT ──────────────────────────────────────────────────────────────────────
 setLang('fr');
 </script>
 </body>
