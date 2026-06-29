@@ -27,13 +27,6 @@
   "operatingSystem": "Web",
   "offers": { "@type": "Offer", "price": "0", "priceCurrency": "EUR" },
   "areaServed": { "@type": "City", "name": "Biarritz", "postalCode": "64200", "addressCountry": "FR" },
-  "about": [
-    { "@type": "Place", "name": "Quartier Impérial, Biarritz",       "description": "Appartements 12 500 €/m² · Maisons 16 000 €/m² en 2025" },
-    { "@type": "Place", "name": "Centre-Ville Les Halles, Biarritz", "description": "Appartements 8 800 €/m² · Maisons 11 500 €/m² en 2025" },
-    { "@type": "Place", "name": "Bibi-Beaurivage, Biarritz",         "description": "Appartements 7 800 €/m² · Maisons 9 800 €/m² en 2025" },
-    { "@type": "Place", "name": "Quartier de la Milady, Biarritz",   "description": "Appartements 6 500 €/m² · Maisons 7 800 €/m² en 2025" },
-    { "@type": "Place", "name": "Parc d'Hiver, Biarritz",            "description": "Appartements 5 500 €/m² · Maisons 6 800 €/m² en 2025" }
-  ],
   "publisher": { "@type": "Organization", "name": "Biarritz.immo", "url": "https://biarritz.immo/" }
 }
 </script>
@@ -113,14 +106,17 @@ body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Ar
 .badge-hot  { background: var(--coral-light); color: var(--coral-dark); }
 .badge-warm { background: var(--amber-light); color: var(--amber); }
 .badge-cool { background: var(--green-light); color: var(--green); }
+
+/* Grille 2 cartes larges */
 .stats-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 1rem; }
-.stat-card { background: var(--bg); border-radius: var(--radius-md); padding: 14px; }
-.stat-label { font-size: 11px; color: var(--text-secondary); margin-bottom: 8px; display: flex; align-items: center; gap: 5px; }
+.stat-card { background: var(--bg); border-radius: var(--radius-md); padding: 16px; }
+.stat-label { font-size: 11px; color: var(--text-secondary); margin-bottom: 10px; display: flex; align-items: center; gap: 5px; }
 .stat-label i { font-size: 14px; }
-.stat-value { font-size: 24px; font-weight: 600; line-height: 1; }
-.stat-unit { font-size: 11px; color: var(--text-tertiary); margin-top: 4px; }
+.stat-value { font-size: 28px; font-weight: 600; line-height: 1; }
+.stat-unit { font-size: 11px; color: var(--text-tertiary); margin-top: 5px; }
 .trend-up   { color: var(--green); }
 .trend-down { color: var(--coral-dark); }
+
 .chart-card { background: var(--surface); border: 0.5px solid var(--border); border-radius: var(--radius-lg); padding: 1.25rem; margin-bottom: 1rem; }
 .chart-title { font-size: 12px; color: var(--text-secondary); margin-bottom: 1rem; text-transform: uppercase; letter-spacing: 0.5px; }
 .tx-header { display: flex; align-items: baseline; justify-content: space-between; margin-bottom: 0; }
@@ -155,7 +151,6 @@ body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Ar
 .btn-voir-plus:hover { opacity: 0.7; }
 .btn-voir-plus i { font-size: 14px; }
 .dvf-note { display: flex; align-items: center; gap: 6px; font-size: 11px; color: var(--text-tertiary); }
-.dvf-note i { font-size: 13px; }
 .dvf-note a { color: var(--text-tertiary); }
 .seo-content { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0,0,0,0); white-space: nowrap; }
 footer { margin-top: 3rem; text-align: center; font-size: 11px; color: var(--text-tertiary); }
@@ -166,12 +161,11 @@ footer { margin-top: 3rem; text-align: center; font-size: 11px; color: var(--tex
 <h1 class="seo-content">Prix immobilier à Biarritz (64200) — Thermomètre par quartier</h1>
 <section class="seo-content" aria-hidden="true">
   <h2>Prix immobilier par quartier à Biarritz en 2025</h2>
-  <p>Biarritz.immo est un outil gratuit de consultation des prix au mètre carré à Biarritz (Pyrénées-Atlantiques, 64200), basé sur les données DVF (Demandes de Valeurs Foncières) de la DGFiP.</p>
-  <article><h3>Quartier Impérial</h3><p>Appartements : 12 500 €/m² · Maisons : 16 000 €/m². Évolution 2019–2025 : +52 %.</p></article>
-  <article><h3>Centre-Ville Les Halles</h3><p>Appartements : 8 800 €/m² · Maisons : 11 500 €/m². Évolution 2019–2025 : +46 %.</p></article>
-  <article><h3>Bibi-Beaurivage</h3><p>Appartements : 7 800 €/m² · Maisons : 9 800 €/m². Évolution 2019–2025 : +43 %.</p></article>
-  <article><h3>Quartier de la Milady</h3><p>Appartements : 6 500 €/m² · Maisons : 7 800 €/m². Évolution 2019–2025 : +40 %.</p></article>
-  <article><h3>Parc d'Hiver</h3><p>Appartements : 5 500 €/m² · Maisons : 6 800 €/m². Évolution 2019–2025 : +37 %.</p></article>
+  <article><h3>Quartier Impérial</h3><p>Appartements : 12 500 €/m². Évolution 2019–2025 : +52 %.</p></article>
+  <article><h3>Centre-Ville Les Halles</h3><p>Appartements : 8 800 €/m². Évolution 2019–2025 : +46 %.</p></article>
+  <article><h3>Bibi-Beaurivage</h3><p>Appartements : 7 800 €/m². Évolution 2019–2025 : +43 %.</p></article>
+  <article><h3>Quartier de la Milady</h3><p>Appartements : 6 500 €/m². Évolution 2019–2025 : +40 %.</p></article>
+  <article><h3>Parc d'Hiver</h3><p>Appartements : 5 500 €/m². Évolution 2019–2025 : +37 %.</p></article>
 </section>
 
 <div class="app">
@@ -220,7 +214,7 @@ footer { margin-top: 3rem; text-align: center; font-size: 11px; color: var(--tex
       <span class="badge" id="marketBadge">—</span>
     </div>
 
-    <!-- 4 stats : appt · maison · évolution · transactions -->
+    <!-- 2 cartes : appartements + évolution -->
     <div class="stats-grid">
       <div class="stat-card">
         <div class="stat-label"><i class="ti ti-building"></i> <span data-i18n="statAppt"></span></div>
@@ -228,19 +222,9 @@ footer { margin-top: 3rem; text-align: center; font-size: 11px; color: var(--tex
         <div class="stat-unit" data-i18n="statPriceUnit"></div>
       </div>
       <div class="stat-card">
-        <div class="stat-label"><i class="ti ti-home"></i> <span data-i18n="statMaison"></span></div>
-        <div class="stat-value" id="priceMaison">—</div>
-        <div class="stat-unit" data-i18n="statPriceUnit"></div>
-      </div>
-      <div class="stat-card">
         <div class="stat-label"><i class="ti ti-arrow-up-right"></i> <span data-i18n="statEvo"></span></div>
-        <div class="stat-value" id="evolution" style="font-size:20px">—</div>
+        <div class="stat-value" id="evolution">—</div>
         <div class="stat-unit" id="evolutionSub">—</div>
-      </div>
-      <div class="stat-card">
-        <div class="stat-label"><i class="ti ti-file-text"></i> <span data-i18n="statTx"></span></div>
-        <div class="stat-value" id="txCount">—</div>
-        <div class="stat-unit" data-i18n="statTxUnit"></div>
       </div>
     </div>
 
@@ -266,7 +250,7 @@ footer { margin-top: 3rem; text-align: center; font-size: 11px; color: var(--tex
       <div class="ai-text" id="aiText">—</div>
       <div class="score-row" id="scoreRow"></div>
     </div>
-    <div class="dvf-note"><i class="ti ti-database"></i><span data-i18n="dvfNote"></span></div>
+    <div class="dvf-note"><i class="ti ti-database"></i>&nbsp;<span data-i18n="dvfNote"></span></div>
   </div>
 </div>
 
@@ -289,9 +273,7 @@ const T = {
     chip_imperial:'Impérial', 'chip_centre-halles':'Centre · Halles',
     'chip_bibi-beaurivage':'Bibi-Beaurivage', chip_milady:'Milady', 'chip_parc-hiver':'Parc d\'Hiver',
     loaderGeo:'Géocodage de l\'adresse…', loaderAnalyze:'Analyse du marché local…',
-    statAppt:'Appartements', statMaison:'Maisons',
-    statPriceUnit:'€ / m² moyen', statEvo:'Évolution',
-    statTx:'Transactions', statTxUnit:'ventes analysées',
+    statAppt:'Appartements', statPriceUnit:'€ / m² moyen', statEvo:'Évolution',
     chartTitle:'Évolution prix au m² · 2019–2025', txTitle:'Transactions DVF récentes',
     aiLabel:'Analyse du quartier', aiSub:'Basée sur les données DVF 2019–2025',
     scoreLabels:['Vue mer','Commerces','Calme','Rentabilité'],
@@ -309,9 +291,7 @@ const T = {
     chip_imperial:'Imperial', 'chip_centre-halles':'Centre · Halles',
     'chip_bibi-beaurivage':'Bibi-Beaurivage', chip_milady:'Milady', 'chip_parc-hiver':'Parc d\'Hiver',
     loaderGeo:'Geocoding address…', loaderAnalyze:'Analysing local market…',
-    statAppt:'Apartments', statMaison:'Houses',
-    statPriceUnit:'€ / m² avg', statEvo:'Change',
-    statTx:'Transactions', statTxUnit:'sales analysed',
+    statAppt:'Apartments', statPriceUnit:'€ / m² avg', statEvo:'Change',
     chartTitle:'Price per m² trend · 2019–2025', txTitle:'Recent DVF transactions',
     aiLabel:'Neighbourhood analysis', aiSub:'Based on DVF data 2019–2025',
     scoreLabels:['Sea view','Amenities','Quiet','Yield'],
@@ -329,9 +309,7 @@ const T = {
     chip_imperial:'Imperial', 'chip_centre-halles':'Centro · Halles',
     'chip_bibi-beaurivage':'Bibi-Beaurivage', chip_milady:'Milady', 'chip_parc-hiver':'Parc d\'Hiver',
     loaderGeo:'Geolocalización de la dirección…', loaderAnalyze:'Analizando el mercado local…',
-    statAppt:'Apartamentos', statMaison:'Casas',
-    statPriceUnit:'€ / m² medio', statEvo:'Evolución',
-    statTx:'Transacciones', statTxUnit:'ventas analizadas',
+    statAppt:'Apartamentos', statPriceUnit:'€ / m² medio', statEvo:'Evolución',
     chartTitle:'Evolución precio por m² · 2019–2025', txTitle:'Transacciones DVF recientes',
     aiLabel:'Análisis del barrio', aiSub:'Basado en datos DVF 2019–2025',
     scoreLabels:['Vista al mar','Comercios','Tranquilidad','Rentabilidad'],
@@ -357,7 +335,6 @@ function setLang(lang) {
   if (currentZone && document.getElementById('results').classList.contains('visible')) render(currentZone, currentGeo, false);
 }
 
-// ── DONNÉES ───────────────────────────────────────────────────────────────────
 const BAN     = 'https://api-adresse.data.gouv.fr/search/';
 const DVF_API = 'https://apidf.cerema.fr/dvf_opendata/geomutations/';
 const BZC = '64122', RAYON = 700, SHOW = 5;
@@ -368,8 +345,7 @@ const ZONES = [
     name:{ fr:'Quartier Impérial', en:'Imperial Quarter', es:'Barrio Imperial' },
     zone:{ fr:'Biarritz · Front de mer', en:'Biarritz · Seafront', es:'Biarritz · Frente al mar' },
     lat:43.4890, lon:-1.5534,
-    priceAppt:12500, priceMaison:16000,
-    tx:46, evo:'+52', eLabel:'+52% (2019→2025)',
+    priceAppt:12500, evo:'+52', eLabel:'+52% (2019→2025)',
     history:[8200,9400,10700,12200,11800,12100,12500], years:['2019','2020','2021','2022','2023','2024','2025'],
     badge:{ label:{ fr:'Marché très tendu', en:'Very tight market', es:'Mercado muy tenso' }, cls:'badge-hot' },
     ai:{
@@ -379,13 +355,13 @@ const ZONES = [
     },
     scores:[[100],[100],[55],[58]],
     nearby:[
-      { rue:'AV DE L\'IMPÉRATRICE',   num:'8',  type:'appt',   surface:74,  floor:'3e',  pm2:13800, date:'2025-03-15' },
-      { rue:'AV DE L\'IMPÉRATRICE',   num:'22', type:'appt',   surface:58,  floor:'1er', pm2:12400, date:'2025-01-28' },
-      { rue:'AV REINE VICTORIA',      num:'5',  type:'appt',   surface:92,  floor:'4e',  pm2:11900, date:'2025-02-10' },
-      { rue:'AV DE L\'IMPÉRATRICE',   num:'40', type:'appt',   surface:110, floor:'2e',  pm2:14200, date:'2024-11-20' },
-      { rue:'RUE GAMBETTA',           num:'3',  type:'appt',   surface:48,  floor:'5e',  pm2:11200, date:'2024-10-08' },
-      { rue:'BD DU GÉNÉRAL DE GAULLE',num:'12', type:'appt',   surface:66,  floor:'2e',  pm2:12800, date:'2024-09-14' },
-      { rue:'AV ÉDOUARD VII',         num:'7',  type:'maison', surface:185, floor:null,  pm2:15100, date:'2024-07-30' },
+      { rue:'AV DE L\'IMPÉRATRICE',   num:'8',  type:'appt', surface:74,  floor:'3e',  pm2:13800, date:'2025-03-15' },
+      { rue:'AV DE L\'IMPÉRATRICE',   num:'22', type:'appt', surface:58,  floor:'1er', pm2:12400, date:'2025-01-28' },
+      { rue:'AV REINE VICTORIA',      num:'5',  type:'appt', surface:92,  floor:'4e',  pm2:11900, date:'2025-02-10' },
+      { rue:'AV DE L\'IMPÉRATRICE',   num:'40', type:'appt', surface:110, floor:'2e',  pm2:14200, date:'2024-11-20' },
+      { rue:'RUE GAMBETTA',           num:'3',  type:'appt', surface:48,  floor:'5e',  pm2:11200, date:'2024-10-08' },
+      { rue:'BD DU GÉNÉRAL DE GAULLE',num:'12', type:'appt', surface:66,  floor:'2e',  pm2:12800, date:'2024-09-14' },
+      { rue:'AV ÉDOUARD VII',         num:'7',  type:'appt', surface:88,  floor:'3e',  pm2:13100, date:'2024-07-30' },
     ]
   },
   {
@@ -393,24 +369,23 @@ const ZONES = [
     name:{ fr:'Centre-Ville · Les Halles', en:'City Centre · Les Halles', es:'Centro Ciudad · Les Halles' },
     zone:{ fr:'Biarritz · Cœur de ville', en:'Biarritz · City centre', es:'Biarritz · Centro ciudad' },
     lat:43.4822, lon:-1.5605,
-    priceAppt:8800, priceMaison:11500,
-    tx:84, evo:'+46', eLabel:'+46% (2019→2025)',
+    priceAppt:8800, evo:'+46', eLabel:'+46% (2019→2025)',
     history:[6000,6800,7700,9200,8900,8600,8800], years:['2019','2020','2021','2022','2023','2024','2025'],
     badge:{ label:{ fr:'Marché très tendu', en:'Very tight market', es:'Mercado muy tenso' }, cls:'badge-hot' },
     ai:{
-      fr:'Le <strong>Centre-Ville et les Halles</strong> concentrent la vie biarrote autour de la place Clémenceau : Grande Plage, marché couvert, restaurants, boutiques. Le secteur le plus liquide de Biarritz avec <strong>84 transactions</strong> analysées. Très prisé pour les résidences secondaires parisiennes et les investissements locatifs saisonniers.',
-      en:'The <strong>City Centre and Les Halles</strong> concentrate Biarritz life around Place Clémenceau: Grande Plage, covered market, restaurants, shops. The most liquid sector with <strong>84 transactions</strong> analysed. Very popular for Parisian second homes and seasonal rental investments.',
-      es:'El <strong>Centro Ciudad y Les Halles</strong> concentran la vida en torno a la plaza Clémenceau. El sector más líquido de Biarritz con <strong>84 transacciones</strong> analizadas.',
+      fr:'Le <strong>Centre-Ville et les Halles</strong> concentrent la vie biarrote autour de la place Clémenceau : Grande Plage, marché couvert, restaurants, boutiques. Le secteur le plus liquide de Biarritz. Très prisé pour les résidences secondaires parisiennes et les investissements locatifs saisonniers.',
+      en:'The <strong>City Centre and Les Halles</strong> concentrate Biarritz life around Place Clémenceau: Grande Plage, covered market, restaurants, shops. The most liquid sector — very popular for Parisian second homes and seasonal rental investments.',
+      es:'El <strong>Centro Ciudad y Les Halles</strong> concentran la vida en torno a la plaza Clémenceau. El sector más líquido de Biarritz. Muy codiciado para residencias secundarias e inversiones en alquiler estacional.',
     },
     scores:[[70],[100],[38],[82]],
     nearby:[
-      { rue:'RUE DU CENTRE',   num:'3',  type:'appt',   surface:48, floor:'2e',  pm2:9600,  date:'2025-04-08' },
-      { rue:'RUE GAMBETTA',    num:'14', type:'appt',   surface:63, floor:'RdC', pm2:8700,  date:'2025-02-14' },
-      { rue:'RUE MAZAGRAN',    num:'8',  type:'appt',   surface:55, floor:'1er', pm2:8200,  date:'2025-01-22' },
-      { rue:'RUE GARDÈRES',    num:'5',  type:'appt',   surface:71, floor:'3e',  pm2:9100,  date:'2024-12-10' },
-      { rue:'AV DU MAR. FOCH', num:'18', type:'appt',   surface:44, floor:'1er', pm2:8400,  date:'2024-11-05' },
-      { rue:'RUE L. BARTHOU',  num:'9',  type:'appt',   surface:82, floor:'4e',  pm2:9300,  date:'2024-09-28' },
-      { rue:'PL. CLÉMENCEAU',  num:'2',  type:'appt',   surface:60, floor:'2e',  pm2:10200, date:'2024-08-15' },
+      { rue:'RUE DU CENTRE',   num:'3',  type:'appt', surface:48, floor:'2e',  pm2:9600,  date:'2025-04-08' },
+      { rue:'RUE GAMBETTA',    num:'14', type:'appt', surface:63, floor:'RdC', pm2:8700,  date:'2025-02-14' },
+      { rue:'RUE MAZAGRAN',    num:'8',  type:'appt', surface:55, floor:'1er', pm2:8200,  date:'2025-01-22' },
+      { rue:'RUE GARDÈRES',    num:'5',  type:'appt', surface:71, floor:'3e',  pm2:9100,  date:'2024-12-10' },
+      { rue:'AV DU MAR. FOCH', num:'18', type:'appt', surface:44, floor:'1er', pm2:8400,  date:'2024-11-05' },
+      { rue:'RUE L. BARTHOU',  num:'9',  type:'appt', surface:82, floor:'4e',  pm2:9300,  date:'2024-09-28' },
+      { rue:'PL. CLÉMENCEAU',  num:'2',  type:'appt', surface:60, floor:'2e',  pm2:10200, date:'2024-08-15' },
     ]
   },
   {
@@ -418,8 +393,7 @@ const ZONES = [
     name:{ fr:'Bibi-Beaurivage', en:'Bibi-Beaurivage', es:'Bibi-Beaurivage' },
     zone:{ fr:'Biarritz · Côte des Basques', en:'Biarritz · Basque Coast', es:'Biarritz · Costa Vasca' },
     lat:43.4740, lon:-1.5620,
-    priceAppt:7800, priceMaison:9800,
-    tx:62, evo:'+43', eLabel:'+43% (2019→2025)',
+    priceAppt:7800, evo:'+43', eLabel:'+43% (2019→2025)',
     history:[5500,6100,6900,8200,7900,7600,7800], years:['2019','2020','2021','2022','2023','2024','2025'],
     badge:{ label:{ fr:'En vogue', en:'Trending', es:'De moda' }, cls:'badge-warm' },
     ai:{
@@ -429,13 +403,13 @@ const ZONES = [
     },
     scores:[[82],[72],[55],[90]],
     nearby:[
-      { rue:'BD DU PRINCE DE GALLES', num:'5',  type:'appt',   surface:67,  floor:'2e',  pm2:8400, date:'2025-03-10' },
-      { rue:'BD DU PRINCE DE GALLES', num:'18', type:'appt',   surface:44,  floor:'1er', pm2:7700, date:'2025-01-30' },
-      { rue:'RUE DES GOÉLANDS',       num:'8',  type:'maison', surface:138, floor:null,  pm2:7300, date:'2025-02-20' },
-      { rue:'RUE DE LA CÔTE BASQUE',  num:'11', type:'appt',   surface:53,  floor:'3e',  pm2:8100, date:'2024-12-05' },
-      { rue:'AV DE LA CÔTE BASQUE',   num:'24', type:'appt',   surface:78,  floor:'2e',  pm2:7600, date:'2024-10-18' },
-      { rue:'RUE PRADET',             num:'3',  type:'appt',   surface:40,  floor:'RdC', pm2:6900, date:'2024-09-02' },
-      { rue:'BD DU PRINCE DE GALLES', num:'32', type:'maison', surface:162, floor:null,  pm2:8800, date:'2024-07-25' },
+      { rue:'BD DU PRINCE DE GALLES', num:'5',  type:'appt', surface:67, floor:'2e',  pm2:8400, date:'2025-03-10' },
+      { rue:'BD DU PRINCE DE GALLES', num:'18', type:'appt', surface:44, floor:'1er', pm2:7700, date:'2025-01-30' },
+      { rue:'RUE DES GOÉLANDS',       num:'8',  type:'appt', surface:62, floor:'3e',  pm2:7500, date:'2025-02-20' },
+      { rue:'RUE DE LA CÔTE BASQUE',  num:'11', type:'appt', surface:53, floor:'3e',  pm2:8100, date:'2024-12-05' },
+      { rue:'AV DE LA CÔTE BASQUE',   num:'24', type:'appt', surface:78, floor:'2e',  pm2:7600, date:'2024-10-18' },
+      { rue:'RUE PRADET',             num:'3',  type:'appt', surface:40, floor:'RdC', pm2:6900, date:'2024-09-02' },
+      { rue:'BD DU PRINCE DE GALLES', num:'32', type:'appt', surface:88, floor:'4e',  pm2:8200, date:'2024-07-25' },
     ]
   },
   {
@@ -443,8 +417,7 @@ const ZONES = [
     name:{ fr:'Quartier de la Milady', en:'Milady Quarter', es:'Barrio de la Milady' },
     zone:{ fr:'Biarritz · Extrême Sud', en:'Biarritz · Southern tip', es:'Biarritz · Extremo Sur' },
     lat:43.4677, lon:-1.5689,
-    priceAppt:6500, priceMaison:7800,
-    tx:44, evo:'+40', eLabel:'+40% (2019→2025)',
+    priceAppt:6500, evo:'+40', eLabel:'+40% (2019→2025)',
     history:[4900,5400,6000,7200,6900,6600,6800], years:['2019','2020','2021','2022','2023','2024','2025'],
     badge:{ label:{ fr:'En vogue', en:'Trending', es:'De moda' }, cls:'badge-warm' },
     ai:{
@@ -454,13 +427,13 @@ const ZONES = [
     },
     scores:[[80],[38],[90],[74]],
     nearby:[
-      { rue:'AV DE LA MILADY', num:'9',  type:'appt',   surface:82,  floor:'3e',  pm2:7400, date:'2025-03-18' },
-      { rue:'RUE DE MILADY',   num:'3',  type:'appt',   surface:51,  floor:'1er', pm2:6700, date:'2025-01-25' },
-      { rue:'AV D\'ILBARRITZ', num:'5',  type:'maison', surface:165, floor:null,  pm2:6200, date:'2025-02-12' },
-      { rue:'AV DE LA MILADY', num:'22', type:'appt',   surface:68,  floor:'2e',  pm2:7100, date:'2024-11-30' },
-      { rue:'RUE DU VALLON',   num:'7',  type:'appt',   surface:45,  floor:'RdC', pm2:6400, date:'2024-10-22' },
-      { rue:'AV D\'ILBARRITZ', num:'18', type:'maison', surface:210, floor:null,  pm2:6900, date:'2024-09-08' },
-      { rue:'RUE DE MILADY',   num:'14', type:'appt',   surface:59,  floor:'1er', pm2:6600, date:'2024-08-01' },
+      { rue:'AV DE LA MILADY', num:'9',  type:'appt', surface:82, floor:'3e',  pm2:7400, date:'2025-03-18' },
+      { rue:'RUE DE MILADY',   num:'3',  type:'appt', surface:51, floor:'1er', pm2:6700, date:'2025-01-25' },
+      { rue:'AV D\'ILBARRITZ', num:'5',  type:'appt', surface:64, floor:'2e',  pm2:6500, date:'2025-02-12' },
+      { rue:'AV DE LA MILADY', num:'22', type:'appt', surface:68, floor:'2e',  pm2:7100, date:'2024-11-30' },
+      { rue:'RUE DU VALLON',   num:'7',  type:'appt', surface:45, floor:'RdC', pm2:6400, date:'2024-10-22' },
+      { rue:'AV D\'ILBARRITZ', num:'18', type:'appt', surface:75, floor:'3e',  pm2:6800, date:'2024-09-08' },
+      { rue:'RUE DE MILADY',   num:'14', type:'appt', surface:59, floor:'1er', pm2:6600, date:'2024-08-01' },
     ]
   },
   {
@@ -468,8 +441,7 @@ const ZONES = [
     name:{ fr:'Parc d\'Hiver', en:'Parc d\'Hiver', es:'Parc d\'Hiver' },
     zone:{ fr:'Biarritz · Résidentiel', en:'Biarritz · Residential', es:'Biarritz · Residencial' },
     lat:43.4793, lon:-1.5393,
-    priceAppt:5500, priceMaison:6800,
-    tx:71, evo:'+37', eLabel:'+37% (2019→2025)',
+    priceAppt:5500, evo:'+37', eLabel:'+37% (2019→2025)',
     history:[4200,4600,5200,6200,5900,5700,5800], years:['2019','2020','2021','2022','2023','2024','2025'],
     badge:{ label:{ fr:'Marché dynamique', en:'Dynamic market', es:'Mercado dinámico' }, cls:'badge-warm' },
     ai:{
@@ -479,13 +451,13 @@ const ZONES = [
     },
     scores:[[18],[72],[92],[70]],
     nearby:[
-      { rue:'ALLÉE DU PARC D\'HIVER', num:'4',  type:'maison', surface:210, floor:null,  pm2:6200, date:'2025-03-28' },
-      { rue:'RUE D\'AGUILERA',        num:'32', type:'appt',   surface:71,  floor:'2e',  pm2:5700, date:'2025-01-14' },
-      { rue:'AV DE BAYONNE',          num:'15', type:'maison', surface:185, floor:null,  pm2:5300, date:'2025-02-22' },
-      { rue:'RUE D\'AGUILERA',        num:'58', type:'appt',   surface:54,  floor:'1er', pm2:5600, date:'2024-12-18' },
-      { rue:'AV DE LA MARNE',         num:'6',  type:'appt',   surface:88,  floor:'3e',  pm2:6000, date:'2024-11-04' },
-      { rue:'ALLÉE DU PARC D\'HIVER', num:'11', type:'maison', surface:240, floor:null,  pm2:6500, date:'2024-09-17' },
-      { rue:'RUE PELLOT',             num:'2',  type:'appt',   surface:62,  floor:'RdC', pm2:5100, date:'2024-08-09' },
+      { rue:'ALLÉE DU PARC D\'HIVER', num:'4',  type:'appt', surface:78,  floor:'2e',  pm2:5900, date:'2025-03-28' },
+      { rue:'RUE D\'AGUILERA',        num:'32', type:'appt', surface:71,  floor:'2e',  pm2:5700, date:'2025-01-14' },
+      { rue:'AV DE BAYONNE',          num:'15', type:'appt', surface:55,  floor:'1er', pm2:5200, date:'2025-02-22' },
+      { rue:'RUE D\'AGUILERA',        num:'58', type:'appt', surface:54,  floor:'1er', pm2:5600, date:'2024-12-18' },
+      { rue:'AV DE LA MARNE',         num:'6',  type:'appt', surface:88,  floor:'3e',  pm2:6000, date:'2024-11-04' },
+      { rue:'ALLÉE DU PARC D\'HIVER', num:'11', type:'appt', surface:95,  floor:'4e',  pm2:6100, date:'2024-09-17' },
+      { rue:'RUE PELLOT',             num:'2',  type:'appt', surface:62,  floor:'RdC', pm2:5100, date:'2024-08-09' },
     ]
   }
 ];
@@ -493,7 +465,6 @@ const ZONES = [
 let currentZone = null, currentGeo = null, currentTxList = [], txExpanded = false, chartInstance = null;
 const isBZC = f => f?.properties?.citycode === BZC;
 
-// ── DVF ───────────────────────────────────────────────────────────────────────
 function normType(lib) {
   if (!lib) return null;
   const l = lib.toLowerCase();
@@ -504,7 +475,7 @@ function normType(lib) {
 
 async function fetchDVF(zone) {
   document.getElementById('sampleList').innerHTML =
-    `<div class="tx-loading"><div class="mini-dots"><span></span><span></span><span></span></div>${t('txLoading')}</div>`;
+    `<div class="tx-loading"><div class="mini-dots"><span></span><span></span><span></span></div>&nbsp;${t('txLoading')}</div>`;
   document.getElementById('txSource').textContent = '';
   try {
     const url = `${DVF_API}?lat=${zone.lat}&lon=${zone.lon}&rayon=${RAYON}&ordering=-datemut&page_size=50`;
@@ -556,7 +527,6 @@ function renderTxList() {
 
 function toggleTx() { txExpanded = !txExpanded; renderTxList(); }
 
-// ── CHIPS ─────────────────────────────────────────────────────────────────────
 function analyzeZone(zoneId) {
   const zone = ZONES.find(z => z.id === zoneId); if (!zone) return;
   document.getElementById('addressInput').value = '';
@@ -597,15 +567,12 @@ async function banFirst(q, useCitycode) {
 function haversine(la1,lo1,la2,lo2){const R=6371000,r=Math.PI/180,dla=(la2-la1)*r,dlo=(lo2-lo1)*r,a=Math.sin(dla/2)**2+Math.cos(la1*r)*Math.cos(la2*r)*Math.sin(dlo/2)**2;return R*2*Math.atan2(Math.sqrt(a),Math.sqrt(1-a));}
 function detectZone(lat,lon){return ZONES.reduce((b,z)=>haversine(lat,lon,z.lat,z.lon)<haversine(lat,lon,b.lat,b.lon)?z:b);}
 
-// ── RENDU ─────────────────────────────────────────────────────────────────────
 function render(zone, geo, fetchLive) {
   currentZone = zone; currentGeo = geo;
   document.getElementById('streetName').textContent = geo.isChip ? zone.name[LANG] : (geo.street || geo.label);
   document.getElementById('streetSub').textContent  = zone.zone[LANG];
   const b = document.getElementById('marketBadge'); b.textContent = zone.badge.label[LANG]; b.className = 'badge ' + zone.badge.cls;
-  document.getElementById('priceAppt').textContent   = zone.priceAppt.toLocaleString('fr-FR');
-  document.getElementById('priceMaison').textContent = zone.priceMaison.toLocaleString('fr-FR');
-  document.getElementById('txCount').textContent     = zone.tx;
+  document.getElementById('priceAppt').textContent  = zone.priceAppt.toLocaleString('fr-FR');
   const evo = document.getElementById('evolution'); evo.textContent = zone.evo + '%'; evo.className = 'stat-value ' + (zone.evo.startsWith('+') ? 'trend-up' : 'trend-down');
   document.getElementById('evolutionSub').textContent = zone.eLabel;
   document.getElementById('aiText').innerHTML = zone.ai[LANG];
@@ -632,7 +599,6 @@ function renderChart(history, years) {
 function showError(msg){const e=document.getElementById('errorCard');e.innerHTML='<i class="ti ti-alert-circle" style="margin-right:6px"></i>'+msg;e.classList.add('visible');}
 function hideError(){document.getElementById('errorCard').classList.remove('visible');}
 
-// ── AUTOCOMPLETE ──────────────────────────────────────────────────────────────
 const input=document.getElementById('addressInput'),dropdown=document.getElementById('acDropdown');
 let acResults=[],acIndex=-1,acTimer=null;
 input.addEventListener('input',()=>{clearTimeout(acTimer);const q=input.value.trim();if(q.length<3){closeDropdown();return;}acTimer=setTimeout(()=>fetchSuggestions(q),220);});
