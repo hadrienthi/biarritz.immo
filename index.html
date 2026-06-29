@@ -53,6 +53,18 @@
 }
 body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif; background: var(--bg); color: var(--text); min-height: 100vh; display: flex; flex-direction: column; align-items: center; padding: 2rem 1rem 4rem; }
 .app { width: 100%; max-width: 420px; }
+
+/* ── Desktop : colonne élargie ── */
+@media (min-width: 640px) {
+  body { padding: 2.5rem 2rem 5rem; }
+  .app { max-width: 680px; }
+  .stat-card { padding: 20px; }
+  .stat-value { font-size: 32px; }
+  #chartContainer { height: 220px !important; }
+  .search-card { padding: 1.5rem; }
+  .chart-card, .ai-card { padding: 1.5rem; }
+}
+
 .header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 2rem; }
 .logo { display: flex; align-items: center; gap: 10px; }
 .logo-dot { width: 32px; height: 32px; border-radius: 8px; background: var(--coral); display: flex; align-items: center; justify-content: center; }
@@ -106,8 +118,6 @@ body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Ar
 .badge-hot  { background: var(--coral-light); color: var(--coral-dark); }
 .badge-warm { background: var(--amber-light); color: var(--amber); }
 .badge-cool { background: var(--green-light); color: var(--green); }
-
-/* Grille 2 cartes larges */
 .stats-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 1rem; }
 .stat-card { background: var(--bg); border-radius: var(--radius-md); padding: 16px; }
 .stat-label { font-size: 11px; color: var(--text-secondary); margin-bottom: 10px; display: flex; align-items: center; gap: 5px; }
@@ -116,7 +126,6 @@ body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Ar
 .stat-unit { font-size: 11px; color: var(--text-tertiary); margin-top: 5px; }
 .trend-up   { color: var(--green); }
 .trend-down { color: var(--coral-dark); }
-
 .chart-card { background: var(--surface); border: 0.5px solid var(--border); border-radius: var(--radius-lg); padding: 1.25rem; margin-bottom: 1rem; }
 .chart-title { font-size: 12px; color: var(--text-secondary); margin-bottom: 1rem; text-transform: uppercase; letter-spacing: 0.5px; }
 .tx-header { display: flex; align-items: baseline; justify-content: space-between; margin-bottom: 0; }
@@ -213,8 +222,6 @@ footer { margin-top: 3rem; text-align: center; font-size: 11px; color: var(--tex
       <div><div class="street-name" id="streetName">—</div><div class="street-sub" id="streetSub">—</div></div>
       <span class="badge" id="marketBadge">—</span>
     </div>
-
-    <!-- 2 cartes : appartements + évolution -->
     <div class="stats-grid">
       <div class="stat-card">
         <div class="stat-label"><i class="ti ti-building"></i> <span data-i18n="statAppt"></span></div>
@@ -227,7 +234,6 @@ footer { margin-top: 3rem; text-align: center; font-size: 11px; color: var(--tex
         <div class="stat-unit" id="evolutionSub">—</div>
       </div>
     </div>
-
     <div class="chart-card">
       <div class="chart-title" data-i18n="chartTitle"></div>
       <div id="chartContainer" style="position:relative;width:100%;height:170px"><canvas id="priceChart"></canvas></div>
@@ -451,149 +457,114 @@ const ZONES = [
     },
     scores:[[18],[72],[92],[70]],
     nearby:[
-      { rue:'ALLÉE DU PARC D\'HIVER', num:'4',  type:'appt', surface:78,  floor:'2e',  pm2:5900, date:'2025-03-28' },
-      { rue:'RUE D\'AGUILERA',        num:'32', type:'appt', surface:71,  floor:'2e',  pm2:5700, date:'2025-01-14' },
-      { rue:'AV DE BAYONNE',          num:'15', type:'appt', surface:55,  floor:'1er', pm2:5200, date:'2025-02-22' },
-      { rue:'RUE D\'AGUILERA',        num:'58', type:'appt', surface:54,  floor:'1er', pm2:5600, date:'2024-12-18' },
-      { rue:'AV DE LA MARNE',         num:'6',  type:'appt', surface:88,  floor:'3e',  pm2:6000, date:'2024-11-04' },
-      { rue:'ALLÉE DU PARC D\'HIVER', num:'11', type:'appt', surface:95,  floor:'4e',  pm2:6100, date:'2024-09-17' },
-      { rue:'RUE PELLOT',             num:'2',  type:'appt', surface:62,  floor:'RdC', pm2:5100, date:'2024-08-09' },
+      { rue:'ALLÉE DU PARC D\'HIVER', num:'4',  type:'appt', surface:78, floor:'2e',  pm2:5900, date:'2025-03-28' },
+      { rue:'RUE D\'AGUILERA',        num:'32', type:'appt', surface:71, floor:'2e',  pm2:5700, date:'2025-01-14' },
+      { rue:'AV DE BAYONNE',          num:'15', type:'appt', surface:55, floor:'1er', pm2:5200, date:'2025-02-22' },
+      { rue:'RUE D\'AGUILERA',        num:'58', type:'appt', surface:54, floor:'1er', pm2:5600, date:'2024-12-18' },
+      { rue:'AV DE LA MARNE',         num:'6',  type:'appt', surface:88, floor:'3e',  pm2:6000, date:'2024-11-04' },
+      { rue:'ALLÉE DU PARC D\'HIVER', num:'11', type:'appt', surface:95, floor:'4e',  pm2:6100, date:'2024-09-17' },
+      { rue:'RUE PELLOT',             num:'2',  type:'appt', surface:62, floor:'RdC', pm2:5100, date:'2024-08-09' },
     ]
   }
 ];
 
-let currentZone = null, currentGeo = null, currentTxList = [], txExpanded = false, chartInstance = null;
-const isBZC = f => f?.properties?.citycode === BZC;
+let currentZone=null,currentGeo=null,currentTxList=[],txExpanded=false,chartInstance=null;
+const isBZC=f=>f?.properties?.citycode===BZC;
 
-function normType(lib) {
-  if (!lib) return null;
-  const l = lib.toLowerCase();
-  if (l.includes('appartement')) return 'appt';
-  if (l.includes('maison'))      return 'maison';
-  return null;
+function normType(lib){if(!lib)return null;const l=lib.toLowerCase();if(l.includes('appartement'))return 'appt';if(l.includes('maison'))return 'maison';return null;}
+
+async function fetchDVF(zone){
+  document.getElementById('sampleList').innerHTML=`<div class="tx-loading"><div class="mini-dots"><span></span><span></span><span></span></div>&nbsp;${t('txLoading')}</div>`;
+  document.getElementById('txSource').textContent='';
+  try{
+    const url=`${DVF_API}?lat=${zone.lat}&lon=${zone.lon}&rayon=${RAYON}&ordering=-datemut&page_size=50`;
+    const res=await fetch(url,{signal:AbortSignal.timeout(7000)});
+    if(!res.ok)throw new Error('HTTP '+res.status);
+    const data=await res.json();
+    const txs=(data.results||[]).map(m=>({rue:null,num:null,type:normType(m.libtypbien),surface:Math.round(parseFloat(m.sbati)||0),floor:null,pm2:Math.round(parseFloat(m.valeurfonc)/(parseFloat(m.sbati)||1)),date:m.datemut})).filter(m=>m.type&&m.surface>5&&m.pm2>1000&&m.pm2<50000);
+    if(!txs.length)throw new Error('empty');
+    currentTxList=txs;document.getElementById('txSource').textContent=`DVF live · ${txs.length}`;renderTxList();
+  }catch(e){currentTxList=zone.nearby;document.getElementById('txSource').textContent='DVF 2024–2025';renderTxList();}
 }
 
-async function fetchDVF(zone) {
-  document.getElementById('sampleList').innerHTML =
-    `<div class="tx-loading"><div class="mini-dots"><span></span><span></span><span></span></div>&nbsp;${t('txLoading')}</div>`;
-  document.getElementById('txSource').textContent = '';
-  try {
-    const url = `${DVF_API}?lat=${zone.lat}&lon=${zone.lon}&rayon=${RAYON}&ordering=-datemut&page_size=50`;
-    const res = await fetch(url, { signal: AbortSignal.timeout(7000) });
-    if (!res.ok) throw new Error('HTTP ' + res.status);
-    const data = await res.json();
-    const txs = (data.results || []).map(m => ({
-      rue: null, num: null,
-      type: normType(m.libtypbien),
-      surface: Math.round(parseFloat(m.sbati) || 0),
-      floor: null,
-      pm2: Math.round(parseFloat(m.valeurfonc) / (parseFloat(m.sbati) || 1)),
-      date: m.datemut,
-    })).filter(m => m.type && m.surface > 5 && m.pm2 > 1000 && m.pm2 < 50000);
-    if (!txs.length) throw new Error('empty');
-    currentTxList = txs;
-    document.getElementById('txSource').textContent = `DVF live · ${txs.length}`;
-    renderTxList();
-  } catch(e) {
-    currentTxList = zone.nearby;
-    document.getElementById('txSource').textContent = 'DVF 2024–2025';
-    renderTxList();
-  }
-}
-
-function renderTxList() {
-  const dateLoc = DATE_LOC[LANG];
-  const rows = currentTxList.map((tx, i) => {
-    const d      = new Date(tx.date).toLocaleDateString(dateLoc, { month:'short', year:'numeric' });
-    const typeL  = t(tx.type || 'appt');
-    const addr   = tx.rue ? `${tx.num ? tx.num + ' ' : ''}${tx.rue}` : null;
-    const addrHtml = addr
-      ? `<span class="sample-addr">${addr} <em style="font-size:10px;color:var(--text-tertiary);font-weight:400">${typeL}</em></span>`
-      : `<span class="sample-addr"><em style="font-size:11px;color:var(--text-secondary);font-style:normal">${typeL}</em></span>`;
-    const surf   = tx.surface ? `<span class="sample-meta"><i class="ti ti-arrows-diagonal"></i>${tx.surface} m²</span>` : '';
-    const floor  = tx.floor   ? `<span class="sample-meta"><i class="ti ti-stairs"></i>${tx.floor}</span>` : '';
-    const hidden = (!txExpanded && i >= SHOW) ? ' style="display:none"' : '';
-    return `<div class="sample-item"${hidden}>
-      <div class="sample-row1">${addrHtml}<span class="sample-price">${tx.pm2.toLocaleString('fr-FR')} €/m²</span></div>
-      <div class="sample-row2">${surf}${floor}<span class="sample-meta">${d}</span></div>
-    </div>`;
+function renderTxList(){
+  const dateLoc=DATE_LOC[LANG];
+  const rows=currentTxList.map((tx,i)=>{
+    const d=new Date(tx.date).toLocaleDateString(dateLoc,{month:'short',year:'numeric'});
+    const typeL=t(tx.type||'appt');
+    const addr=tx.rue?`${tx.num?tx.num+' ':''}${tx.rue}`:null;
+    const addrHtml=addr?`<span class="sample-addr">${addr} <em style="font-size:10px;color:var(--text-tertiary);font-weight:400">${typeL}</em></span>`:`<span class="sample-addr"><em style="font-size:11px;color:var(--text-secondary);font-style:normal">${typeL}</em></span>`;
+    const surf=tx.surface?`<span class="sample-meta"><i class="ti ti-arrows-diagonal"></i>${tx.surface} m²</span>`:'';
+    const floor=tx.floor?`<span class="sample-meta"><i class="ti ti-stairs"></i>${tx.floor}</span>`:'';
+    const hidden=(!txExpanded&&i>=SHOW)?' style="display:none"':'';
+    return`<div class="sample-item"${hidden}><div class="sample-row1">${addrHtml}<span class="sample-price">${tx.pm2.toLocaleString('fr-FR')} €/m²</span></div><div class="sample-row2">${surf}${floor}<span class="sample-meta">${d}</span></div></div>`;
   }).join('');
-  const extra = currentTxList.length - SHOW;
-  const btn = extra > 0
-    ? `<button class="btn-voir-plus" onclick="toggleTx()"><i class="ti ${txExpanded?'ti-chevron-up':'ti-chevron-down'}"></i>${txExpanded ? t('voirMoins') : `${t('voirPlus')} (${extra})`}</button>`
-    : '';
-  document.getElementById('sampleList').innerHTML = rows + btn;
+  const extra=currentTxList.length-SHOW;
+  const btn=extra>0?`<button class="btn-voir-plus" onclick="toggleTx()"><i class="ti ${txExpanded?'ti-chevron-up':'ti-chevron-down'}"></i>${txExpanded?t('voirMoins'):`${t('voirPlus')} (${extra})`}</button>`:'';
+  document.getElementById('sampleList').innerHTML=rows+btn;
+}
+function toggleTx(){txExpanded=!txExpanded;renderTxList();}
+
+function analyzeZone(zoneId){
+  const zone=ZONES.find(z=>z.id===zoneId);if(!zone)return;
+  document.getElementById('addressInput').value='';hideError();
+  document.querySelectorAll('.chip').forEach(c=>c.classList.remove('active'));
+  document.getElementById('chip-'+zoneId)?.classList.add('active');
+  txExpanded=false;render(zone,{street:zone.name[LANG],isChip:true},true);
 }
 
-function toggleTx() { txExpanded = !txExpanded; renderTxList(); }
-
-function analyzeZone(zoneId) {
-  const zone = ZONES.find(z => z.id === zoneId); if (!zone) return;
-  document.getElementById('addressInput').value = '';
-  hideError();
-  document.querySelectorAll('.chip').forEach(c => c.classList.remove('active'));
-  document.getElementById('chip-' + zoneId)?.classList.add('active');
-  txExpanded = false;
-  render(zone, { street: zone.name[LANG], isChip: true }, true);
-}
-
-async function analyzeInput() {
-  const addr = document.getElementById('addressInput').value.trim(); if (!addr) return;
+async function analyzeInput(){
+  const addr=document.getElementById('addressInput').value.trim();if(!addr)return;
   document.getElementById('loader').classList.add('visible');
   document.getElementById('results').classList.remove('visible');
-  document.getElementById('btnSearch').disabled = true;
-  document.querySelectorAll('.chip').forEach(c => c.classList.remove('active'));
-  hideError(); txExpanded = false;
-  try {
-    document.getElementById('loaderStep').textContent = t('loaderGeo');
-    const geo = await geocodeBiarritz(addr);
-    document.getElementById('loaderStep').textContent = t('loaderAnalyze');
-    render(detectZone(geo.lat, geo.lon), geo, true);
-  } catch(e) { showError(e.message); }
-  finally { document.getElementById('loader').classList.remove('visible'); document.getElementById('btnSearch').disabled = false; }
+  document.getElementById('btnSearch').disabled=true;
+  document.querySelectorAll('.chip').forEach(c=>c.classList.remove('active'));
+  hideError();txExpanded=false;
+  try{
+    document.getElementById('loaderStep').textContent=t('loaderGeo');
+    const geo=await geocodeBiarritz(addr);
+    document.getElementById('loaderStep').textContent=t('loaderAnalyze');
+    render(detectZone(geo.lat,geo.lon),geo,true);
+  }catch(e){showError(e.message);}
+  finally{document.getElementById('loader').classList.remove('visible');document.getElementById('btnSearch').disabled=false;}
 }
 
-async function geocodeBiarritz(addr) {
-  let f = await banFirst(addr, true); if (!f) f = await banFirst(addr, false);
-  if (!f) throw new Error(t('errNotFound'));
-  if (!isBZC(f)) throw new Error(t('errOtherCity')(f.properties.city || '?'));
-  return { lat: f.geometry.coordinates[1], lon: f.geometry.coordinates[0], label: f.properties.label, street: f.properties.street || f.properties.name, isChip: false };
+async function geocodeBiarritz(addr){
+  let f=await banFirst(addr,true);if(!f)f=await banFirst(addr,false);
+  if(!f)throw new Error(t('errNotFound'));
+  if(!isBZC(f))throw new Error(t('errOtherCity')(f.properties.city||'?'));
+  return{lat:f.geometry.coordinates[1],lon:f.geometry.coordinates[0],label:f.properties.label,street:f.properties.street||f.properties.name,isChip:false};
 }
-async function banFirst(q, useCitycode) {
-  const p = new URLSearchParams({ q, limit: 5 }); if (useCitycode) p.set('citycode', BZC);
-  const res = await fetch(`${BAN}?${p}`); if (!res.ok) return null;
-  const data = await res.json(); return (data.features || []).find(isBZC) || null;
+async function banFirst(q,useCitycode){
+  const p=new URLSearchParams({q,limit:5});if(useCitycode)p.set('citycode',BZC);
+  const res=await fetch(`${BAN}?${p}`);if(!res.ok)return null;
+  const data=await res.json();return(data.features||[]).find(isBZC)||null;
 }
 function haversine(la1,lo1,la2,lo2){const R=6371000,r=Math.PI/180,dla=(la2-la1)*r,dlo=(lo2-lo1)*r,a=Math.sin(dla/2)**2+Math.cos(la1*r)*Math.cos(la2*r)*Math.sin(dlo/2)**2;return R*2*Math.atan2(Math.sqrt(a),Math.sqrt(1-a));}
 function detectZone(lat,lon){return ZONES.reduce((b,z)=>haversine(lat,lon,z.lat,z.lon)<haversine(lat,lon,b.lat,b.lon)?z:b);}
 
-function render(zone, geo, fetchLive) {
-  currentZone = zone; currentGeo = geo;
-  document.getElementById('streetName').textContent = geo.isChip ? zone.name[LANG] : (geo.street || geo.label);
-  document.getElementById('streetSub').textContent  = zone.zone[LANG];
-  const b = document.getElementById('marketBadge'); b.textContent = zone.badge.label[LANG]; b.className = 'badge ' + zone.badge.cls;
-  document.getElementById('priceAppt').textContent  = zone.priceAppt.toLocaleString('fr-FR');
-  const evo = document.getElementById('evolution'); evo.textContent = zone.evo + '%'; evo.className = 'stat-value ' + (zone.evo.startsWith('+') ? 'trend-up' : 'trend-down');
-  document.getElementById('evolutionSub').textContent = zone.eLabel;
-  document.getElementById('aiText').innerHTML = zone.ai[LANG];
-  const sl = t('scoreLabels');
-  document.getElementById('scoreRow').innerHTML = zone.scores.map(([v], i) =>
-    `<div class="score-item"><div class="score-bar-bg"><div class="score-bar-fill" style="width:0%" data-t="${v}%"></div></div><div class="score-key">${sl[i]}</div></div>`
-  ).join('');
-  setTimeout(() => document.querySelectorAll('.score-bar-fill').forEach(el => el.style.width = el.dataset.t), 80);
-  if (fetchLive) { fetchDVF(zone); } else { renderTxList(); }
-  renderChart(zone.history, zone.years);
+function render(zone,geo,fetchLive){
+  currentZone=zone;currentGeo=geo;
+  document.getElementById('streetName').textContent=geo.isChip?zone.name[LANG]:(geo.street||geo.label);
+  document.getElementById('streetSub').textContent=zone.zone[LANG];
+  const b=document.getElementById('marketBadge');b.textContent=zone.badge.label[LANG];b.className='badge '+zone.badge.cls;
+  document.getElementById('priceAppt').textContent=zone.priceAppt.toLocaleString('fr-FR');
+  const evo=document.getElementById('evolution');evo.textContent=zone.evo+'%';evo.className='stat-value '+(zone.evo.startsWith('+')?'trend-up':'trend-down');
+  document.getElementById('evolutionSub').textContent=zone.eLabel;
+  document.getElementById('aiText').innerHTML=zone.ai[LANG];
+  const sl=t('scoreLabels');
+  document.getElementById('scoreRow').innerHTML=zone.scores.map(([v],i)=>`<div class="score-item"><div class="score-bar-bg"><div class="score-bar-fill" style="width:0%" data-t="${v}%"></div></div><div class="score-key">${sl[i]}</div></div>`).join('');
+  setTimeout(()=>document.querySelectorAll('.score-bar-fill').forEach(el=>el.style.width=el.dataset.t),80);
+  if(fetchLive){fetchDVF(zone);}else{renderTxList();}
+  renderChart(zone.history,zone.years);
   document.getElementById('results').classList.add('visible');
 }
 
-function renderChart(history, years) {
-  if (chartInstance) chartInstance.destroy();
-  document.getElementById('chartContainer').innerHTML = '<canvas id="priceChart"></canvas>';
-  const dark = matchMedia('(prefers-color-scheme: dark)').matches;
-  chartInstance = new Chart(document.getElementById('priceChart'), {
-    type:'line', data:{ labels:years, datasets:[{ data:history, borderColor:'#D85A30', backgroundColor:dark?'rgba(216,90,48,.12)':'rgba(216,90,48,.07)', borderWidth:2.5, pointBackgroundColor:'#D85A30', pointRadius:5, pointHoverRadius:7, fill:true, tension:0.38 }] },
-    options:{ responsive:true, maintainAspectRatio:false, plugins:{ legend:{display:false}, tooltip:{callbacks:{label:c=>' '+c.parsed.y.toLocaleString('fr-FR')+' €/m²'}} }, scales:{ x:{grid:{display:false},ticks:{font:{size:11},color:dark?'#6b6763':'#9b9b9b'}}, y:{grid:{color:dark?'rgba(255,255,255,.05)':'rgba(0,0,0,.04)'},ticks:{font:{size:11},color:dark?'#6b6763':'#9b9b9b',callback:v=>v.toLocaleString('fr-FR')+' €'}} } }
-  });
+function renderChart(history,years){
+  if(chartInstance)chartInstance.destroy();
+  document.getElementById('chartContainer').innerHTML='<canvas id="priceChart"></canvas>';
+  const dark=matchMedia('(prefers-color-scheme: dark)').matches;
+  chartInstance=new Chart(document.getElementById('priceChart'),{type:'line',data:{labels:years,datasets:[{data:history,borderColor:'#D85A30',backgroundColor:dark?'rgba(216,90,48,.12)':'rgba(216,90,48,.07)',borderWidth:2.5,pointBackgroundColor:'#D85A30',pointRadius:5,pointHoverRadius:7,fill:true,tension:0.38}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false},tooltip:{callbacks:{label:c=>' '+c.parsed.y.toLocaleString('fr-FR')+' €/m²'}}},scales:{x:{grid:{display:false},ticks:{font:{size:11},color:dark?'#6b6763':'#9b9b9b'}},y:{grid:{color:dark?'rgba(255,255,255,.05)':'rgba(0,0,0,.04)'},ticks:{font:{size:11},color:dark?'#6b6763':'#9b9b9b',callback:v=>v.toLocaleString('fr-FR')+' €'}}}}});
 }
 
 function showError(msg){const e=document.getElementById('errorCard');e.innerHTML='<i class="ti ti-alert-circle" style="margin-right:6px"></i>'+msg;e.classList.add('visible');}
