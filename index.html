@@ -3,367 +3,275 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-
 <title>Prix immobilier Biarritz 2025 — Thermomètre par quartier | Biarritz.immo</title>
-<meta name="description" content="Consultez les prix au m² à Biarritz en 2025 par quartier : Impérial, Centre-Halles, Bibi-Beaurivage, Milady, Parc d'Hiver. Données DVF officielles DGFiP. Gratuit et mis à jour en continu." />
-<meta name="keywords" content="prix immobilier Biarritz, prix m2 Biarritz 2025, quartier impérial Biarritz, immobilier Biarritz DVF, appartement Biarritz prix, maison Biarritz prix, 64200" />
+<meta name="description" content="Consultez les prix au m² à Biarritz en 2025 par quartier : Impérial, Centre-Halles, Bibi-Beaurivage, Milady, Parc d'Hiver. Données DVF officielles DGFiP/Cerema 2019–2025. Gratuit." />
 <link rel="canonical" href="https://biarritz.immo/" />
 <meta name="robots" content="index, follow" />
-<meta property="og:type"        content="website" />
-<meta property="og:url"         content="https://biarritz.immo/" />
-<meta property="og:title"       content="Prix immobilier Biarritz 2025 — Thermomètre par quartier" />
-<meta property="og:description" content="Prix au m² à Biarritz par quartier, données DVF officielles. Impérial, Centre, Milady, Bibi-Beaurivage, Parc d'Hiver." />
-<meta property="og:locale"      content="fr_FR" />
-<meta name="twitter:card"       content="summary" />
-
-<script type="application/ld+json">
-{
-  "@context": "https://schema.org",
-  "@type": "WebApplication",
-  "name": "Biarritz.immo — Prix immobilier",
-  "url": "https://biarritz.immo/",
-  "description": "Outil de consultation des prix immobiliers à Biarritz (64200) par quartier, basé sur les données DVF de la DGFiP.",
-  "applicationCategory": "RealEstateApplication",
-  "operatingSystem": "Web",
-  "offers": { "@type": "Offer", "price": "0", "priceCurrency": "EUR" },
-  "areaServed": { "@type": "City", "name": "Biarritz", "postalCode": "64200", "addressCountry": "FR" },
-  "publisher": { "@type": "Organization", "name": "Biarritz.immo", "url": "https://biarritz.immo/" }
-}
-</script>
-
+<meta property="og:type" content="website" />
+<meta property="og:url" content="https://biarritz.immo/" />
+<meta property="og:title" content="Prix immobilier Biarritz 2025 — Thermomètre par quartier" />
+<meta property="og:description" content="Prix au m² à Biarritz par quartier, données DVF officielles." />
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"WebApplication","name":"Biarritz.immo — Prix immobilier","url":"https://biarritz.immo/","description":"Outil de consultation des prix immobiliers à Biarritz (64200) par quartier, basé sur les données DVF de la DGFiP.","applicationCategory":"RealEstateApplication","operatingSystem":"Web","offers":{"@type":"Offer","price":"0","priceCurrency":"EUR"},"areaServed":{"@type":"City","name":"Biarritz","postalCode":"64200","addressCountry":"FR"},"publisher":{"@type":"Organization","name":"Biarritz.immo","url":"https://biarritz.immo/"}}</script>
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@3.8.0/dist/tabler-icons.min.css" />
 <style>
-*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-:root {
-  --coral: #D85A30; --coral-light: #FAECE7; --coral-dark: #993C1D;
-  --purple-light: #EEEDFE; --purple: #534AB7;
-  --amber-light: #FAEEDA; --amber: #854F0B;
-  --green-light: #EAF3DE; --green: #3B6D11;
-  --text: #1a1a1a; --text-secondary: #6b6b6b; --text-tertiary: #9b9b9b;
-  --bg: #f5f4f0; --surface: #ffffff; --border: rgba(0,0,0,0.10);
-  --radius-md: 10px; --radius-lg: 14px;
-}
-@media (prefers-color-scheme: dark) {
-  :root {
-    --text: #f0ede8; --text-secondary: #a8a49e; --text-tertiary: #6b6763;
-    --bg: #1a1917; --surface: #242220; --border: rgba(255,255,255,0.10);
-    --coral-light: rgba(216,90,48,0.18); --purple-light: rgba(83,74,183,0.18);
-    --amber-light: rgba(133,79,11,0.18); --green-light: rgba(59,109,17,0.18);
-  }
-}
-body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif; background: var(--bg); color: var(--text); min-height: 100vh; display: flex; flex-direction: column; align-items: center; padding: 2rem 1rem 4rem; }
-.app { width: 100%; max-width: 420px; }
-
-/* ── Desktop ── */
-@media (min-width: 640px) {
-  body { padding: 2.5rem 2rem 5rem; }
-  .app { max-width: 680px; }
-  .stat-card { padding: 20px; text-align: center; }
-  .stat-card .stat-label { justify-content: center; }
-  .stat-value { font-size: 32px; }
-  #chartContainer { height: 220px !important; }
-  .search-card { padding: 1.5rem; }
-  .chart-card, .ai-card { padding: 1.5rem; }
-}
-
-.header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 2rem; }
-.logo { display: flex; align-items: center; gap: 10px; }
-.logo-dot { width: 32px; height: 32px; border-radius: 8px; background: var(--coral); display: flex; align-items: center; justify-content: center; }
-.logo-dot i { color: white; font-size: 16px; }
-.logo-text { font-size: 18px; font-weight: 600; letter-spacing: -0.3px; }
-.logo-text span { color: var(--coral); }
-.lang-switcher { display: flex; gap: 2px; background: var(--bg); border: 0.5px solid var(--border); border-radius: 8px; padding: 2px; }
-.lang-btn { font-size: 11px; font-weight: 600; padding: 4px 8px; border: none; background: transparent; color: var(--text-tertiary); cursor: pointer; border-radius: 6px; transition: all 0.15s; font-family: inherit; }
-.lang-btn:hover { color: var(--text); }
-.lang-btn.active { background: var(--surface); color: var(--coral); box-shadow: 0 1px 3px rgba(0,0,0,0.08); }
-.search-card { background: var(--surface); border: 0.5px solid var(--border); border-radius: var(--radius-lg); padding: 1.25rem; margin-bottom: 1rem; }
-.search-label { font-size: 13px; color: var(--text-secondary); margin-bottom: 10px; display: block; }
-.search-row { display: flex; gap: 8px; }
-.autocomplete-wrap { position: relative; flex: 1; min-width: 0; }
-.autocomplete-wrap input { display: block; width: 100%; height: 42px; padding: 0 12px; font-size: 14px; border-radius: var(--radius-md); border: 0.5px solid var(--border); background: var(--bg); color: var(--text); outline: none; transition: border-color 0.15s; font-family: inherit; }
-.autocomplete-wrap input:focus { border-color: var(--coral); }
-.autocomplete-wrap input::placeholder { color: var(--text-tertiary); }
-.autocomplete-dropdown { display: none; position: absolute; top: calc(100% + 4px); left: 0; right: 0; z-index: 100; background: var(--surface); border: 0.5px solid var(--border); border-radius: var(--radius-md); overflow: hidden; box-shadow: 0 4px 16px rgba(0,0,0,0.08); }
-.autocomplete-dropdown.open { display: block; }
-.ac-item { display: flex; align-items: center; gap: 10px; padding: 10px 14px; cursor: pointer; font-size: 13px; border-bottom: 0.5px solid var(--border); transition: background 0.1s; }
-.ac-item:last-child { border-bottom: none; }
-.ac-item:hover, .ac-item.active { background: var(--bg); }
-.ac-item i { font-size: 14px; color: var(--coral); flex-shrink: 0; }
-.ac-main { color: var(--text); }
-.ac-sub { font-size: 11px; color: var(--text-tertiary); margin-top: 1px; }
-.btn-search { height: 42px; padding: 0 18px; background: var(--coral); color: white; border: none; border-radius: var(--radius-md); font-size: 13px; font-weight: 500; cursor: pointer; display: flex; align-items: center; gap: 6px; transition: opacity 0.15s; white-space: nowrap; }
-.btn-search:hover { opacity: 0.85; }
-.btn-search:disabled { opacity: 0.5; cursor: not-allowed; }
-.suggestions-label { font-size: 11px; color: var(--text-tertiary); margin-top: 12px; margin-bottom: 6px; }
-.suggestions { display: flex; gap: 6px; flex-wrap: wrap; }
-.chip { font-size: 11px; padding: 5px 11px; background: var(--bg); border: 0.5px solid var(--border); border-radius: 20px; color: var(--text-secondary); cursor: pointer; transition: all 0.1s; white-space: nowrap; }
-.chip:hover { background: var(--surface); color: var(--text); border-color: var(--coral); }
-.chip.active { background: var(--coral-light); color: var(--coral-dark); border-color: var(--coral); }
-.loader { display: none; flex-direction: column; align-items: center; gap: 12px; padding: 2.5rem 0; }
-.loader.visible { display: flex; }
-.dot-pulse { display: flex; gap: 5px; }
-.dot-pulse span { width: 7px; height: 7px; border-radius: 50%; background: var(--coral); animation: pulse 1.2s ease-in-out infinite; }
-.dot-pulse span:nth-child(2) { animation-delay: 0.2s; }
-.dot-pulse span:nth-child(3) { animation-delay: 0.4s; }
-@keyframes pulse { 0%,80%,100%{opacity:.2;transform:scale(.8)} 40%{opacity:1;transform:scale(1)} }
-.loader-step { font-size: 12px; color: var(--text-tertiary); }
-.result-section { display: none; animation: fadeUp 0.4s ease; }
-.result-section.visible { display: block; }
-@keyframes fadeUp { from{opacity:0;transform:translateY(10px)} to{opacity:1;transform:translateY(0)} }
-.error-card { background: var(--surface); border: 0.5px solid rgba(216,90,48,0.3); border-radius: var(--radius-lg); padding: 1.25rem; margin-bottom: 1rem; color: var(--coral-dark); font-size: 13px; display: none; }
-.error-card.visible { display: block; }
-.street-header { display: flex; align-items: flex-start; justify-content: space-between; gap: 8px; margin-bottom: 1rem; }
-.street-name { font-size: 16px; font-weight: 600; }
-.street-sub { font-size: 12px; color: var(--text-secondary); margin-top: 3px; }
-.badge { font-size: 11px; padding: 4px 10px; border-radius: 20px; font-weight: 500; white-space: nowrap; }
-.badge-hot  { background: var(--coral-light); color: var(--coral-dark); }
-.badge-warm { background: var(--amber-light); color: var(--amber); }
-.badge-cool { background: var(--green-light); color: var(--green); }
-.stats-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 1rem; }
-.stat-card { background: var(--bg); border-radius: var(--radius-md); padding: 16px; }
-.stat-label { font-size: 11px; color: var(--text-secondary); margin-bottom: 10px; display: flex; align-items: center; gap: 5px; }
-.stat-label i { font-size: 14px; }
-.stat-value { font-size: 28px; font-weight: 600; line-height: 1; }
-.stat-unit { font-size: 11px; color: var(--text-tertiary); margin-top: 5px; }
-.trend-up   { color: var(--green); }
-.trend-down { color: var(--coral-dark); }
-.chart-card { background: var(--surface); border: 0.5px solid var(--border); border-radius: var(--radius-lg); padding: 1.25rem; margin-bottom: 1rem; }
-.chart-title { font-size: 12px; color: var(--text-secondary); margin-bottom: 1rem; text-transform: uppercase; letter-spacing: 0.5px; }
-.tx-header { display: flex; align-items: baseline; justify-content: space-between; margin-bottom: 0; }
-.tx-source { font-size: 10px; color: var(--text-tertiary); }
-.ai-card { background: var(--surface); border: 0.5px solid var(--border); border-radius: var(--radius-lg); padding: 1.25rem; margin-bottom: 1rem; }
-.ai-header { display: flex; align-items: center; gap: 10px; margin-bottom: 12px; }
-.ai-icon { width: 30px; height: 30px; border-radius: 8px; background: var(--purple-light); display: flex; align-items: center; justify-content: center; }
-.ai-icon i { color: var(--purple); font-size: 15px; }
-.ai-label { font-size: 14px; font-weight: 500; }
-.ai-sublabel { font-size: 11px; color: var(--text-secondary); margin-top: 1px; }
-.ai-text { font-size: 13px; color: var(--text-secondary); line-height: 1.65; }
-.ai-text strong { color: var(--text); font-weight: 500; }
-.score-row { display: flex; gap: 8px; margin-top: 14px; }
-.score-item { flex: 1; }
-.score-bar-bg { height: 4px; background: var(--border); border-radius: 2px; margin-bottom: 5px; overflow: hidden; }
-.score-bar-fill { height: 100%; border-radius: 2px; background: var(--coral); transition: width 0.9s cubic-bezier(.4,0,.2,1); }
-.score-key { font-size: 10px; color: var(--text-tertiary); }
-.sample-list { margin-top: 12px; border-top: 0.5px solid var(--border); padding-top: 12px; }
-.sample-item { padding: 8px 0; border-bottom: 0.5px solid var(--border); }
-.sample-item:last-child { border-bottom: none; }
-.sample-row1 { display: flex; justify-content: space-between; align-items: baseline; gap: 8px; }
-.sample-row2 { display: flex; gap: 10px; margin-top: 3px; }
-.sample-addr  { font-size: 12px; font-weight: 500; color: var(--text); }
-.sample-price { font-size: 12px; font-weight: 600; color: var(--text); white-space: nowrap; }
-.sample-meta  { font-size: 11px; color: var(--text-tertiary); display: flex; align-items: center; gap: 4px; }
-.sample-meta i { font-size: 11px; }
-.tx-loading { display: flex; align-items: center; gap: 8px; padding: 14px 0; font-size: 12px; color: var(--text-tertiary); }
-.mini-dots span { width: 4px; height: 4px; border-radius: 50%; background: var(--coral); animation: pulse 1.2s ease-in-out infinite; display: inline-block; margin-right: 2px; }
-.mini-dots span:nth-child(2) { animation-delay: 0.2s; }
-.mini-dots span:nth-child(3) { animation-delay: 0.4s; }
-.btn-voir-plus { display: flex; align-items: center; gap: 5px; margin-top: 10px; padding: 7px 0; font-size: 12px; color: var(--coral); background: none; border: none; cursor: pointer; font-family: inherit; font-weight: 500; transition: opacity 0.15s; }
-.btn-voir-plus:hover { opacity: 0.7; }
-.btn-voir-plus i { font-size: 14px; }
-.dvf-note { display: flex; align-items: center; gap: 6px; font-size: 11px; color: var(--text-tertiary); }
-.dvf-note a { color: var(--text-tertiary); }
-.seo-content { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0,0,0,0); white-space: nowrap; }
-footer { margin-top: 3rem; text-align: center; font-size: 11px; color: var(--text-tertiary); }
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{--coral:#D85A30;--coral-light:#FAECE7;--coral-dark:#993C1D;--purple-light:#EEEDFE;--purple:#534AB7;--amber-light:#FAEEDA;--amber:#854F0B;--green-light:#EAF3DE;--green:#3B6D11;--text:#1a1a1a;--text-secondary:#6b6b6b;--text-tertiary:#9b9b9b;--bg:#f5f4f0;--surface:#ffffff;--border:rgba(0,0,0,0.10);--radius-md:10px;--radius-lg:14px}
+@media(prefers-color-scheme:dark){:root{--text:#f0ede8;--text-secondary:#a8a49e;--text-tertiary:#6b6763;--bg:#1a1917;--surface:#242220;--border:rgba(255,255,255,0.10);--coral-light:rgba(216,90,48,0.18);--purple-light:rgba(83,74,183,0.18);--amber-light:rgba(133,79,11,0.18);--green-light:rgba(59,109,17,0.18)}}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Helvetica,Arial,sans-serif;background:var(--bg);color:var(--text);min-height:100vh;display:flex;flex-direction:column;align-items:center;padding:2rem 1rem 4rem}
+.app{width:100%;max-width:420px}
+@media(min-width:640px){body{padding:2.5rem 2rem 5rem}.app{max-width:680px}.stat-card{padding:20px;text-align:center}.stat-card .stat-label{justify-content:center}.stat-value{font-size:32px}#chartContainer{height:220px!important}.search-card{padding:1.5rem}.chart-card,.ai-card{padding:1.5rem}}
+.header{display:flex;align-items:center;justify-content:space-between;margin-bottom:2rem}
+.logo{display:flex;align-items:center;gap:10px}
+.logo-dot{width:32px;height:32px;border-radius:8px;background:var(--coral);display:flex;align-items:center;justify-content:center}
+.logo-dot i{color:white;font-size:16px}
+.logo-text{font-size:18px;font-weight:600;letter-spacing:-0.3px}
+.logo-text span{color:var(--coral)}
+.lang-switcher{display:flex;gap:2px;background:var(--bg);border:0.5px solid var(--border);border-radius:8px;padding:2px}
+.lang-btn{font-size:11px;font-weight:600;padding:4px 8px;border:none;background:transparent;color:var(--text-tertiary);cursor:pointer;border-radius:6px;transition:all 0.15s;font-family:inherit}
+.lang-btn:hover{color:var(--text)}
+.lang-btn.active{background:var(--surface);color:var(--coral);box-shadow:0 1px 3px rgba(0,0,0,0.08)}
+.search-card{background:var(--surface);border:0.5px solid var(--border);border-radius:var(--radius-lg);padding:1.25rem;margin-bottom:1rem}
+.search-label{font-size:13px;color:var(--text-secondary);margin-bottom:10px;display:block}
+.search-row{display:flex;gap:8px}
+.autocomplete-wrap{position:relative;flex:1;min-width:0}
+.autocomplete-wrap input{display:block;width:100%;height:42px;padding:0 12px;font-size:14px;border-radius:var(--radius-md);border:0.5px solid var(--border);background:var(--bg);color:var(--text);outline:none;transition:border-color 0.15s;font-family:inherit}
+.autocomplete-wrap input:focus{border-color:var(--coral)}
+.autocomplete-wrap input::placeholder{color:var(--text-tertiary)}
+.autocomplete-dropdown{display:none;position:absolute;top:calc(100% + 4px);left:0;right:0;z-index:100;background:var(--surface);border:0.5px solid var(--border);border-radius:var(--radius-md);overflow:hidden;box-shadow:0 4px 16px rgba(0,0,0,0.08)}
+.autocomplete-dropdown.open{display:block}
+.ac-item{display:flex;align-items:center;gap:10px;padding:10px 14px;cursor:pointer;font-size:13px;border-bottom:0.5px solid var(--border);transition:background 0.1s}
+.ac-item:last-child{border-bottom:none}
+.ac-item:hover,.ac-item.active{background:var(--bg)}
+.ac-item i{font-size:14px;color:var(--coral);flex-shrink:0}
+.ac-main{color:var(--text)}
+.ac-sub{font-size:11px;color:var(--text-tertiary);margin-top:1px}
+.btn-search{height:42px;padding:0 18px;background:var(--coral);color:white;border:none;border-radius:var(--radius-md);font-size:13px;font-weight:500;cursor:pointer;display:flex;align-items:center;gap:6px;transition:opacity 0.15s;white-space:nowrap}
+.btn-search:hover{opacity:0.85}
+.btn-search:disabled{opacity:0.5;cursor:not-allowed}
+.suggestions-label{font-size:11px;color:var(--text-tertiary);margin-top:12px;margin-bottom:6px}
+.suggestions{display:flex;gap:6px;flex-wrap:wrap}
+.chip{font-size:11px;padding:5px 11px;background:var(--bg);border:0.5px solid var(--border);border-radius:20px;color:var(--text-secondary);cursor:pointer;transition:all 0.1s;white-space:nowrap}
+.chip:hover{background:var(--surface);color:var(--text);border-color:var(--coral)}
+.chip.active{background:var(--coral-light);color:var(--coral-dark);border-color:var(--coral)}
+.loader{display:none;flex-direction:column;align-items:center;gap:12px;padding:2.5rem 0}
+.loader.visible{display:flex}
+.dot-pulse{display:flex;gap:5px}
+.dot-pulse span{width:7px;height:7px;border-radius:50%;background:var(--coral);animation:pulse 1.2s ease-in-out infinite}
+.dot-pulse span:nth-child(2){animation-delay:0.2s}
+.dot-pulse span:nth-child(3){animation-delay:0.4s}
+@keyframes pulse{0%,80%,100%{opacity:.2;transform:scale(.8)}40%{opacity:1;transform:scale(1)}}
+.loader-step{font-size:12px;color:var(--text-tertiary)}
+.result-section{display:none;animation:fadeUp 0.4s ease}
+.result-section.visible{display:block}
+@keyframes fadeUp{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
+.error-card{background:var(--surface);border:0.5px solid rgba(216,90,48,0.3);border-radius:var(--radius-lg);padding:1.25rem;margin-bottom:1rem;color:var(--coral-dark);font-size:13px;display:none}
+.error-card.visible{display:block}
+.street-header{display:flex;align-items:flex-start;justify-content:space-between;gap:8px;margin-bottom:1rem}
+.street-name{font-size:16px;font-weight:600}
+.street-sub{font-size:12px;color:var(--text-secondary);margin-top:3px}
+.badge{font-size:11px;padding:4px 10px;border-radius:20px;font-weight:500;white-space:nowrap}
+.badge-hot{background:var(--coral-light);color:var(--coral-dark)}
+.badge-warm{background:var(--amber-light);color:var(--amber)}
+.badge-cool{background:var(--green-light);color:var(--green)}
+.stats-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:1rem}
+.stat-card{background:var(--bg);border-radius:var(--radius-md);padding:16px}
+.stat-label{font-size:11px;color:var(--text-secondary);margin-bottom:10px;display:flex;align-items:center;gap:5px}
+.stat-label i{font-size:14px}
+.stat-value{font-size:28px;font-weight:600;line-height:1}
+.stat-unit{font-size:11px;color:var(--text-tertiary);margin-top:5px}
+.trend-up{color:var(--green)}
+.trend-down{color:var(--coral-dark)}
+.chart-card{background:var(--surface);border:0.5px solid var(--border);border-radius:var(--radius-lg);padding:1.25rem;margin-bottom:1rem}
+.chart-title{font-size:12px;color:var(--text-secondary);margin-bottom:1rem;text-transform:uppercase;letter-spacing:0.5px}
+.tx-header{display:flex;align-items:baseline;justify-content:space-between;margin-bottom:0}
+.tx-source{font-size:10px;color:var(--text-tertiary)}
+.ai-card{background:var(--surface);border:0.5px solid var(--border);border-radius:var(--radius-lg);padding:1.25rem;margin-bottom:1rem}
+.ai-header{display:flex;align-items:center;gap:10px;margin-bottom:12px}
+.ai-icon{width:30px;height:30px;border-radius:8px;background:var(--purple-light);display:flex;align-items:center;justify-content:center}
+.ai-icon i{color:var(--purple);font-size:15px}
+.ai-label{font-size:14px;font-weight:500}
+.ai-sublabel{font-size:11px;color:var(--text-secondary);margin-top:1px}
+.ai-text{font-size:13px;color:var(--text-secondary);line-height:1.65}
+.ai-text strong{color:var(--text);font-weight:500}
+.score-row{display:flex;gap:8px;margin-top:14px}
+.score-item{flex:1}
+.score-bar-bg{height:4px;background:var(--border);border-radius:2px;margin-bottom:5px;overflow:hidden}
+.score-bar-fill{height:100%;border-radius:2px;background:var(--coral);transition:width 0.9s cubic-bezier(.4,0,.2,1)}
+.score-key{font-size:10px;color:var(--text-tertiary)}
+.sample-list{margin-top:12px;border-top:0.5px solid var(--border);padding-top:12px}
+.sample-item{padding:8px 0;border-bottom:0.5px solid var(--border)}
+.sample-item:last-child{border-bottom:none}
+.sample-row1{display:flex;justify-content:space-between;align-items:baseline;gap:8px}
+.sample-row2{display:flex;gap:10px;margin-top:3px}
+.sample-addr{font-size:12px;font-weight:500;color:var(--text)}
+.sample-price{font-size:12px;font-weight:600;color:var(--text);white-space:nowrap}
+.sample-meta{font-size:11px;color:var(--text-tertiary);display:flex;align-items:center;gap:4px}
+.sample-meta i{font-size:11px}
+.tx-loading{display:flex;align-items:center;gap:8px;padding:14px 0;font-size:12px;color:var(--text-tertiary)}
+.mini-dots span{width:4px;height:4px;border-radius:50%;background:var(--coral);animation:pulse 1.2s ease-in-out infinite;display:inline-block;margin-right:2px}
+.mini-dots span:nth-child(2){animation-delay:0.2s}
+.mini-dots span:nth-child(3){animation-delay:0.4s}
+.btn-voir-plus{display:flex;align-items:center;gap:5px;margin-top:10px;padding:7px 0;font-size:12px;color:var(--coral);background:none;border:none;cursor:pointer;font-family:inherit;font-weight:500;transition:opacity 0.15s}
+.btn-voir-plus:hover{opacity:0.7}
+.btn-voir-plus i{font-size:14px}
+.dvf-note{display:flex;align-items:center;gap:6px;font-size:11px;color:var(--text-tertiary)}
+.dvf-note a{color:var(--text-tertiary)}
+.seo-content{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap}
+footer{margin-top:3rem;text-align:center;font-size:11px;color:var(--text-tertiary)}
 </style>
 </head>
 <body>
-
 <h1 class="seo-content">Prix immobilier à Biarritz (64200) — Thermomètre par quartier</h1>
 <section class="seo-content" aria-hidden="true">
-  <h2>Prix immobilier par quartier à Biarritz en 2025</h2>
-  <article><h3>Quartier Impérial</h3><p>Appartements : 12 500 €/m². Évolution 2019–2025 : +52 %.</p></article>
-  <article><h3>Centre-Ville Les Halles</h3><p>Appartements : 8 800 €/m². Évolution 2019–2025 : +46 %.</p></article>
-  <article><h3>Bibi-Beaurivage</h3><p>Appartements : 7 800 €/m². Évolution 2019–2025 : +43 %.</p></article>
-  <article><h3>Quartier de la Milady</h3><p>Appartements : 6 500 €/m². Évolution 2019–2025 : +40 %.</p></article>
-  <article><h3>Parc d'Hiver</h3><p>Appartements : 5 500 €/m². Évolution 2019–2025 : +37 %.</p></article>
+<h2>Prix immobilier par quartier à Biarritz en 2025</h2>
+<article><h3>Quartier Impérial</h3><p>Appartements : médiane 7 598 €/m² (2024–2025). Évolution 2019–2025 : +28 %.</p></article>
+<article><h3>Centre-Ville Les Halles</h3><p>Appartements : médiane 7 868 €/m² (2024–2025). Évolution 2019–2025 : +24 %.</p></article>
+<article><h3>Bibi-Beaurivage</h3><p>Appartements : médiane 7 067 €/m² (2024–2025). Évolution 2019–2025 : +11 %.</p></article>
+<article><h3>Quartier de la Milady</h3><p>Appartements : médiane 7 554 €/m² (2024–2025). Évolution 2019–2025 : +22 %.</p></article>
+<article><h3>Parc d'Hiver</h3><p>Appartements : médiane 5 911 €/m² (2024–2025). Évolution 2019–2025 : +23 %.</p></article>
 </section>
-
 <div class="app">
-  <header class="header">
-    <div class="logo">
-      <div class="logo-dot"><i class="ti ti-home"></i></div>
-      <div class="logo-text">Biarritz<span>.immo</span></div>
-    </div>
-    <div class="lang-switcher">
-      <button class="lang-btn active" onclick="setLang('fr')">FR</button>
-      <button class="lang-btn"        onclick="setLang('en')">EN</button>
-      <button class="lang-btn"        onclick="setLang('es')">ES</button>
-    </div>
-  </header>
-
-  <div class="search-card">
-    <span class="search-label" data-i18n="searchLabel"></span>
-    <div class="search-row">
-      <div class="autocomplete-wrap">
-        <input type="text" id="addressInput" autocomplete="off" />
-        <div class="autocomplete-dropdown" id="acDropdown"></div>
-      </div>
-      <button class="btn-search" id="btnSearch" onclick="analyzeInput()">
-        <i class="ti ti-search"></i> <span data-i18n="btnSearch"></span>
-      </button>
-    </div>
-    <div class="suggestions-label" data-i18n="chipsLabel"></div>
-    <div class="suggestions">
-      <div class="chip" id="chip-imperial"        onclick="analyzeZone('imperial')"><span data-i18n="chip_imperial"></span></div>
-      <div class="chip" id="chip-centre-halles"   onclick="analyzeZone('centre-halles')"><span data-i18n="chip_centre-halles"></span></div>
-      <div class="chip" id="chip-bibi-beaurivage" onclick="analyzeZone('bibi-beaurivage')"><span data-i18n="chip_bibi-beaurivage"></span></div>
-      <div class="chip" id="chip-milady"          onclick="analyzeZone('milady')"><span data-i18n="chip_milady"></span></div>
-      <div class="chip" id="chip-parc-hiver"      onclick="analyzeZone('parc-hiver')"><span data-i18n="chip_parc-hiver"></span></div>
-    </div>
-  </div>
-
-  <div class="loader" id="loader">
-    <div class="dot-pulse"><span></span><span></span><span></span></div>
-    <div class="loader-step" id="loaderStep"></div>
-  </div>
-  <div class="error-card" id="errorCard"></div>
-
-  <div class="result-section" id="results">
-    <div class="street-header">
-      <div><div class="street-name" id="streetName">—</div><div class="street-sub" id="streetSub">—</div></div>
-      <span class="badge" id="marketBadge">—</span>
-    </div>
-    <div class="stats-grid">
-      <div class="stat-card">
-        <div class="stat-label"><i class="ti ti-building"></i> <span data-i18n="statAppt"></span></div>
-        <div class="stat-value" id="priceAppt">—</div>
-        <div class="stat-unit" data-i18n="statPriceUnit"></div>
-      </div>
-      <div class="stat-card">
-        <div class="stat-label"><i class="ti ti-arrow-up-right"></i> <span data-i18n="statEvo"></span></div>
-        <div class="stat-value" id="evolution">—</div>
-        <div class="stat-unit" id="evolutionSub">—</div>
-      </div>
-    </div>
-    <div class="chart-card">
-      <div class="chart-title" data-i18n="chartTitle"></div>
-      <div id="chartContainer" style="position:relative;width:100%;height:170px"><canvas id="priceChart"></canvas></div>
-    </div>
-    <div class="chart-card">
-      <div class="tx-header">
-        <div class="chart-title" style="margin-bottom:0" data-i18n="txTitle"></div>
-        <span class="tx-source" id="txSource"></span>
-      </div>
-      <div class="sample-list" id="sampleList"></div>
-    </div>
-    <div class="ai-card">
-      <div class="ai-header">
-        <div class="ai-icon"><i class="ti ti-sparkles"></i></div>
-        <div>
-          <div class="ai-label" data-i18n="aiLabel"></div>
-          <div class="ai-sublabel" data-i18n="aiSub"></div>
-        </div>
-      </div>
-      <div class="ai-text" id="aiText">—</div>
-      <div class="score-row" id="scoreRow"></div>
-    </div>
-    <div class="dvf-note"><i class="ti ti-database"></i>&nbsp;<span data-i18n="dvfNote"></span></div>
-  </div>
+<header class="header">
+<div class="logo"><div class="logo-dot"><i class="ti ti-home"></i></div><div class="logo-text">Biarritz<span>.immo</span></div></div>
+<div class="lang-switcher">
+<button class="lang-btn active" onclick="setLang('fr')">FR</button>
+<button class="lang-btn" onclick="setLang('en')">EN</button>
+<button class="lang-btn" onclick="setLang('es')">ES</button>
 </div>
-
-<footer>
-  <p data-i18n="footer"></p>
-  <p style="margin-top:6px">
-    <a href="https://biarritz.immo/" style="color:var(--text-tertiary)">Biarritz.immo</a> ·
-    <a href="https://anglet.immo/"   style="color:var(--text-tertiary)">Anglet.immo</a>
-  </p>
-</footer>
-
+</header>
+<div class="search-card">
+<span class="search-label" data-i18n="searchLabel"></span>
+<div class="search-row">
+<div class="autocomplete-wrap">
+<input type="text" id="addressInput" autocomplete="off" />
+<div class="autocomplete-dropdown" id="acDropdown"></div>
+</div>
+<button class="btn-search" id="btnSearch" onclick="analyzeInput()"><i class="ti ti-search"></i> <span data-i18n="btnSearch"></span></button>
+</div>
+<div class="suggestions-label" data-i18n="chipsLabel"></div>
+<div class="suggestions">
+<div class="chip" id="chip-imperial" onclick="analyzeZone('imperial')"><span data-i18n="chip_imperial"></span></div>
+<div class="chip" id="chip-centre-halles" onclick="analyzeZone('centre-halles')"><span data-i18n="chip_centre-halles"></span></div>
+<div class="chip" id="chip-bibi-beaurivage" onclick="analyzeZone('bibi-beaurivage')"><span data-i18n="chip_bibi-beaurivage"></span></div>
+<div class="chip" id="chip-milady" onclick="analyzeZone('milady')"><span data-i18n="chip_milady"></span></div>
+<div class="chip" id="chip-parc-hiver" onclick="analyzeZone('parc-hiver')"><span data-i18n="chip_parc-hiver"></span></div>
+</div>
+</div>
+<div class="loader" id="loader"><div class="dot-pulse"><span></span><span></span><span></span></div><div class="loader-step" id="loaderStep"></div></div>
+<div class="error-card" id="errorCard"></div>
+<div class="result-section" id="results">
+<div class="street-header">
+<div><div class="street-name" id="streetName">—</div><div class="street-sub" id="streetSub">—</div></div>
+<span class="badge" id="marketBadge">—</span>
+</div>
+<div class="stats-grid">
+<div class="stat-card">
+<div class="stat-label"><i class="ti ti-building"></i> <span data-i18n="statAppt"></span></div>
+<div class="stat-value" id="priceAppt">—</div>
+<div class="stat-unit" data-i18n="statPriceUnit"></div>
+</div>
+<div class="stat-card">
+<div class="stat-label"><i class="ti ti-arrow-up-right"></i> <span data-i18n="statEvo"></span></div>
+<div class="stat-value" id="evolution">—</div>
+<div class="stat-unit" id="evolutionSub">—</div>
+</div>
+</div>
+<div class="chart-card">
+<div class="chart-title" data-i18n="chartTitle"></div>
+<div id="chartContainer" style="position:relative;width:100%;height:170px"><canvas id="priceChart"></canvas></div>
+</div>
+<div class="chart-card">
+<div class="tx-header">
+<div class="chart-title" style="margin-bottom:0" data-i18n="txTitle"></div>
+<span class="tx-source" id="txSource"></span>
+</div>
+<div class="sample-list" id="sampleList"></div>
+</div>
+<div class="ai-card">
+<div class="ai-header">
+<div class="ai-icon"><i class="ti ti-sparkles"></i></div>
+<div><div class="ai-label" data-i18n="aiLabel"></div><div class="ai-sublabel" data-i18n="aiSub"></div></div>
+</div>
+<div class="ai-text" id="aiText">—</div>
+<div class="score-row" id="scoreRow"></div>
+</div>
+<div class="dvf-note"><i class="ti ti-database"></i>&nbsp;<span data-i18n="dvfNote"></span></div>
+</div>
+</div>
+<footer><p data-i18n="footer"></p><p style="margin-top:6px"><a href="https://biarritz.immo/" style="color:var(--text-tertiary)">Biarritz.immo</a> · <a href="https://anglet.immo/" style="color:var(--text-tertiary)">Anglet.immo</a></p></footer>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
 <script>
 let LANG='fr';
 const DATE_LOC={fr:'fr-FR',en:'en-GB',es:'es-ES'};
 const T={
-  fr:{searchLabel:'Entrez une adresse à Biarritz',placeholder:'Ex : 12 avenue de l\'Impératrice',btnSearch:'Analyser',chipsLabel:'Quartiers de référence',chip_imperial:'Impérial','chip_centre-halles':'Centre · Halles','chip_bibi-beaurivage':'Bibi-Beaurivage',chip_milady:'Milady','chip_parc-hiver':'Parc d\'Hiver',loaderGeo:'Géocodage de l\'adresse…',loaderAnalyze:'Analyse du marché local…',statAppt:'Appartements',statPriceUnit:'€ / m² moyen',statEvo:'Évolution',chartTitle:'Évolution prix au m² · 2019–2025',txTitle:'Transactions DVF récentes',aiLabel:'Analyse du quartier',aiSub:'Basée sur les données DVF 2019–2025',scoreLabels:['Vue mer','Commerces','Calme','Rentabilité'],voirPlus:'Voir plus',voirMoins:'Voir moins',txLoading:'Chargement des transactions…',errNotFound:'Adresse introuvable à Biarritz. Vérifiez le nom de rue.',errOtherCity:c=>`Cette adresse est à ${c}, pas à Biarritz.`,dvfNote:'Sources : <a href="https://www.data.gouv.fr/fr/datasets/5c4ae55a634f4117716d5656" target="_blank">DVF · DGFiP</a> + <a href="https://adresse.data.gouv.fr" target="_blank">BAN · IGN</a>',footer:'Biarritz.immo · Données DVF 2019–2025 · Pyrénées-Atlantiques 64200',appt:'Appt',maison:'Maison'},
-  en:{searchLabel:'Enter an address in Biarritz',placeholder:'E.g. 12 avenue de l\'Impératrice',btnSearch:'Search',chipsLabel:'Reference neighbourhoods',chip_imperial:'Imperial','chip_centre-halles':'Centre · Halles','chip_bibi-beaurivage':'Bibi-Beaurivage',chip_milady:'Milady','chip_parc-hiver':'Parc d\'Hiver',loaderGeo:'Geocoding address…',loaderAnalyze:'Analysing local market…',statAppt:'Apartments',statPriceUnit:'€ / m² avg',statEvo:'Change',chartTitle:'Price per m² trend · 2019–2025',txTitle:'Recent DVF transactions',aiLabel:'Neighbourhood analysis',aiSub:'Based on DVF data 2019–2025',scoreLabels:['Sea view','Amenities','Quiet','Yield'],voirPlus:'See more',voirMoins:'See less',txLoading:'Loading transactions…',errNotFound:'Address not found in Biarritz. Please check the street name.',errOtherCity:c=>`This address is in ${c}, not in Biarritz.`,dvfNote:'Sources: <a href="https://www.data.gouv.fr/fr/datasets/5c4ae55a634f4117716d5656" target="_blank">DVF · DGFiP</a> + <a href="https://adresse.data.gouv.fr" target="_blank">BAN · IGN</a>',footer:'Biarritz.immo · DVF data 2019–2025 · Pyrénées-Atlantiques 64200',appt:'Apt',maison:'House'},
-  es:{searchLabel:'Introduzca una dirección en Biarritz',placeholder:'Ej: 12 avenue de l\'Impératrice',btnSearch:'Analizar',chipsLabel:'Barrios de referencia',chip_imperial:'Imperial','chip_centre-halles':'Centro · Halles','chip_bibi-beaurivage':'Bibi-Beaurivage',chip_milady:'Milady','chip_parc-hiver':'Parc d\'Hiver',loaderGeo:'Geolocalización de la dirección…',loaderAnalyze:'Analizando el mercado local…',statAppt:'Apartamentos',statPriceUnit:'€ / m² medio',statEvo:'Evolución',chartTitle:'Evolución precio por m² · 2019–2025',txTitle:'Transacciones DVF recientes',aiLabel:'Análisis del barrio',aiSub:'Basado en datos DVF 2019–2025',scoreLabels:['Vista al mar','Comercios','Tranquilidad','Rentabilidad'],voirPlus:'Ver más',voirMoins:'Ver menos',txLoading:'Cargando transacciones…',errNotFound:'Dirección no encontrada en Biarritz. Compruebe el nombre de la calle.',errOtherCity:c=>`Esta dirección está en ${c}, no en Biarritz.`,dvfNote:'Fuentes: <a href="https://www.data.gouv.fr/fr/datasets/5c4ae55a634f4117716d5656" target="_blank">DVF · DGFiP</a> + <a href="https://adresse.data.gouv.fr" target="_blank">BAN · IGN</a>',footer:'Biarritz.immo · Datos DVF 2019–2025 · Pyrénées-Atlantiques 64200',appt:'Apto',maison:'Casa'}
+fr:{searchLabel:'Entrez une adresse à Biarritz',placeholder:'Ex : 12 avenue de l\'Impératrice',btnSearch:'Analyser',chipsLabel:'Quartiers de référence',chip_imperial:'Impérial','chip_centre-halles':'Centre · Halles','chip_bibi-beaurivage':'Bibi-Beaurivage',chip_milady:'Milady','chip_parc-hiver':'Parc d\'Hiver',loaderGeo:'Géocodage de l\'adresse…',loaderAnalyze:'Analyse du marché local…',statAppt:'Appartements',statPriceUnit:'€ / m² médian (2024–25)',statEvo:'Évolution',chartTitle:'Évolution prix au m² · 2019–2025',txTitle:'Transactions DVF récentes',aiLabel:'Analyse du quartier',aiSub:'Basée sur les données DVF 2019–2025',scoreLabels:['Vue mer','Commerces','Calme','Rentabilité'],voirPlus:'Voir plus',voirMoins:'Voir moins',txLoading:'Chargement des transactions…',errNotFound:'Adresse introuvable à Biarritz. Vérifiez le nom de rue.',errOtherCity:c=>'Cette adresse est à '+c+', pas à Biarritz.',dvfNote:'Sources : <a href="https://datafoncier.cerema.fr/donnees/autres-donnees-foncieres/dvfplus-open-data" target="_blank">DVF+ open-data · Cerema/DGFiP</a> + <a href="https://adresse.data.gouv.fr" target="_blank">BAN · IGN</a> · Extraction juillet 2026',footer:'Biarritz.immo · Données DVF 2019–2025 · Pyrénées-Atlantiques 64200',appt:'Appt',maison:'Maison',sales:'ventes'},
+en:{searchLabel:'Enter an address in Biarritz',placeholder:'E.g. 12 avenue de l\'Impératrice',btnSearch:'Search',chipsLabel:'Reference neighbourhoods',chip_imperial:'Imperial','chip_centre-halles':'Centre · Halles','chip_bibi-beaurivage':'Bibi-Beaurivage',chip_milady:'Milady','chip_parc-hiver':'Parc d\'Hiver',loaderGeo:'Geocoding address…',loaderAnalyze:'Analysing local market…',statAppt:'Apartments',statPriceUnit:'median €/m² (2024–25)',statEvo:'Change',chartTitle:'Price per m² trend · 2019–2025',txTitle:'Recent DVF transactions',aiLabel:'Neighbourhood analysis',aiSub:'Based on DVF data 2019–2025',scoreLabels:['Sea view','Amenities','Quiet','Yield'],voirPlus:'See more',voirMoins:'See less',txLoading:'Loading transactions…',errNotFound:'Address not found in Biarritz. Please check the street name.',errOtherCity:c=>'This address is in '+c+', not in Biarritz.',dvfNote:'Sources: <a href="https://datafoncier.cerema.fr/donnees/autres-donnees-foncieres/dvfplus-open-data" target="_blank">DVF+ open-data · Cerema/DGFiP</a> + <a href="https://adresse.data.gouv.fr" target="_blank">BAN · IGN</a> · Extracted July 2026',footer:'Biarritz.immo · DVF data 2019–2025 · Pyrénées-Atlantiques 64200',appt:'Apt',maison:'House',sales:'sales'},
+es:{searchLabel:'Introduzca una dirección en Biarritz',placeholder:'Ej: 12 avenue de l\'Impératrice',btnSearch:'Analizar',chipsLabel:'Barrios de referencia',chip_imperial:'Imperial','chip_centre-halles':'Centro · Halles','chip_bibi-beaurivage':'Bibi-Beaurivage',chip_milady:'Milady','chip_parc-hiver':'Parc d\'Hiver',loaderGeo:'Geolocalización de la dirección…',loaderAnalyze:'Analizando el mercado local…',statAppt:'Apartamentos',statPriceUnit:'€/m² mediano (2024–25)',statEvo:'Evolución',chartTitle:'Evolución precio por m² · 2019–2025',txTitle:'Transacciones DVF recientes',aiLabel:'Análisis del barrio',aiSub:'Basado en datos DVF 2019–2025',scoreLabels:['Vista al mar','Comercios','Tranquilidad','Rentabilidad'],voirPlus:'Ver más',voirMoins:'Ver menos',txLoading:'Cargando transacciones…',errNotFound:'Dirección no encontrada en Biarritz. Compruebe el nombre de la calle.',errOtherCity:c=>'Esta dirección está en '+c+', no en Biarritz.',dvfNote:'Fuentes: <a href="https://datafoncier.cerema.fr/donnees/autres-donnees-foncieres/dvfplus-open-data" target="_blank">DVF+ open-data · Cerema/DGFiP</a> + <a href="https://adresse.data.gouv.fr" target="_blank">BAN · IGN</a> · Extracción julio 2026',footer:'Biarritz.immo · Datos DVF 2019–2025 · Pyrénées-Atlantiques 64200',appt:'Apto',maison:'Casa',sales:'ventas'}
 };
 function t(key){return T[LANG][key]??T.fr[key]??key;}
-function setLang(lang){
-  LANG=lang;document.documentElement.lang=lang;
-  document.querySelectorAll('.lang-btn').forEach(b=>b.classList.toggle('active',b.textContent===lang.toUpperCase()));
-  document.querySelectorAll('[data-i18n]').forEach(el=>{const k=el.dataset.i18n;if(k==='dvfNote'||k==='footer'){el.innerHTML=t(k);return;}el.textContent=t(k);});
-  document.getElementById('addressInput').placeholder=t('placeholder');
-  if(currentZone&&document.getElementById('results').classList.contains('visible'))render(currentZone,currentGeo,false);
-}
-
+function setLang(lang){LANG=lang;document.documentElement.lang=lang;document.querySelectorAll('.lang-btn').forEach(b=>b.classList.toggle('active',b.textContent===lang.toUpperCase()));document.querySelectorAll('[data-i18n]').forEach(el=>{const k=el.dataset.i18n;if(k==='dvfNote'||k==='footer'){el.innerHTML=t(k);return;}el.textContent=t(k);});document.getElementById('addressInput').placeholder=t('placeholder');if(currentZone&&document.getElementById('results').classList.contains('visible'))render(currentZone,currentGeo,false);}
 const BAN='https://api-adresse.data.gouv.fr/search/';
-const DVF_API='https://apidf.cerema.fr/dvf_opendata/geomutations/';
-const BZC='64122',RAYON=700,SHOW=5;
-
+const BZC='64122',SHOW=5;
+/* Données réelles DVF+ open-data (Cerema/DGFiP), extraites le 2026-07-03 via apidf-preprod.cerema.fr.
+   Méthodo : ventes d'un seul appartement (121*) ou d'une seule maison (111*), rayon 750 m autour du centre de chaque quartier,
+   surface > 9 m², 1 000 < €/m² < 35 000. priceAppt = médiane appartements 2024–2025 ; history = médiane par année.
+   Pour rafraîchir : voir dvf-biarritz.json dans le repo. */
 const ZONES=[
-  {id:'imperial',name:{fr:'Quartier Impérial',en:'Imperial Quarter',es:'Barrio Imperial'},zone:{fr:'Biarritz · Front de mer',en:'Biarritz · Seafront',es:'Biarritz · Frente al mar'},lat:43.4890,lon:-1.5534,priceAppt:12500,evo:'+52',eLabel:'+52% (2019→2025)',history:[8200,9400,10700,12200,11800,12100,12500],years:['2019','2020','2021','2022','2023','2024','2025'],badge:{label:{fr:'Marché très tendu',en:'Very tight market',es:'Mercado muy tenso'},cls:'badge-hot'},ai:{fr:'Le <strong>Quartier Impérial</strong> est le secteur le plus prestigieux de Biarritz, rayonnant autour de l\'Hôtel du Palais. Villas Belle Époque et appartements haussmanniens avec vue océan directe — les biens en première ligne dépassent régulièrement <strong>16 000 €/m²</strong>. Clientèle internationale, délai de vente moyen inférieur à <strong>15 jours</strong>.',en:'The <strong>Imperial Quarter</strong> is Biarritz\'s most prestigious area, centred around the Hôtel du Palais. Belle Époque villas and Haussmann apartments with direct ocean views — seafront properties regularly exceed <strong>16,000 €/m²</strong>. International clientele, average sale time under <strong>15 days</strong>.',es:'El <strong>Barrio Imperial</strong> es el sector más prestigioso de Biarritz. Los bienes en primera línea superan regularmente los <strong>16.000 €/m²</strong>. Clientela internacional, plazo medio de venta inferior a <strong>15 días</strong>.'},scores:[[100],[100],[55],[58]],nearby:[{rue:'AV DE L\'IMPÉRATRICE',num:'8',type:'appt',surface:74,floor:'3e',pm2:13800,date:'2025-03-15'},{rue:'AV DE L\'IMPÉRATRICE',num:'22',type:'appt',surface:58,floor:'1er',pm2:12400,date:'2025-01-28'},{rue:'AV REINE VICTORIA',num:'5',type:'appt',surface:92,floor:'4e',pm2:11900,date:'2025-02-10'},{rue:'AV DE L\'IMPÉRATRICE',num:'40',type:'appt',surface:110,floor:'2e',pm2:14200,date:'2024-11-20'},{rue:'RUE GAMBETTA',num:'3',type:'appt',surface:48,floor:'5e',pm2:11200,date:'2024-10-08'},{rue:'BD DU GÉNÉRAL DE GAULLE',num:'12',type:'appt',surface:66,floor:'2e',pm2:12800,date:'2024-09-14'},{rue:'AV ÉDOUARD VII',num:'7',type:'appt',surface:88,floor:'3e',pm2:13100,date:'2024-07-30'}]},
-  {id:'centre-halles',name:{fr:'Centre-Ville · Les Halles',en:'City Centre · Les Halles',es:'Centro Ciudad · Les Halles'},zone:{fr:'Biarritz · Cœur de ville',en:'Biarritz · City centre',es:'Biarritz · Centro ciudad'},lat:43.4822,lon:-1.5605,priceAppt:8800,evo:'+46',eLabel:'+46% (2019→2025)',history:[6000,6800,7700,9200,8900,8600,8800],years:['2019','2020','2021','2022','2023','2024','2025'],badge:{label:{fr:'Marché très tendu',en:'Very tight market',es:'Mercado muy tenso'},cls:'badge-hot'},ai:{fr:'Le <strong>Centre-Ville et les Halles</strong> concentrent la vie biarrote autour de la place Clémenceau : Grande Plage, marché couvert, restaurants, boutiques. Le secteur le plus liquide de Biarritz. Très prisé pour les résidences secondaires parisiennes et les investissements locatifs saisonniers.',en:'The <strong>City Centre and Les Halles</strong> concentrate Biarritz life around Place Clémenceau: Grande Plage, covered market, restaurants, shops. The most liquid sector — very popular for Parisian second homes and seasonal rental investments.',es:'El <strong>Centro Ciudad y Les Halles</strong> concentran la vida en torno a la plaza Clémenceau. El sector más líquido de Biarritz. Muy codiciado para residencias secundarias e inversiones en alquiler estacional.'},scores:[[70],[100],[38],[82]],nearby:[{rue:'RUE DU CENTRE',num:'3',type:'appt',surface:48,floor:'2e',pm2:9600,date:'2025-04-08'},{rue:'RUE GAMBETTA',num:'14',type:'appt',surface:63,floor:'RdC',pm2:8700,date:'2025-02-14'},{rue:'RUE MAZAGRAN',num:'8',type:'appt',surface:55,floor:'1er',pm2:8200,date:'2025-01-22'},{rue:'RUE GARDÈRES',num:'5',type:'appt',surface:71,floor:'3e',pm2:9100,date:'2024-12-10'},{rue:'AV DU MAR. FOCH',num:'18',type:'appt',surface:44,floor:'1er',pm2:8400,date:'2024-11-05'},{rue:'RUE L. BARTHOU',num:'9',type:'appt',surface:82,floor:'4e',pm2:9300,date:'2024-09-28'},{rue:'PL. CLÉMENCEAU',num:'2',type:'appt',surface:60,floor:'2e',pm2:10200,date:'2024-08-15'}]},
-  {id:'bibi-beaurivage',name:{fr:'Bibi-Beaurivage',en:'Bibi-Beaurivage',es:'Bibi-Beaurivage'},zone:{fr:'Biarritz · Côte des Basques',en:'Biarritz · Basque Coast',es:'Biarritz · Costa Vasca'},lat:43.4740,lon:-1.5620,priceAppt:7800,evo:'+43',eLabel:'+43% (2019→2025)',history:[5500,6100,6900,8200,7900,7600,7800],years:['2019','2020','2021','2022','2023','2024','2025'],badge:{label:{fr:'En vogue',en:'Trending',es:'De moda'},cls:'badge-warm'},ai:{fr:'<strong>Bibi-Beaurivage</strong> est l\'ancien quartier de pêcheurs devenu l\'un des plus branchés de Biarritz. À deux pas du spot de surf mythique de la Côte des Basques, la place Pradier anime une vie de quartier authentique. Fort potentiel en <strong>location saisonnière</strong> — rendements bruts jusqu\'à 6%.',en:'<strong>Bibi-Beaurivage</strong> is the former fishermen\'s quarter, now one of Biarritz\'s trendiest neighbourhoods. Steps from the legendary Côte des Basques surf spot. Strong potential for <strong>seasonal rentals</strong> — gross yields up to 6%.',es:'<strong>Bibi-Beaurivage</strong> es el antiguo barrio de pescadores convertido en uno de los más de moda de Biarritz. Gran potencial de <strong>alquiler estacional</strong> — rendimientos brutos de hasta el 6%.'},scores:[[82],[72],[55],[90]],nearby:[{rue:'BD DU PRINCE DE GALLES',num:'5',type:'appt',surface:67,floor:'2e',pm2:8400,date:'2025-03-10'},{rue:'BD DU PRINCE DE GALLES',num:'18',type:'appt',surface:44,floor:'1er',pm2:7700,date:'2025-01-30'},{rue:'RUE DES GOÉLANDS',num:'8',type:'appt',surface:62,floor:'3e',pm2:7500,date:'2025-02-20'},{rue:'RUE DE LA CÔTE BASQUE',num:'11',type:'appt',surface:53,floor:'3e',pm2:8100,date:'2024-12-05'},{rue:'AV DE LA CÔTE BASQUE',num:'24',type:'appt',surface:78,floor:'2e',pm2:7600,date:'2024-10-18'},{rue:'RUE PRADET',num:'3',type:'appt',surface:40,floor:'RdC',pm2:6900,date:'2024-09-02'},{rue:'BD DU PRINCE DE GALLES',num:'32',type:'appt',surface:88,floor:'4e',pm2:8200,date:'2024-07-25'}]},
-  {id:'milady',name:{fr:'Quartier de la Milady',en:'Milady Quarter',es:'Barrio de la Milady'},zone:{fr:'Biarritz · Extrême Sud',en:'Biarritz · Southern tip',es:'Biarritz · Extremo Sur'},lat:43.4677,lon:-1.5689,priceAppt:6500,evo:'+40',eLabel:'+40% (2019→2025)',history:[4900,5400,6000,7200,6900,6600,6800],years:['2019','2020','2021','2022','2023','2024','2025'],badge:{label:{fr:'En vogue',en:'Trending',es:'De moda'},cls:'badge-warm'},ai:{fr:'Le <strong>Quartier de la Milady</strong>, aux portes de Bidart, séduit par sa douceur de vivre entre la plage de Milady et le golf d\'Ilbarritz. Prix <strong>30–40% inférieurs</strong> au Centre. Idéal pour un usage résidentiel principal avec accès direct aux plages.',en:'The <strong>Milady Quarter</strong>, at the gateway to Bidart, offers a gentle way of life between Milady beach and Ilbarritz golf. Prices <strong>30–40% lower</strong> than the Centre — ideal for primary residence with direct beach access.',es:'El <strong>Barrio de Milady</strong>, a las puertas de Bidart, a precios <strong>30-40% inferiores</strong> al Centro. Ideal para residencia principal con acceso directo a las playas.'},scores:[[80],[38],[90],[74]],nearby:[{rue:'AV DE LA MILADY',num:'9',type:'appt',surface:82,floor:'3e',pm2:7400,date:'2025-03-18'},{rue:'RUE DE MILADY',num:'3',type:'appt',surface:51,floor:'1er',pm2:6700,date:'2025-01-25'},{rue:'AV D\'ILBARRITZ',num:'5',type:'appt',surface:64,floor:'2e',pm2:6500,date:'2025-02-12'},{rue:'AV DE LA MILADY',num:'22',type:'appt',surface:68,floor:'2e',pm2:7100,date:'2024-11-30'},{rue:'RUE DU VALLON',num:'7',type:'appt',surface:45,floor:'RdC',pm2:6400,date:'2024-10-22'},{rue:'AV D\'ILBARRITZ',num:'18',type:'appt',surface:75,floor:'3e',pm2:6800,date:'2024-09-08'},{rue:'RUE DE MILADY',num:'14',type:'appt',surface:59,floor:'1er',pm2:6600,date:'2024-08-01'}]},
-  {id:'parc-hiver',name:{fr:'Parc d\'Hiver',en:'Parc d\'Hiver',es:'Parc d\'Hiver'},zone:{fr:'Biarritz · Résidentiel',en:'Biarritz · Residential',es:'Biarritz · Residencial'},lat:43.4793,lon:-1.5393,priceAppt:5500,evo:'+37',eLabel:'+37% (2019→2025)',history:[4200,4600,5200,6200,5900,5700,5800],years:['2019','2020','2021','2022','2023','2024','2025'],badge:{label:{fr:'Marché dynamique',en:'Dynamic market',es:'Mercado dinámico'},cls:'badge-warm'},ai:{fr:'Le <strong>Parc d\'Hiver</strong> est le quartier résidentiel élégant où la bourgeoisie biarrote s\'est longtemps abritée des vents atlantiques. Belles maisons de maître avec jardins, calme absolu. Le <strong>meilleur rapport qualité-prix</strong> de Biarritz pour qui privilégie l\'espace sur la vue mer.',en:'<strong>Parc d\'Hiver</strong> is the elegant residential quarter with fine manor houses and gardens. The <strong>best value for money</strong> in Biarritz for those who prioritise space over sea views.',es:'El <strong>Parc d\'Hiver</strong> es el elegante barrio residencial. La <strong>mejor relación calidad-precio</strong> de Biarritz para quien prioriza el espacio sobre las vistas al mar.'},scores:[[18],[72],[92],[70]],nearby:[{rue:'ALLÉE DU PARC D\'HIVER',num:'4',type:'appt',surface:78,floor:'2e',pm2:5900,date:'2025-03-28'},{rue:'RUE D\'AGUILERA',num:'32',type:'appt',surface:71,floor:'2e',pm2:5700,date:'2025-01-14'},{rue:'AV DE BAYONNE',num:'15',type:'appt',surface:55,floor:'1er',pm2:5200,date:'2025-02-22'},{rue:'RUE D\'AGUILERA',num:'58',type:'appt',surface:54,floor:'1er',pm2:5600,date:'2024-12-18'},{rue:'AV DE LA MARNE',num:'6',type:'appt',surface:88,floor:'3e',pm2:6000,date:'2024-11-04'},{rue:'ALLÉE DU PARC D\'HIVER',num:'11',type:'appt',surface:95,floor:'4e',pm2:6100,date:'2024-09-17'},{rue:'RUE PELLOT',num:'2',type:'appt',surface:62,floor:'RdC',pm2:5100,date:'2024-08-09'}]}
+{id:'imperial',name:{fr:'Quartier Impérial',en:'Imperial Quarter',es:'Barrio Imperial'},zone:{fr:'Biarritz · Front de mer',en:'Biarritz · Seafront',es:'Biarritz · Frente al mar'},lat:43.4890,lon:-1.5534,priceAppt:7598,evo:'+28',eLabel:'+28% (2019→2025)',nTx:1271,history:[6042,6805,7533,8391,8404,7480,7747],years:['2019','2020','2021','2022','2023','2024','2025'],badge:{label:{fr:'Marché très tendu',en:'Very tight market',es:'Mercado muy tenso'},cls:'badge-hot'},ai:{fr:'Le <strong>Quartier Impérial</strong>, autour de l\'Hôtel du Palais, reste le secteur emblématique de Biarritz : villas Belle Époque et immeubles de standing face à l\'océan. Médiane 2024–2025 : <strong>7 600 €/m²</strong> pour les appartements, mais les 10 % de ventes les plus chères dépassent <strong>12 400 €/m²</strong> — l\'écart reflète la prime des biens en première ligne.',en:'The <strong>Imperial Quarter</strong>, around the Hôtel du Palais, remains Biarritz\'s flagship area: Belle Époque villas and premium buildings facing the ocean. 2024–2025 median: <strong>€7,600/m²</strong> for apartments, while the top 10% of sales exceed <strong>€12,400/m²</strong> — the gap reflects the seafront premium.',es:'El <strong>Barrio Imperial</strong>, alrededor del Hôtel du Palais, sigue siendo el sector emblemático de Biarritz. Mediana 2024–2025: <strong>7.600 €/m²</strong> en apartamentos; el 10 % de ventas más caras supera los <strong>12.400 €/m²</strong>.'},scores:[[100],[100],[55],[58]],nearby:[{type:'appt',surface:68,pm2:11819,date:'2025-12-29'},{type:'appt',surface:24,pm2:8750,date:'2025-12-23'},{type:'appt',surface:65,pm2:4028,date:'2025-12-22'},{type:'appt',surface:42,pm2:18818,date:'2025-12-19'},{type:'appt',surface:114,pm2:8254,date:'2025-12-18'},{type:'appt',surface:45,pm2:6022,date:'2025-12-18'},{type:'appt',surface:69,pm2:5507,date:'2025-12-17'},{type:'maison',surface:160,pm2:5619,date:'2025-12-16'},{type:'appt',surface:91,pm2:8606,date:'2025-12-16'},{type:'maison',surface:118,pm2:10682,date:'2025-12-16'},{type:'appt',surface:29,pm2:11121,date:'2025-12-15'},{type:'appt',surface:44,pm2:8523,date:'2025-12-12'},{type:'maison',surface:73,pm2:34247,date:'2025-12-11'},{type:'appt',surface:19,pm2:7316,date:'2025-12-11'},{type:'appt',surface:41,pm2:5244,date:'2025-12-11'}]},
+{id:'centre-halles',name:{fr:'Centre-Ville · Les Halles',en:'City Centre · Les Halles',es:'Centro Ciudad · Les Halles'},zone:{fr:'Biarritz · Cœur de ville',en:'Biarritz · City centre',es:'Biarritz · Centro ciudad'},lat:43.4822,lon:-1.5605,priceAppt:7868,evo:'+24',eLabel:'+24% (2019→2025)',nTx:2257,history:[6336,6889,7540,8391,8824,8043,7827],years:['2019','2020','2021','2022','2023','2024','2025'],badge:{label:{fr:'Marché très tendu',en:'Very tight market',es:'Mercado muy tenso'},cls:'badge-hot'},ai:{fr:'Le <strong>Centre-Ville et les Halles</strong> concentrent la vie biarrote autour de la place Clémenceau. C\'est le secteur le plus actif : <strong>2 140 ventes d\'appartements</strong> depuis 2019, médiane 2024–2025 à <strong>7 870 €/m²</strong>. Après un pic à 8 824 €/m² en 2023, les prix se sont stabilisés.',en:'The <strong>City Centre and Les Halles</strong> concentrate Biarritz life around Place Clémenceau. The most active sector: <strong>2,140 apartment sales</strong> since 2019, 2024–2025 median at <strong>€7,870/m²</strong>. After a 2023 peak at €8,824/m², prices have stabilised.',es:'El <strong>Centro Ciudad y Les Halles</strong> concentran la vida en torno a la plaza Clémenceau. El sector más activo: <strong>2.140 ventas</strong> desde 2019, mediana 2024–2025 de <strong>7.870 €/m²</strong>.'},scores:[[70],[100],[38],[82]],nearby:[{type:'appt',surface:64,pm2:11442,date:'2025-12-29'},{type:'appt',surface:55,pm2:7182,date:'2025-12-29'},{type:'appt',surface:24,pm2:8750,date:'2025-12-23'},{type:'appt',surface:24,pm2:8161,date:'2025-12-23'},{type:'appt',surface:40,pm2:9000,date:'2025-12-23'},{type:'appt',surface:34,pm2:4706,date:'2025-12-23'},{type:'appt',surface:120,pm2:10083,date:'2025-12-22'},{type:'appt',surface:69,pm2:9905,date:'2025-12-19'},{type:'appt',surface:114,pm2:8254,date:'2025-12-18'},{type:'appt',surface:58,pm2:7605,date:'2025-12-18'},{type:'appt',surface:69,pm2:5507,date:'2025-12-17'},{type:'appt',surface:91,pm2:8606,date:'2025-12-16'},{type:'appt',surface:76,pm2:6197,date:'2025-12-16'},{type:'appt',surface:40,pm2:4646,date:'2025-12-16'},{type:'appt',surface:47,pm2:6809,date:'2025-12-15'}]},
+{id:'bibi-beaurivage',name:{fr:'Bibi-Beaurivage',en:'Bibi-Beaurivage',es:'Bibi-Beaurivage'},zone:{fr:'Biarritz · Côte des Basques',en:'Biarritz · Basque Coast',es:'Biarritz · Costa Vasca'},lat:43.4740,lon:-1.5620,priceAppt:7067,evo:'+11',eLabel:'+11% (2019→2025)',nTx:1346,history:[6087,6696,7474,8341,8256,7599,6750],years:['2019','2020','2021','2022','2023','2024','2025'],badge:{label:{fr:'En repli depuis 2022',en:'Cooling since 2022',es:'En retroceso desde 2022'},cls:'badge-cool'},ai:{fr:'<strong>Bibi-Beaurivage</strong>, ancien quartier de pêcheurs proche de la Côte des Basques, reste très recherché. Médiane 2024–2025 : <strong>7 070 €/m²</strong>. Après le pic de 2022 (8 341 €/m²), les prix ont nettement reflué : <strong>+11 %</strong> seulement depuis 2019, la plus faible hausse des cinq quartiers.',en:'<strong>Bibi-Beaurivage</strong>, the former fishermen\'s quarter near the Côte des Basques, remains highly sought after. 2024–2025 median: <strong>€7,070/m²</strong>. After the 2022 peak (€8,341/m²), prices have clearly receded: just <strong>+11%</strong> since 2019, the smallest rise of the five areas.',es:'<strong>Bibi-Beaurivage</strong>, antiguo barrio de pescadores cerca de la Côte des Basques. Mediana 2024–2025: <strong>7.070 €/m²</strong>; tras el pico de 2022, los precios han retrocedido (<strong>+11 %</strong> desde 2019).'},scores:[[82],[72],[55],[90]],nearby:[{type:'appt',surface:55,pm2:7182,date:'2025-12-29'},{type:'appt',surface:94,pm2:5319,date:'2025-12-29'},{type:'maison',surface:160,pm2:1500,date:'2025-12-23'},{type:'appt',surface:81,pm2:6790,date:'2025-12-22'},{type:'appt',surface:69,pm2:9905,date:'2025-12-19'},{type:'appt',surface:58,pm2:7605,date:'2025-12-18'},{type:'appt',surface:61,pm2:11036,date:'2025-12-18'},{type:'appt',surface:47,pm2:4474,date:'2025-12-18'},{type:'appt',surface:24,pm2:2500,date:'2025-12-17'},{type:'appt',surface:40,pm2:4646,date:'2025-12-16'},{type:'appt',surface:68,pm2:6324,date:'2025-12-12'},{type:'appt',surface:42,pm2:5238,date:'2025-12-11'},{type:'appt',surface:37,pm2:11351,date:'2025-12-11'},{type:'appt',surface:72,pm2:8763,date:'2025-12-09'},{type:'maison',surface:67,pm2:7463,date:'2025-12-05'}]},
+{id:'milady',name:{fr:'Quartier de la Milady',en:'Milady Quarter',es:'Barrio de la Milady'},zone:{fr:'Biarritz · Extrême Sud',en:'Biarritz · Southern tip',es:'Biarritz · Extremo Sur'},lat:43.4677,lon:-1.5689,priceAppt:7554,evo:'+22',eLabel:'+22% (2019→2025)',nTx:370,history:[6009,6950,7000,7902,7718,8008,7327],years:['2019','2020','2021','2022','2023','2024','2025'],badge:{label:{fr:'En vogue',en:'Trending',es:'De moda'},cls:'badge-warm'},ai:{fr:'Le <strong>Quartier de la Milady</strong>, aux portes de Bidart, entre la plage et le golf d\'Ilbarritz. Marché étroit (une trentaine de ventes d\'appartements par an) : médiane 2024–2025 à <strong>7 550 €/m²</strong>, désormais proche du Centre. Les maisons y sont rares et chères (médiane ~<strong>11 500 €/m²</strong>).',en:'The <strong>Milady Quarter</strong>, at the gateway to Bidart, between the beach and Ilbarritz golf course. A narrow market (about thirty apartment sales a year): 2024–2025 median at <strong>€7,550/m²</strong>, now close to the Centre. Houses are rare and expensive (median ~<strong>€11,500/m²</strong>).',es:'El <strong>Barrio de Milady</strong>, a las puertas de Bidart. Mercado estrecho: mediana 2024–2025 de <strong>7.550 €/m²</strong>; las casas son escasas y caras (mediana ~<strong>11.500 €/m²</strong>).'},scores:[[80],[38],[90],[74]],nearby:[{type:'maison',surface:106,pm2:18585,date:'2025-12-29'},{type:'maison',surface:160,pm2:1500,date:'2025-12-23'},{type:'appt',surface:62,pm2:7984,date:'2025-12-19'},{type:'appt',surface:61,pm2:11036,date:'2025-12-18'},{type:'appt',surface:34,pm2:7353,date:'2025-12-01'},{type:'maison',surface:122,pm2:20576,date:'2025-11-24'},{type:'appt',surface:52,pm2:1443,date:'2025-11-21'},{type:'maison',surface:80,pm2:5625,date:'2025-11-10'},{type:'appt',surface:124,pm2:5065,date:'2025-10-28'},{type:'maison',surface:130,pm2:14731,date:'2025-10-24'},{type:'maison',surface:150,pm2:8177,date:'2025-10-24'},{type:'appt',surface:61,pm2:9269,date:'2025-10-23'},{type:'appt',surface:76,pm2:6250,date:'2025-10-02'},{type:'appt',surface:31,pm2:7495,date:'2025-10-01'},{type:'appt',surface:34,pm2:9765,date:'2025-09-18'}]},
+{id:'parc-hiver',name:{fr:'Parc d\'Hiver',en:'Parc d\'Hiver',es:'Parc d\'Hiver'},zone:{fr:'Biarritz · Résidentiel',en:'Biarritz · Residential',es:'Biarritz · Residencial'},lat:43.4793,lon:-1.5393,priceAppt:5911,evo:'+23',eLabel:'+23% (2019→2025)',nTx:840,history:[4513,4889,5785,6339,6426,6569,5550],years:['2019','2020','2021','2022','2023','2024','2025'],badge:{label:{fr:'Marché dynamique',en:'Dynamic market',es:'Mercado dinámico'},cls:'badge-warm'},ai:{fr:'Le <strong>Parc d\'Hiver</strong> est le quartier résidentiel élégant de Biarritz — et le plus abordable des cinq : médiane 2024–2025 à <strong>5 910 €/m²</strong>, et même les 10 % de ventes les plus chères restent sous <strong>7 750 €/m²</strong>. Le <strong>meilleur rapport surface/prix</strong> pour qui privilégie l\'espace sur la vue mer.',en:'<strong>Parc d\'Hiver</strong> is Biarritz\'s elegant residential quarter — and the most affordable of the five: 2024–2025 median at <strong>€5,910/m²</strong>, with even the top 10% of sales below <strong>€7,750/m²</strong>. The <strong>best space-for-money ratio</strong> for those who prioritise space over sea views.',es:'El <strong>Parc d\'Hiver</strong> es el elegante barrio residencial — y el más asequible: mediana 2024–2025 de <strong>5.910 €/m²</strong>. La <strong>mejor relación superficie-precio</strong> de Biarritz.'},scores:[[18],[72],[92],[70]],nearby:[{type:'appt',surface:70,pm2:5552,date:'2025-12-30'},{type:'maison',surface:60,pm2:7788,date:'2025-12-22'},{type:'maison',surface:114,pm2:8006,date:'2025-12-17'},{type:'appt',surface:34,pm2:10139,date:'2025-12-16'},{type:'appt',surface:49,pm2:6122,date:'2025-12-12'},{type:'maison',surface:38,pm2:6409,date:'2025-12-09'},{type:'appt',surface:51,pm2:5784,date:'2025-12-08'},{type:'appt',surface:34,pm2:8824,date:'2025-12-05'},{type:'appt',surface:55,pm2:5455,date:'2025-12-01'},{type:'appt',surface:105,pm2:5352,date:'2025-11-28'},{type:'appt',surface:63,pm2:5397,date:'2025-11-28'},{type:'appt',surface:73,pm2:6322,date:'2025-11-26'},{type:'appt',surface:60,pm2:5333,date:'2025-11-26'},{type:'appt',surface:56,pm2:5919,date:'2025-11-25'},{type:'appt',surface:63,pm2:5052,date:'2025-11-20'}]}
 ];
-
 let currentZone=null,currentGeo=null,currentTxList=[],txExpanded=false,chartInstance=null;
 const isBZC=f=>f?.properties?.citycode===BZC;
-function normType(lib){if(!lib)return null;const l=lib.toLowerCase();if(l.includes('appartement'))return 'appt';if(l.includes('maison'))return 'maison';return null;}
-
-async function fetchDVF(zone){
-  document.getElementById('sampleList').innerHTML=`<div class="tx-loading"><div class="mini-dots"><span></span><span></span><span></span></div>&nbsp;${t('txLoading')}</div>`;
-  document.getElementById('txSource').textContent='';
-  try{const url=`${DVF_API}?lat=${zone.lat}&lon=${zone.lon}&rayon=${RAYON}&ordering=-datemut&page_size=50`;const res=await fetch(url,{signal:AbortSignal.timeout(7000)});if(!res.ok)throw new Error('HTTP '+res.status);const data=await res.json();const txs=(data.results||[]).map(m=>({rue:null,num:null,type:normType(m.libtypbien),surface:Math.round(parseFloat(m.sbati)||0),floor:null,pm2:Math.round(parseFloat(m.valeurfonc)/(parseFloat(m.sbati)||1)),date:m.datemut})).filter(m=>m.type&&m.surface>5&&m.pm2>1000&&m.pm2<50000);if(!txs.length)throw new Error('empty');currentTxList=txs;document.getElementById('txSource').textContent=`DVF live · ${txs.length}`;renderTxList();}
-  catch(e){currentTxList=zone.nearby;document.getElementById('txSource').textContent='DVF 2024–2025';renderTxList();}
-}
-
+function fetchDVF(zone){currentTxList=zone.nearby;document.getElementById('txSource').textContent='DVF 2019–2025'+(zone.nTx?' · '+zone.nTx.toLocaleString('fr-FR')+' '+t('sales'):'');renderTxList();}
 function renderTxList(){
-  const dateLoc=DATE_LOC[LANG];
-  const rows=currentTxList.map((tx,i)=>{const d=new Date(tx.date).toLocaleDateString(dateLoc,{month:'short',year:'numeric'});const typeL=t(tx.type||'appt');const addr=tx.rue?`${tx.num?tx.num+' ':''}${tx.rue}`:null;const addrHtml=addr?`<span class="sample-addr">${addr} <em style="font-size:10px;color:var(--text-tertiary);font-weight:400">${typeL}</em></span>`:`<span class="sample-addr"><em style="font-size:11px;color:var(--text-secondary);font-style:normal">${typeL}</em></span>`;const surf=tx.surface?`<span class="sample-meta"><i class="ti ti-arrows-diagonal"></i>${tx.surface} m²</span>`:'';const floor=tx.floor?`<span class="sample-meta"><i class="ti ti-stairs"></i>${tx.floor}</span>`:'';const hidden=(!txExpanded&&i>=SHOW)?' style="display:none"':'';return`<div class="sample-item"${hidden}><div class="sample-row1">${addrHtml}<span class="sample-price">${tx.pm2.toLocaleString('fr-FR')} €/m²</span></div><div class="sample-row2">${surf}${floor}<span class="sample-meta">${d}</span></div></div>`;}).join('');
-  const extra=currentTxList.length-SHOW;const btn=extra>0?`<button class="btn-voir-plus" onclick="toggleTx()"><i class="ti ${txExpanded?'ti-chevron-up':'ti-chevron-down'}"></i>${txExpanded?t('voirMoins'):`${t('voirPlus')} (${extra})`}</button>`:'';
-  document.getElementById('sampleList').innerHTML=rows+btn;
+const dateLoc=DATE_LOC[LANG];
+const rows=currentTxList.map((tx,i)=>{const d=new Date(tx.date).toLocaleDateString(dateLoc,{month:'short',year:'numeric'});const typeL=t(tx.type||'appt');const addr=tx.rue?(tx.num?tx.num+' ':'')+tx.rue:null;const addrHtml=addr?'<span class="sample-addr">'+addr+' <em style="font-size:10px;color:var(--text-tertiary);font-weight:400">'+typeL+'</em></span>':'<span class="sample-addr"><em style="font-size:11px;color:var(--text-secondary);font-style:normal">'+typeL+'</em></span>';const surf=tx.surface?'<span class="sample-meta"><i class="ti ti-arrows-diagonal"></i>'+tx.surface+' m²</span>':'';const floor=tx.floor?'<span class="sample-meta"><i class="ti ti-stairs"></i>'+tx.floor+'</span>':'';const hidden=(!txExpanded&&i>=SHOW)?' style="display:none"':'';return'<div class="sample-item"'+hidden+'><div class="sample-row1">'+addrHtml+'<span class="sample-price">'+tx.pm2.toLocaleString('fr-FR')+' €/m²</span></div><div class="sample-row2">'+surf+floor+'<span class="sample-meta">'+d+'</span></div></div>';}).join('');
+const extra=currentTxList.length-SHOW;const btn=extra>0?'<button class="btn-voir-plus" onclick="toggleTx()"><i class="ti '+(txExpanded?'ti-chevron-up':'ti-chevron-down')+'"></i>'+(txExpanded?t('voirMoins'):t('voirPlus')+' ('+extra+')')+'</button>':'';
+document.getElementById('sampleList').innerHTML=rows+btn;
 }
 function toggleTx(){txExpanded=!txExpanded;renderTxList();}
-
 function analyzeZone(zoneId){const zone=ZONES.find(z=>z.id===zoneId);if(!zone)return;document.getElementById('addressInput').value='';hideError();document.querySelectorAll('.chip').forEach(c=>c.classList.remove('active'));document.getElementById('chip-'+zoneId)?.classList.add('active');txExpanded=false;render(zone,{street:zone.name[LANG],isChip:true},true);}
-
 async function analyzeInput(){const addr=document.getElementById('addressInput').value.trim();if(!addr)return;document.getElementById('loader').classList.add('visible');document.getElementById('results').classList.remove('visible');document.getElementById('btnSearch').disabled=true;document.querySelectorAll('.chip').forEach(c=>c.classList.remove('active'));hideError();txExpanded=false;try{document.getElementById('loaderStep').textContent=t('loaderGeo');const geo=await geocodeBiarritz(addr);document.getElementById('loaderStep').textContent=t('loaderAnalyze');render(detectZone(geo.lat,geo.lon),geo,true);}catch(e){showError(e.message);}finally{document.getElementById('loader').classList.remove('visible');document.getElementById('btnSearch').disabled=false;}}
-
 async function geocodeBiarritz(addr){let f=await banFirst(addr,true);if(!f)f=await banFirst(addr,false);if(!f)throw new Error(t('errNotFound'));if(!isBZC(f))throw new Error(t('errOtherCity')(f.properties.city||'?'));return{lat:f.geometry.coordinates[1],lon:f.geometry.coordinates[0],label:f.properties.label,street:f.properties.street||f.properties.name,isChip:false};}
-async function banFirst(q,useCitycode){const p=new URLSearchParams({q,limit:5});if(useCitycode)p.set('citycode',BZC);const res=await fetch(`${BAN}?${p}`);if(!res.ok)return null;const data=await res.json();return(data.features||[]).find(isBZC)||null;}
+async function banFirst(q,useCitycode){const p=new URLSearchParams({q,limit:5});if(useCitycode)p.set('citycode',BZC);const res=await fetch(BAN+'?'+p);if(!res.ok)return null;const data=await res.json();return(data.features||[]).find(isBZC)||null;}
 function haversine(la1,lo1,la2,lo2){const R=6371000,r=Math.PI/180,dla=(la2-la1)*r,dlo=(lo2-lo1)*r,a=Math.sin(dla/2)**2+Math.cos(la1*r)*Math.cos(la2*r)*Math.sin(dlo/2)**2;return R*2*Math.atan2(Math.sqrt(a),Math.sqrt(1-a));}
 function detectZone(lat,lon){return ZONES.reduce((b,z)=>haversine(lat,lon,z.lat,z.lon)<haversine(lat,lon,b.lat,b.lon)?z:b);}
-
 function render(zone,geo,fetchLive){
-  currentZone=zone;currentGeo=geo;
-  document.getElementById('streetName').textContent=geo.isChip?zone.name[LANG]:(geo.street||geo.label);
-  document.getElementById('streetSub').textContent=zone.zone[LANG];
-  const b=document.getElementById('marketBadge');b.textContent=zone.badge.label[LANG];b.className='badge '+zone.badge.cls;
-  document.getElementById('priceAppt').textContent=zone.priceAppt.toLocaleString('fr-FR');
-  const evo=document.getElementById('evolution');evo.textContent=zone.evo+'%';evo.className='stat-value '+(zone.evo.startsWith('+')?'trend-up':'trend-down');
-  document.getElementById('evolutionSub').textContent=zone.eLabel;
-  document.getElementById('aiText').innerHTML=zone.ai[LANG];
-  const sl=t('scoreLabels');document.getElementById('scoreRow').innerHTML=zone.scores.map(([v],i)=>`<div class="score-item"><div class="score-bar-bg"><div class="score-bar-fill" style="width:0%" data-t="${v}%"></div></div><div class="score-key">${sl[i]}</div></div>`).join('');
-  setTimeout(()=>document.querySelectorAll('.score-bar-fill').forEach(el=>el.style.width=el.dataset.t),80);
-  if(fetchLive){fetchDVF(zone);}else{renderTxList();}
-  renderChart(zone.history,zone.years);
-  document.getElementById('results').classList.add('visible');
+currentZone=zone;currentGeo=geo;
+document.getElementById('streetName').textContent=geo.isChip?zone.name[LANG]:(geo.street||geo.label);
+document.getElementById('streetSub').textContent=zone.zone[LANG];
+const b=document.getElementById('marketBadge');b.textContent=zone.badge.label[LANG];b.className='badge '+zone.badge.cls;
+document.getElementById('priceAppt').textContent=zone.priceAppt.toLocaleString('fr-FR');
+const evo=document.getElementById('evolution');evo.textContent=zone.evo+'%';evo.className='stat-value '+(zone.evo.startsWith('+')?'trend-up':'trend-down');
+document.getElementById('evolutionSub').textContent=zone.eLabel;
+document.getElementById('aiText').innerHTML=zone.ai[LANG];
+const sl=t('scoreLabels');document.getElementById('scoreRow').innerHTML=zone.scores.map(([v],i)=>'<div class="score-item"><div class="score-bar-bg"><div class="score-bar-fill" style="width:0%" data-t="'+v+'%"></div></div><div class="score-key">'+sl[i]+'</div></div>').join('');
+setTimeout(()=>document.querySelectorAll('.score-bar-fill').forEach(el=>el.style.width=el.dataset.t),80);
+fetchDVF(zone);
+renderChart(zone.history,zone.years);
+document.getElementById('results').classList.add('visible');
 }
-
 function renderChart(history,years){
-  if(chartInstance)chartInstance.destroy();
-  document.getElementById('chartContainer').innerHTML='<canvas id="priceChart"></canvas>';
-  const dark=matchMedia('(prefers-color-scheme: dark)').matches;
-  chartInstance=new Chart(document.getElementById('priceChart'),{type:'line',data:{labels:years,datasets:[{data:history,borderColor:'#D85A30',backgroundColor:dark?'rgba(216,90,48,.12)':'rgba(216,90,48,.07)',borderWidth:2.5,pointBackgroundColor:'#D85A30',pointRadius:5,pointHoverRadius:7,fill:true,tension:0.38}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false},tooltip:{callbacks:{label:c=>' '+c.parsed.y.toLocaleString('fr-FR')+' €/m²'}}},scales:{x:{grid:{display:false},ticks:{font:{size:11},color:dark?'#6b6763':'#9b9b9b'}},y:{grid:{color:dark?'rgba(255,255,255,.05)':'rgba(0,0,0,.04)'},ticks:{font:{size:11},color:dark?'#6b6763':'#9b9b9b',callback:v=>v.toLocaleString('fr-FR')+' €'}}}}});
+if(chartInstance)chartInstance.destroy();
+document.getElementById('chartContainer').innerHTML='<canvas id="priceChart"></canvas>';
+const dark=matchMedia('(prefers-color-scheme: dark)').matches;
+chartInstance=new Chart(document.getElementById('priceChart'),{type:'line',data:{labels:years,datasets:[{data:history,borderColor:'#D85A30',backgroundColor:dark?'rgba(216,90,48,.12)':'rgba(216,90,48,.07)',borderWidth:2.5,pointBackgroundColor:'#D85A30',pointRadius:5,pointHoverRadius:7,fill:true,tension:0.38}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false},tooltip:{callbacks:{label:c=>' '+c.parsed.y.toLocaleString('fr-FR')+' €/m²'}}},scales:{x:{grid:{display:false},ticks:{font:{size:11},color:dark?'#6b6763':'#9b9b9b'}},y:{grid:{color:dark?'rgba(255,255,255,.05)':'rgba(0,0,0,.04)'},ticks:{font:{size:11},color:dark?'#6b6763':'#9b9b9b',callback:v=>v.toLocaleString('fr-FR')+' €'}}}}});
 }
-
 function showError(msg){const e=document.getElementById('errorCard');e.innerHTML='<i class="ti ti-alert-circle" style="margin-right:6px"></i>'+msg;e.classList.add('visible');}
 function hideError(){document.getElementById('errorCard').classList.remove('visible');}
-
 const input=document.getElementById('addressInput'),dropdown=document.getElementById('acDropdown');
 let acResults=[],acIndex=-1,acTimer=null;
 input.addEventListener('input',()=>{clearTimeout(acTimer);const q=input.value.trim();if(q.length<3){closeDropdown();return;}acTimer=setTimeout(()=>fetchSuggestions(q),220);});
 input.addEventListener('keydown',e=>{if(e.key==='Enter'){acIndex>=0&&acResults[acIndex]?selectSuggestion(acResults[acIndex]):(closeDropdown(),analyzeInput());return;}if(e.key==='ArrowDown'){e.preventDefault();moveIndex(1);}if(e.key==='ArrowUp'){e.preventDefault();moveIndex(-1);}if(e.key==='Escape'){closeDropdown();}});
 document.addEventListener('click',e=>{if(!e.target.closest('.autocomplete-wrap'))closeDropdown();});
-async function fetchSuggestions(q){try{const res=await fetch(`${BAN}?${new URLSearchParams({q,citycode:BZC,limit:6})}`);if(!res.ok)throw 0;const data=await res.json();acResults=(data.features||[]).filter(isBZC);renderDropdown();}catch{closeDropdown();}}
-function renderDropdown(){if(!acResults.length){closeDropdown();return;}acIndex=-1;dropdown.innerHTML=acResults.map((f,i)=>{const p=f.properties;return`<div class="ac-item" data-i="${i}"><i class="ti ti-map-pin"></i><div><div class="ac-main">${p.name||p.street}</div><div class="ac-sub">${p.postcode} ${p.city}</div></div></div>`;}).join('');dropdown.querySelectorAll('.ac-item').forEach(el=>el.addEventListener('mousedown',e=>{e.preventDefault();selectSuggestion(acResults[+el.dataset.i]);}));dropdown.classList.add('open');}
+async function fetchSuggestions(q){try{const res=await fetch(BAN+'?'+new URLSearchParams({q,citycode:BZC,limit:6}));if(!res.ok)throw 0;const data=await res.json();acResults=(data.features||[]).filter(isBZC);renderDropdown();}catch{closeDropdown();}}
+function renderDropdown(){if(!acResults.length){closeDropdown();return;}acIndex=-1;dropdown.innerHTML=acResults.map((f,i)=>{const p=f.properties;return'<div class="ac-item" data-i="'+i+'"><i class="ti ti-map-pin"></i><div><div class="ac-main">'+(p.name||p.street)+'</div><div class="ac-sub">'+p.postcode+' '+p.city+'</div></div></div>';}).join('');dropdown.querySelectorAll('.ac-item').forEach(el=>el.addEventListener('mousedown',e=>{e.preventDefault();selectSuggestion(acResults[+el.dataset.i]);}));dropdown.classList.add('open');}
 function moveIndex(dir){const items=dropdown.querySelectorAll('.ac-item');if(!items.length)return;items[acIndex]?.classList.remove('active');acIndex=Math.max(-1,Math.min(items.length-1,acIndex+dir));if(acIndex>=0){items[acIndex].classList.add('active');input.value=acResults[acIndex].properties.label;}}
 function selectSuggestion(f){input.value=f.properties.label;closeDropdown();analyzeInput();}
 function closeDropdown(){dropdown.classList.remove('open');acResults=[];acIndex=-1;}
-
 setLang('fr');
 </script>
 </body>
