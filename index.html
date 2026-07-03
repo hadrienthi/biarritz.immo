@@ -4,155 +4,224 @@
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>Prix immobilier Biarritz 2025 — Thermomètre par quartier | Biarritz.immo</title>
-<meta name="description" content="Consultez les prix au m² à Biarritz en 2025 par quartier : Impérial, Centre-Halles, Bibi-Beaurivage, Milady, Parc d'Hiver. Données DVF officielles DGFiP/Cerema 2019–2025. Estimation gratuite. " />
+<meta name="description" content="Consultez les prix au m² à Biarritz en 2025 par quartier : Impérial, Centre-Halles, Bibi-Beaurivage, Milady, Parc d'Hiver. Données DVF officielles DGFiP/Cerema 2019–2025. Estimation gratuite." />
 <link rel="canonical" href="https://biarritz.immo/" />
 <meta name="robots" content="index, follow" />
 <meta property="og:type" content="website" />
 <meta property="og:url" content="https://biarritz.immo/" />
 <meta property="og:title" content="Prix immobilier Biarritz 2025 — Thermomètre par quartier" />
-<meta property="og:description" content="Prix au m² à Biarritz par quartier, données DVF officielles." />
-<script type="application/ld+json">{"@context":"https://schema.org","@type":"WebApplication","name":"Biarritz.immo — Prix immobilier","url":"https://biarritz.immo/","description":"Outil de consultation des prix immobiliers à Biarritz (64200) par quartier, basé sur les données DVF de la DGFiP.","applicationCategory":"RealEstateApplication","operatingSystem":"Web","offers":{"@type":"Offer","price":"0","priceCurrency":"EUR"},"areaServed":{"@type":"City","name":"Biarritz","postalCode":"64200","addressCountry":"FR"},"publisher":{"@type":"Organization","name":"Biarritz.immo","url":"https://biarritz.immo/"}}</script>
+<meta property="og:description" content="Prix au m² à Biarritz par quartier, données DVF officielles. Estimation gratuite." />
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"WebApplication","name":"Biarritz.immo — Prix immobilier","url":"https://biarritz.immo/","description":"Observatoire des prix immobiliers à Biarritz (64200) par quartier, basé sur les données DVF de la DGFiP, avec estimation gratuite.","applicationCategory":"RealEstateApplication","operatingSystem":"Web","offers":{"@type":"Offer","price":"0","priceCurrency":"EUR"},"areaServed":{"@type":"City","name":"Biarritz","postalCode":"64200","addressCountry":"FR"},"publisher":{"@type":"Organization","name":"Biarritz.immo","url":"https://biarritz.immo/"}}</script>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="anonymous" />
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Archivo:wght@400;500;600;700&family=Spline+Sans+Mono:wght@400;500&display=swap" rel="stylesheet" />
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@3.8.0/dist/tabler-icons.min.css" />
 <style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
-:root{--coral:#D85A30;--coral-light:#FAECE7;--coral-dark:#993C1D;--purple-light:#EEEDFE;--purple:#534AB7;--amber-light:#FAEEDA;--amber:#854F0B;--green-light:#EAF3DE;--green:#3B6D11;--text:#1a1a1a;--text-secondary:#6b6b6b;--text-tertiary:#9b9b9b;--bg:#f5f4f0;--surface:#ffffff;--border:rgba(0,0,0,0.10);--radius-md:10px;--radius-lg:14px}
-@media(prefers-color-scheme:dark){:root{--text:#f0ede8;--text-secondary:#a8a49e;--text-tertiary:#6b6763;--bg:#1a1917;--surface:#242220;--border:rgba(255,255,255,0.10);--coral-light:rgba(216,90,48,0.18);--purple-light:rgba(83,74,183,0.18);--amber-light:rgba(133,79,11,0.18);--green-light:rgba(59,109,17,0.18)}}
-body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Helvetica,Arial,sans-serif;background:var(--bg);color:var(--text);min-height:100vh;display:flex;flex-direction:column;align-items:center;padding:2rem 1rem 4rem}
-.app{width:100%;max-width:420px}
-@media(min-width:640px){body{padding:2.5rem 2rem 5rem}.app{max-width:680px}.stat-card{padding:20px;text-align:center}.stat-card .stat-label{justify-content:center}.stat-value{font-size:32px}#chartContainer{height:220px!important}.search-card{padding:1.5rem}.chart-card,.ai-card{padding:1.5rem}}
-.header{display:flex;align-items:center;justify-content:space-between;margin-bottom:2rem}
-.logo{display:flex;align-items:center;gap:10px}
-.logo-dot{width:32px;height:32px;border-radius:8px;background:var(--coral);display:flex;align-items:center;justify-content:center}
-.logo-dot i{color:white;font-size:16px}
-.logo-text{font-size:18px;font-weight:600;letter-spacing:-0.3px}
-.logo-text span{color:var(--coral)}
-.lang-switcher{display:flex;gap:2px;background:var(--bg);border:0.5px solid var(--border);border-radius:8px;padding:2px}
-.lang-btn{font-size:11px;font-weight:600;padding:4px 8px;border:none;background:transparent;color:var(--text-tertiary);cursor:pointer;border-radius:6px;transition:all 0.15s;font-family:inherit}
-.lang-btn:hover{color:var(--text)}
-.lang-btn.active{background:var(--surface);color:var(--coral);box-shadow:0 1px 3px rgba(0,0,0,0.08)}
-.search-card{background:var(--surface);border:0.5px solid var(--border);border-radius:var(--radius-lg);padding:1.25rem;margin-bottom:1rem}
-.search-label{font-size:13px;color:var(--text-secondary);margin-bottom:10px;display:block}
-.search-row{display:flex;gap:8px}
-.autocomplete-wrap{position:relative;flex:1;min-width:0}
-.autocomplete-wrap input{display:block;width:100%;height:42px;padding:0 12px;font-size:14px;border-radius:var(--radius-md);border:0.5px solid var(--border);background:var(--bg);color:var(--text);outline:none;transition:border-color 0.15s;font-family:inherit}
-.autocomplete-wrap input:focus{border-color:var(--coral)}
+:root{
+--red:#A31621;--red-dark:#7E0F18;--red-light:#C21B28;--rose:#E8B4B8;
+--cream:#FAF5EC;--ink:#221B16;
+--hairline:rgba(34,27,22,0.14);--hairline-soft:rgba(34,27,22,0.12);
+--coral:#A31621;--coral-dark:#7E0F18;--coral-light:rgba(163,22,33,0.09);
+--text:#221B16;--text-secondary:rgba(34,27,22,0.75);--text-tertiary:rgba(34,27,22,0.5);
+--bg:#FAF5EC;--surface:#FAF5EC;--border:rgba(34,27,22,0.14);
+--radius-md:4px;--radius-lg:6px;
+--serif:'Instrument Serif',Georgia,serif;--mono:'Spline Sans Mono',ui-monospace,monospace;
+--gutter:clamp(20px,5vw,64px);--section:clamp(64px,9vw,120px)
+}
+::selection{background:var(--red);color:var(--cream)}
+html{scroll-behavior:smooth}
+body{font-family:'Archivo',-apple-system,sans-serif;background:var(--cream);color:var(--ink);min-height:100vh}
+.wrap{max-width:1180px;margin:0 auto}
+.mono{font-family:var(--mono)}
+.kicker{font-family:var(--mono);font-size:12px;letter-spacing:0.18em;text-transform:uppercase;color:var(--red);margin-bottom:14px}
+/* ===== NAV ===== */
+.nav{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;row-gap:12px;column-gap:24px;padding:16px var(--gutter);border-bottom:1px solid var(--hairline-soft);background:var(--cream);position:sticky;top:0;z-index:50}
+.wordmark{font-family:var(--serif);font-size:26px;letter-spacing:-0.01em;color:var(--ink);text-decoration:none}
+.wordmark em{font-style:italic;color:var(--red)}
+.nav-right{display:flex;flex-wrap:wrap;align-items:center;row-gap:10px;column-gap:clamp(14px,2.4vw,28px);font-size:14px;font-weight:500}
+.nav-right a.nl{color:var(--ink);text-decoration:none;border-bottom:2px solid transparent;padding-bottom:2px}
+.nav-right a.nl:hover{border-bottom-color:var(--red)}
+.lang-switcher{display:flex;gap:4px;font-family:var(--mono);font-size:12px;letter-spacing:0.06em}
+.lang-btn{background:none;border:none;cursor:pointer;font-family:var(--mono);font-size:12px;color:rgba(34,27,22,0.55);padding:2px 3px}
+.lang-btn:hover{color:var(--ink)}
+.lang-btn.active{color:var(--red);font-weight:500}
+.nav-cta{background:var(--red);color:var(--cream);text-decoration:none;padding:11px 22px;border-radius:999px;font-weight:600;font-size:14px}
+.nav-cta:hover{background:var(--red-dark)}
+/* ===== HERO ===== */
+.hero{background:var(--red);color:var(--cream);padding:clamp(56px,9vw,110px) var(--gutter) 0;position:relative;overflow:hidden}
+.hero-kicker{font-family:var(--mono);font-size:12px;letter-spacing:0.18em;text-transform:uppercase;color:rgba(250,245,236,0.75);margin-bottom:28px}
+.hero h1{font-family:var(--serif);font-weight:400;font-size:clamp(44px,7.2vw,96px);line-height:1.02;margin:0 0 30px;letter-spacing:-0.015em;max-width:15ch;text-wrap:balance}
+.hero p{font-size:clamp(16px,1.6vw,19px);line-height:1.6;max-width:54ch;margin:0 0 52px;color:rgba(250,245,236,0.85)}
+.hero-figs{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));border-top:1px solid rgba(250,245,236,0.3)}
+.hero-fig{padding:28px 28px 44px 0;border-right:1px solid rgba(250,245,236,0.3)}
+.hero-fig+.hero-fig{padding-left:28px}
+.hero-fig:last-child{border-right:none;padding-right:0}
+.hero-fig .v{font-family:var(--serif);font-size:clamp(34px,3.6vw,50px);line-height:1}
+.hero-fig .l{font-family:var(--mono);font-size:12px;letter-spacing:0.12em;text-transform:uppercase;margin-top:10px;color:rgba(250,245,236,0.7)}
+.stripes{height:14px;background:repeating-linear-gradient(90deg,#FAF5EC 0px,#FAF5EC 34px,#7E0F18 34px,#7E0F18 40px,#FAF5EC 40px,#FAF5EC 46px,#7E0F18 46px,#7E0F18 52px,#FAF5EC 52px,#FAF5EC 86px);margin:0 calc(-1 * var(--gutter))}
+/* ===== THERMOMÈTRE ===== */
+.section-q{padding:var(--section) var(--gutter)}
+.thermo-head{display:flex;align-items:flex-end;justify-content:space-between;gap:24px;flex-wrap:wrap;margin-bottom:34px}
+.thermo-head h2{font-family:var(--serif);font-weight:400;font-size:clamp(32px,4.4vw,56px);line-height:1.05;letter-spacing:-0.01em}
+.sort-btn{font-family:'Archivo',sans-serif;font-size:13px;font-weight:600;padding:10px 18px;border-radius:999px;cursor:pointer;background:transparent;color:var(--ink);border:1px solid rgba(34,27,22,0.3)}
+.sort-btn.active{background:var(--ink);color:var(--cream);border-color:var(--ink)}
+/* recherche adresse */
+.search-row{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:44px}
+.search-label{flex-basis:100%;font-family:var(--mono);font-size:12px;letter-spacing:0.12em;text-transform:uppercase;color:var(--text-tertiary);margin-bottom:2px}
+.autocomplete-wrap{position:relative;flex:1;min-width:230px}
+.autocomplete-wrap input{display:block;width:100%;height:48px;padding:0 16px;font-size:15px;font-family:'Archivo',sans-serif;border-radius:4px;border:1px solid rgba(34,27,22,0.3);background:var(--cream);color:var(--ink);outline:none}
+.autocomplete-wrap input:focus{border-color:var(--red)}
 .autocomplete-wrap input::placeholder{color:var(--text-tertiary)}
-.autocomplete-dropdown{display:none;position:absolute;top:calc(100% + 4px);left:0;right:0;z-index:100;background:var(--surface);border:0.5px solid var(--border);border-radius:var(--radius-md);overflow:hidden;box-shadow:0 4px 16px rgba(0,0,0,0.08)}
+.autocomplete-dropdown{display:none;position:absolute;top:calc(100% + 4px);left:0;right:0;z-index:100;background:var(--cream);border:1px solid var(--hairline);border-radius:4px;overflow:hidden;box-shadow:0 10px 30px rgba(34,27,22,0.12)}
 .autocomplete-dropdown.open{display:block}
-.ac-item{display:flex;align-items:center;gap:10px;padding:10px 14px;cursor:pointer;font-size:13px;border-bottom:0.5px solid var(--border);transition:background 0.1s}
+.ac-item{display:flex;align-items:center;gap:10px;padding:11px 14px;cursor:pointer;font-size:14px;border-bottom:1px solid var(--hairline-soft)}
 .ac-item:last-child{border-bottom:none}
-.ac-item:hover,.ac-item.active{background:var(--bg)}
-.ac-item i{font-size:14px;color:var(--coral);flex-shrink:0}
-.ac-main{color:var(--text)}
-.ac-sub{font-size:11px;color:var(--text-tertiary);margin-top:1px}
-.btn-search{height:42px;padding:0 18px;background:var(--coral);color:white;border:none;border-radius:var(--radius-md);font-size:13px;font-weight:500;cursor:pointer;display:flex;align-items:center;gap:6px;transition:opacity 0.15s;white-space:nowrap}
-.btn-search:hover{opacity:0.85}
+.ac-item:hover,.ac-item.active{background:rgba(163,22,33,0.05)}
+.ac-item i{font-size:14px;color:var(--red);flex-shrink:0}
+.ac-main{color:var(--ink)}
+.ac-sub{font-family:var(--mono);font-size:11px;color:var(--text-tertiary);margin-top:1px}
+.btn-search{height:48px;padding:0 24px;background:var(--red);color:var(--cream);border:none;border-radius:4px;font-size:14px;font-weight:600;font-family:'Archivo',sans-serif;cursor:pointer;display:flex;align-items:center;gap:8px;white-space:nowrap}
+.btn-search:hover{background:var(--red-light)}
 .btn-search:disabled{opacity:0.5;cursor:not-allowed}
-.suggestions-label{font-size:11px;color:var(--text-tertiary);margin-top:12px;margin-bottom:6px}
-.suggestions{display:flex;gap:6px;flex-wrap:wrap}
-.chip{font-size:11px;padding:5px 11px;background:var(--bg);border:0.5px solid var(--border);border-radius:20px;color:var(--text-secondary);cursor:pointer;transition:all 0.1s;white-space:nowrap}
-.chip:hover{background:var(--surface);color:var(--text);border-color:var(--coral)}
-.chip.active{background:var(--coral-light);color:var(--coral-dark);border-color:var(--coral)}
+/* lignes du thermomètre */
+.thermo-row{display:flex;flex-wrap:wrap;align-items:center;row-gap:14px;column-gap:clamp(12px,2.5vw,32px);padding:26px 0;border-top:1px solid var(--hairline);cursor:pointer;transition:background 0.15s}
+.thermo-row:hover{background:rgba(163,22,33,0.04)}
+.thermo-row.active{background:rgba(163,22,33,0.06)}
+.tr-left{flex:1 1 220px;display:flex;align-items:center;gap:clamp(12px,2vw,24px);min-width:0}
+.tr-rank{font-family:var(--serif);font-style:italic;font-size:28px;color:rgba(34,27,22,0.35);flex-shrink:0;width:34px}
+.tr-nom{font-weight:600;font-size:17px;margin-bottom:4px}
+.tr-note{font-size:13px;color:rgba(34,27,22,0.6);line-height:1.4}
+.tr-bar{flex:3 1 240px;height:34px;background:rgba(34,27,22,0.07);border-radius:3px;position:relative;overflow:hidden}
+.tr-fill{position:absolute;top:0;bottom:0;left:0;border-radius:3px;transition:width 0.6s cubic-bezier(0.2,0.8,0.2,1)}
+.tr-right{flex:0 1 auto;margin-left:auto;display:flex;align-items:center;gap:clamp(12px,2vw,24px)}
+.tr-prix{font-family:var(--serif);font-size:clamp(24px,2.4vw,32px);text-align:right;white-space:nowrap}
+.tr-evo{font-family:var(--mono);font-size:13px;font-weight:500;color:var(--red);background:rgba(163,22,33,0.09);padding:6px 12px;border-radius:999px;white-space:nowrap}
+.thermo-foot{display:flex;justify-content:space-between;gap:16px;margin-top:18px;font-family:var(--mono);font-size:12px;color:var(--text-tertiary);flex-wrap:wrap}
+/* loader / erreur */
 .loader{display:none;flex-direction:column;align-items:center;gap:12px;padding:2.5rem 0}
 .loader.visible{display:flex}
 .dot-pulse{display:flex;gap:5px}
-.dot-pulse span{width:7px;height:7px;border-radius:50%;background:var(--coral);animation:pulse 1.2s ease-in-out infinite}
+.dot-pulse span{width:7px;height:7px;border-radius:50%;background:var(--red);animation:pulse 1.2s ease-in-out infinite}
 .dot-pulse span:nth-child(2){animation-delay:0.2s}
 .dot-pulse span:nth-child(3){animation-delay:0.4s}
 @keyframes pulse{0%,80%,100%{opacity:.2;transform:scale(.8)}40%{opacity:1;transform:scale(1)}}
-.loader-step{font-size:12px;color:var(--text-tertiary)}
-.result-section{display:none;animation:fadeUp 0.4s ease}
+.loader-step{font-family:var(--mono);font-size:12px;color:var(--text-tertiary)}
+.error-card{display:none;border:1px solid rgba(163,22,33,0.4);border-radius:4px;padding:16px 18px;margin-top:34px;color:var(--red-dark);font-size:14px}
+.error-card.visible{display:block}
+/* ===== PANNEAU DÉTAIL QUARTIER ===== */
+.result-section{display:none;animation:fadeUp 0.4s ease;margin-top:56px;padding-top:44px;border-top:1px solid var(--hairline)}
 .result-section.visible{display:block}
 @keyframes fadeUp{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
-.error-card{background:var(--surface);border:0.5px solid rgba(216,90,48,0.3);border-radius:var(--radius-lg);padding:1.25rem;margin-bottom:1rem;color:var(--coral-dark);font-size:13px;display:none}
-.error-card.visible{display:block}
-.street-header{display:flex;align-items:flex-start;justify-content:space-between;gap:8px;margin-bottom:1rem}
-.street-name{font-size:16px;font-weight:600}
-.street-sub{font-size:12px;color:var(--text-secondary);margin-top:3px}
-.badge{font-size:11px;padding:4px 10px;border-radius:20px;font-weight:500;white-space:nowrap}
-.badge-hot{background:var(--coral-light);color:var(--coral-dark)}
-.badge-warm{background:var(--amber-light);color:var(--amber)}
-.badge-cool{background:var(--green-light);color:var(--green)}
-.stats-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:1rem}
-.stat-card{background:var(--bg);border-radius:var(--radius-md);padding:16px}
-.stat-label{font-size:11px;color:var(--text-secondary);margin-bottom:10px;display:flex;align-items:center;gap:5px}
-.stat-label i{font-size:14px}
-.stat-value{font-size:28px;font-weight:600;line-height:1}
-.stat-unit{font-size:11px;color:var(--text-tertiary);margin-top:5px}
-.trend-up{color:var(--green)}
-.trend-down{color:var(--coral-dark)}
-.chart-card{background:var(--surface);border:0.5px solid var(--border);border-radius:var(--radius-lg);padding:1.25rem;margin-bottom:1rem}
-.chart-title{font-size:12px;color:var(--text-secondary);margin-bottom:1rem;text-transform:uppercase;letter-spacing:0.5px}
-.tx-header{display:flex;align-items:baseline;justify-content:space-between;margin-bottom:0}
-.tx-source{font-size:10px;color:var(--text-tertiary)}
-.ai-card{background:var(--surface);border:0.5px solid var(--border);border-radius:var(--radius-lg);padding:1.25rem;margin-bottom:1rem}
-.ai-header{display:flex;align-items:center;gap:10px;margin-bottom:12px}
-.ai-icon{width:30px;height:30px;border-radius:8px;background:var(--purple-light);display:flex;align-items:center;justify-content:center}
-.ai-icon i{color:var(--purple);font-size:15px}
-.ai-label{font-size:14px;font-weight:500}
-.ai-sublabel{font-size:11px;color:var(--text-secondary);margin-top:1px}
-.ai-text{font-size:13px;color:var(--text-secondary);line-height:1.65}
-.ai-text strong{color:var(--text);font-weight:500}
-.score-row{display:flex;gap:8px;margin-top:14px}
-.score-item{flex:1}
-.score-bar-bg{height:4px;background:var(--border);border-radius:2px;margin-bottom:5px;overflow:hidden}
-.score-bar-fill{height:100%;border-radius:2px;background:var(--coral);transition:width 0.9s cubic-bezier(.4,0,.2,1)}
-.score-key{font-size:10px;color:var(--text-tertiary)}
-.sample-list{margin-top:12px;border-top:0.5px solid var(--border);padding-top:12px}
-.sample-item{padding:8px 0;border-bottom:0.5px solid var(--border)}
-.sample-item:last-child{border-bottom:none}
+.street-header{display:flex;align-items:flex-end;justify-content:space-between;gap:16px;flex-wrap:wrap;margin-bottom:32px}
+.street-name{font-family:var(--serif);font-size:clamp(28px,3.4vw,40px);line-height:1.05}
+.street-sub{font-family:var(--mono);font-size:12px;letter-spacing:0.12em;text-transform:uppercase;color:var(--text-tertiary);margin-top:8px}
+.badge{font-family:var(--mono);font-size:13px;font-weight:500;padding:6px 12px;border-radius:999px;white-space:nowrap}
+.badge-hot{color:var(--red);background:rgba(163,22,33,0.09)}
+.badge-warm{color:#8a5a2a;background:rgba(138,90,42,0.1)}
+.badge-cool{color:rgba(34,27,22,0.65);background:rgba(34,27,22,0.07)}
+.detail-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:clamp(20px,3vw,36px);align-items:start}
+.stats-grid{display:grid;grid-template-columns:1fr 1fr;gap:1px;background:var(--hairline);border:1px solid var(--hairline)}
+.stat-card{background:var(--cream);padding:26px 24px}
+.stat-label{font-family:var(--mono);font-size:11px;letter-spacing:0.12em;text-transform:uppercase;color:var(--text-tertiary);margin-bottom:12px;display:flex;align-items:center;gap:6px}
+.stat-label i{font-size:14px;color:var(--red)}
+.stat-value{font-family:var(--serif);font-size:clamp(30px,3vw,44px);line-height:1}
+.stat-unit{font-family:var(--mono);font-size:11px;color:var(--text-tertiary);margin-top:8px}
+.trend-up{color:var(--ink)}
+.trend-down{color:var(--red)}
+.chart-card{border:1px solid var(--hairline);padding:24px;margin-top:20px}
+.chart-title{font-family:var(--mono);font-size:12px;letter-spacing:0.14em;text-transform:uppercase;color:var(--red);margin-bottom:16px}
+.tx-header{display:flex;align-items:baseline;justify-content:space-between;gap:12px;margin-bottom:0}
+.tx-source{font-family:var(--mono);font-size:11px;color:var(--text-tertiary)}
+.sample-list{margin-top:10px}
+.sample-item{padding:12px 0;border-bottom:1px solid var(--hairline-soft)}
+.sample-item:last-of-type{border-bottom:none}
 .sample-row1{display:flex;justify-content:space-between;align-items:baseline;gap:8px}
-.sample-row2{display:flex;gap:10px;margin-top:3px}
-.sample-addr{font-size:12px;font-weight:500;color:var(--text)}
-.sample-price{font-size:12px;font-weight:600;color:var(--text);white-space:nowrap}
-.sample-meta{font-size:11px;color:var(--text-tertiary);display:flex;align-items:center;gap:4px}
-.sample-meta i{font-size:11px}
+.sample-row2{display:flex;gap:12px;margin-top:3px}
+.sample-addr{font-size:14px;font-weight:600;color:var(--ink)}
+.sample-addr em{font-family:var(--mono);font-weight:400;font-style:normal;font-size:11px;color:var(--text-tertiary)}
+.sample-price{font-family:var(--serif);font-size:18px;color:var(--ink);white-space:nowrap}
+.sample-meta{font-family:var(--mono);font-size:11px;color:var(--text-tertiary);display:flex;align-items:center;gap:4px}
+.sample-meta i{font-size:12px}
 .tx-loading{display:flex;align-items:center;gap:8px;padding:14px 0;font-size:12px;color:var(--text-tertiary)}
-.mini-dots span{width:4px;height:4px;border-radius:50%;background:var(--coral);animation:pulse 1.2s ease-in-out infinite;display:inline-block;margin-right:2px}
-.mini-dots span:nth-child(2){animation-delay:0.2s}
-.mini-dots span:nth-child(3){animation-delay:0.4s}
-.btn-voir-plus{display:flex;align-items:center;gap:5px;margin-top:10px;padding:7px 0;font-size:12px;color:var(--coral);background:none;border:none;cursor:pointer;font-family:inherit;font-weight:500;transition:opacity 0.15s}
+.mini-dots span{width:4px;height:4px;border-radius:50%;background:var(--red);animation:pulse 1.2s ease-in-out infinite;display:inline-block;margin-right:2px}
+.btn-voir-plus{display:flex;align-items:center;gap:5px;margin-top:12px;padding:7px 0;font-size:13px;color:var(--red);background:none;border:none;cursor:pointer;font-family:'Archivo',sans-serif;font-weight:600}
 .btn-voir-plus:hover{opacity:0.7}
-.btn-voir-plus i{font-size:14px}
-.dvf-note{display:flex;align-items:center;gap:6px;font-size:11px;color:var(--text-tertiary)}
+.ai-card{border:1px solid var(--hairline);padding:28px;margin-top:20px}
+.ai-label{font-family:var(--serif);font-style:italic;font-size:22px;color:var(--red)}
+.ai-sublabel{font-family:var(--mono);font-size:11px;color:var(--text-tertiary);margin-top:4px}
+.ai-header{margin-bottom:14px}
+.ai-text{font-size:15px;color:var(--text-secondary);line-height:1.65}
+.ai-text strong{color:var(--ink);font-weight:600}
+.score-row{display:flex;gap:14px;margin-top:20px;flex-wrap:wrap}
+.score-item{flex:1;min-width:80px}
+.score-bar-bg{height:4px;background:rgba(34,27,22,0.1);border-radius:2px;margin-bottom:6px;overflow:hidden}
+.score-bar-fill{height:100%;border-radius:2px;background:var(--red);transition:width 0.9s cubic-bezier(.4,0,.2,1)}
+.score-key{font-family:var(--mono);font-size:10px;letter-spacing:0.06em;text-transform:uppercase;color:var(--text-tertiary)}
+.dvf-note{display:flex;align-items:center;gap:6px;font-family:var(--mono);font-size:11px;color:var(--text-tertiary);margin-top:28px}
 .dvf-note a{color:var(--text-tertiary)}
+.dvf-note i{color:var(--red)}
+/* ===== ESTIMATION (carte encre) ===== */
+.section-est{padding:0 var(--gutter) var(--section)}
+.est-card{background:var(--ink);color:var(--cream);border-radius:6px;padding:clamp(44px,6vw,88px) clamp(28px,5vw,80px);position:relative;overflow:hidden}
+.est-stripes{position:absolute;top:0;left:0;right:0;height:10px;background:repeating-linear-gradient(90deg,transparent 0px,transparent 34px,#A31621 34px,#A31621 40px,transparent 40px,transparent 46px,#A31621 46px,#A31621 52px,transparent 52px,transparent 86px)}
+.est-grid-top{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:clamp(32px,5vw,72px);align-items:start}
+.est-card h2{font-family:var(--serif);font-weight:400;font-size:clamp(32px,4vw,52px);line-height:1.08;margin:0 0 18px;letter-spacing:-0.01em}
+.est-card h2 em{color:var(--rose);font-style:italic}
+.est-lead{font-size:16px;line-height:1.6;color:rgba(250,245,236,0.75);max-width:46ch}
+.est-form-col{display:flex;flex-direction:column;gap:12px}
+#estCard input[type="text"],#estCard input[type="number"],#estCard input[type="email"],#estCard select{background:rgba(250,245,236,0.08);border:1px solid rgba(250,245,236,0.3);border-radius:4px;padding:16px 18px;font-family:'Archivo',sans-serif;font-size:15px;color:var(--cream);outline:none;width:100%}
+#estCard input:focus,#estCard select:focus{border-color:var(--cream)}
+#estCard input::placeholder{color:rgba(250,245,236,0.45)}
+#estCard select option{background:#221B16;color:#FAF5EC}
+#estCard .autocomplete-dropdown{background:#2b2320;border-color:rgba(250,245,236,0.25)}
+#estCard .ac-item{border-color:rgba(250,245,236,0.12)}
+#estCard .ac-item:hover,#estCard .ac-item.active{background:rgba(250,245,236,0.08)}
+#estCard .ac-main{color:var(--cream)}
+#estCard .ac-sub{color:rgba(250,245,236,0.5)}
+.est-cta{background:var(--red);color:var(--cream);border:none;border-radius:4px;padding:18px 20px;font-family:'Archivo',sans-serif;font-size:16px;font-weight:600;cursor:pointer;width:100%}
+.est-cta:hover{background:var(--red-light)}
+.est-cta:disabled{opacity:0.6;cursor:not-allowed}
+.est-mention{font-family:var(--mono);font-size:12px;color:rgba(250,245,236,0.5);text-align:center}
+#estDetails{display:none}
+.est-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px;margin:4px 0 2px}
+.est-field label{display:block;font-family:var(--mono);font-size:10px;letter-spacing:0.1em;text-transform:uppercase;color:rgba(250,245,236,0.55);margin-bottom:6px}
+.est-field input,.est-field select{padding:12px 14px!important;font-size:14px!important}
+.est-check{display:flex;align-items:center;gap:8px;font-size:13px;color:rgba(250,245,236,0.75);padding-top:20px}
+.est-check input{width:auto!important}
+.est-note{font-family:var(--mono);font-size:10px;color:rgba(250,245,236,0.45);line-height:1.6;margin-top:6px}
+.est-result{text-align:center;padding:22px 0 4px;border-top:1px solid rgba(250,245,236,0.2);margin-top:16px}
+.est-result .stat-label{justify-content:center;color:rgba(250,245,236,0.55)}
+.est-value{font-family:var(--serif);font-size:clamp(38px,4vw,52px);color:var(--cream);line-height:1.1}
+.est-range{font-family:var(--mono);font-size:12px;color:rgba(250,245,236,0.6);margin-top:8px;line-height:1.6}
+.est-pdf-row{display:flex;gap:10px;margin-top:16px;flex-wrap:wrap}
+.est-pdf-row input{flex:1;min-width:200px}
+.est-pdf-row .btn-search{height:auto;padding:14px 20px;border-radius:4px}
+#estDirect{color:var(--rose);margin:14px auto 0;font-weight:600}
+#estErr{color:var(--rose)}
+/* ===== MÉTHODE ===== */
+.section-m{padding:0 var(--gutter) clamp(72px,10vw,130px)}
+.section-m h2{font-family:var(--serif);font-weight:400;font-size:clamp(30px,3.8vw,48px);line-height:1.08;margin:0 0 44px;letter-spacing:-0.01em;max-width:22ch}
+.method-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:1px;background:var(--hairline);border:1px solid var(--hairline)}
+.method-cell{background:var(--cream);padding:32px 28px}
+.method-cell .mt{font-family:var(--serif);font-style:italic;font-size:22px;color:var(--red);margin-bottom:12px}
+.method-cell p{font-size:15px;line-height:1.6;color:var(--text-secondary)}
+/* ===== FOOTER ===== */
+.footer{background:var(--red);color:var(--cream);padding:40px var(--gutter)}
+.footer-in{display:flex;align-items:center;justify-content:space-between;gap:24px;flex-wrap:wrap}
+.footer .wordmark{color:var(--cream);font-size:22px}
+.footer .wordmark em{color:var(--cream)}
+.footer-links{display:flex;gap:24px;font-family:var(--mono);font-size:13px}
+.footer-links a{color:rgba(250,245,236,0.85);text-decoration:none}
+.footer-links a:hover{color:var(--cream);text-decoration:underline}
+.footer-data{font-family:var(--mono);font-size:12px;color:rgba(250,245,236,0.6)}
 .seo-content{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap}
-@media(min-width:1024px){
-body{padding:3rem 3rem 5rem}
-.app{max-width:1100px;display:grid;grid-template-columns:1fr 1fr;gap:20px;align-items:start}
-.header{grid-column:1/-1;margin-bottom:10px}
-.search-card{grid-column:1/-1;margin-bottom:0;padding:1.75rem}
-.loader{grid-column:1/-1}
-.error-card{grid-column:1/-1;margin-bottom:0}
-.result-section.visible{display:contents}
-.street-header{grid-column:1/-1;margin-bottom:0;padding:0 4px}
-.stats-grid{margin-bottom:0;height:100%;align-content:stretch}
-.stat-card{display:flex;flex-direction:column;justify-content:center}
-.chart-card,.ai-card{margin-bottom:0}
-#chartContainer{height:250px!important}
-.dvf-note{grid-column:1/-1;padding:0 4px}
-#estCard{grid-column:1/-1;margin-top:0!important;padding:1.75rem}
-.est-grid{grid-template-columns:repeat(4,1fr)}
-footer{grid-column:1/-1}
-}
-.est-sub{font-size:12px;color:var(--text-secondary);margin-bottom:14px}
-.est-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:12px}
-.est-field label{display:block;font-size:11px;color:var(--text-secondary);margin-bottom:4px}
-.est-field input,.est-field select{width:100%;height:38px;padding:0 10px;font-size:13px;border-radius:var(--radius-md);border:0.5px solid var(--border);background:var(--bg);color:var(--text);outline:none;font-family:inherit}
-.est-field input:focus,.est-field select:focus{border-color:var(--coral)}
-.est-check{display:flex;align-items:center;gap:7px;font-size:12px;color:var(--text-secondary);padding-top:16px}
-.est-result{text-align:center;padding:16px 0 4px}
-.est-value{font-size:30px;font-weight:600;color:var(--coral)}
-.est-range{font-size:12px;color:var(--text-secondary);margin-top:5px}
-.est-pdf-row{display:flex;gap:8px;margin-top:14px}
-.est-pdf-row input{flex:1;min-width:0;height:40px;padding:0 10px;font-size:13px;border-radius:var(--radius-md);border:0.5px solid var(--border);background:var(--bg);color:var(--text);font-family:inherit;outline:none}
-.est-pdf-row input:focus{border-color:var(--coral)}
-.est-note{font-size:10px;color:var(--text-tertiary);margin-top:8px;line-height:1.5}
-footer{margin-top:3rem;text-align:center;font-size:11px;color:var(--text-tertiary)}
+#chartContainer{position:relative;width:100%;height:220px}
+@media(min-width:900px){#chartContainer{height:260px}}
 </style>
 </head>
 <body>
-<h1 class="seo-content">Prix immobilier à Biarritz (64200) — Thermomètre par quartier</h1>
+<h1 class="seo-content">Prix immobilier à Biarritz (64200) — Thermomètre par quartier et estimation gratuite</h1>
 <section class="seo-content" aria-hidden="true">
 <h2>Prix immobilier par quartier à Biarritz en 2025</h2>
 <article><h3>Quartier Impérial</h3><p>Appartements : prix moyen 8 251 €/m² (2024–2025). Évolution 2019–2025 : +28 %.</p></article>
@@ -163,33 +232,55 @@ footer{margin-top:3rem;text-align:center;font-size:11px;color:var(--text-tertiar
 <h2>Estimation immobilière gratuite à Biarritz</h2>
 <p>Estimez gratuitement votre appartement ou maison à Biarritz à partir des ventes réelles DVF de votre quartier.</p>
 </section>
-<div class="app">
-<header class="header">
-<div class="logo"><div class="logo-dot"><i class="ti ti-home"></i></div><div class="logo-text">Biarritz<span>.immo</span></div></div>
-<div class="lang-switcher">
-<button class="lang-btn active" onclick="setLang('fr')">FR</button>
-<button class="lang-btn" onclick="setLang('en')">EN</button>
-<button class="lang-btn" onclick="setLang('es')">ES</button>
-</div>
+
+<header class="nav">
+<a class="wordmark" href="https://biarritz.immo/">Biarritz<em>.immo</em></a>
+<nav class="nav-right">
+<a class="nl" href="#quartiers" data-i18n="navQuartiers"></a>
+<a class="nl" href="#methode" data-i18n="navMethode"></a>
+<span class="lang-switcher">
+<button class="lang-btn active" onclick="setLang('fr')">FR</button><span style="color:rgba(34,27,22,0.3)">·</span><button class="lang-btn" onclick="setLang('en')">EN</button><span style="color:rgba(34,27,22,0.3)">·</span><button class="lang-btn" onclick="setLang('es')">ES</button>
+</span>
+<a class="nav-cta" href="#estimation" data-i18n="navCta"></a>
+</nav>
 </header>
-<div class="search-card">
-<span class="search-label" data-i18n="searchLabel"></span>
+
+<section class="hero">
+<div class="wrap">
+<div class="hero-kicker" data-i18n="heroKicker"></div>
+<h1 data-i18n="heroH1"></h1>
+<p data-i18n="heroP"></p>
+<div class="hero-figs">
+<div class="hero-fig"><div class="v" id="heroPrix">—</div><div class="l" data-i18n="heroL1"></div></div>
+<div class="hero-fig"><div class="v" id="heroEvo">—</div><div class="l" data-i18n="heroL2"></div></div>
+<div class="hero-fig"><div class="v">5</div><div class="l" data-i18n="heroL3"></div></div>
+</div>
+</div>
+<div class="stripes"></div>
+</section>
+
+<section class="section-q" id="quartiers">
+<div class="wrap">
+<div class="thermo-head">
+<div>
+<div class="kicker" data-i18n="thermoKicker"></div>
+<h2 data-i18n="thermoH2"></h2>
+</div>
+<div style="display:flex;gap:8px;align-items:center">
+<button id="btnSortPrix" class="sort-btn active" onclick="setSort('prix')" data-i18n="sortPrix"></button>
+<button id="btnSortEvo" class="sort-btn" onclick="setSort('evolution')" data-i18n="sortEvo"></button>
+</div>
+</div>
 <div class="search-row">
+<span class="search-label" data-i18n="searchLabel"></span>
 <div class="autocomplete-wrap">
 <input type="text" id="addressInput" autocomplete="off" />
 <div class="autocomplete-dropdown" id="acDropdown"></div>
 </div>
 <button class="btn-search" id="btnSearch" onclick="analyzeInput()"><i class="ti ti-search"></i> <span data-i18n="btnSearch"></span></button>
 </div>
-<div class="suggestions-label" data-i18n="chipsLabel"></div>
-<div class="suggestions">
-<div class="chip" id="chip-imperial" onclick="analyzeZone('imperial')"><span data-i18n="chip_imperial"></span></div>
-<div class="chip" id="chip-centre-halles" onclick="analyzeZone('centre-halles')"><span data-i18n="chip_centre-halles"></span></div>
-<div class="chip" id="chip-bibi-beaurivage" onclick="analyzeZone('bibi-beaurivage')"><span data-i18n="chip_bibi-beaurivage"></span></div>
-<div class="chip" id="chip-milady" onclick="analyzeZone('milady')"><span data-i18n="chip_milady"></span></div>
-<div class="chip" id="chip-parc-hiver" onclick="analyzeZone('parc-hiver')"><span data-i18n="chip_parc-hiver"></span></div>
-</div>
-</div>
+<div id="thermoList"></div>
+<div class="thermo-foot"><span data-i18n="thermoNote1"></span><span data-i18n="thermoNote2"></span></div>
 <div class="loader" id="loader"><div class="dot-pulse"><span></span><span></span><span></span></div><div class="loader-step" id="loaderStep"></div></div>
 <div class="error-card" id="errorCard"></div>
 <div class="result-section" id="results">
@@ -197,6 +288,8 @@ footer{margin-top:3rem;text-align:center;font-size:11px;color:var(--text-tertiar
 <div><div class="street-name" id="streetName">—</div><div class="street-sub" id="streetSub">—</div></div>
 <span class="badge" id="marketBadge">—</span>
 </div>
+<div class="detail-grid">
+<div>
 <div class="stats-grid">
 <div class="stat-card">
 <div class="stat-label"><i class="ti ti-building"></i> <span data-i18n="statAppt"></span></div>
@@ -211,9 +304,11 @@ footer{margin-top:3rem;text-align:center;font-size:11px;color:var(--text-tertiar
 </div>
 <div class="chart-card">
 <div class="chart-title" data-i18n="chartTitle"></div>
-<div id="chartContainer" style="position:relative;width:100%;height:170px"><canvas id="priceChart"></canvas></div>
+<div id="chartContainer"><canvas id="priceChart"></canvas></div>
 </div>
-<div class="chart-card">
+</div>
+<div>
+<div class="chart-card" style="margin-top:0">
 <div class="tx-header">
 <div class="chart-title" style="margin-bottom:0" data-i18n="txTitle"></div>
 <span class="tx-source" id="txSource"></span>
@@ -222,45 +317,92 @@ footer{margin-top:3rem;text-align:center;font-size:11px;color:var(--text-tertiar
 </div>
 <div class="ai-card">
 <div class="ai-header">
-<div class="ai-icon"><i class="ti ti-sparkles"></i></div>
-<div><div class="ai-label" data-i18n="aiLabel"></div><div class="ai-sublabel" data-i18n="aiSub"></div></div>
+<div class="ai-label" data-i18n="aiLabel"></div>
+<div class="ai-sublabel" data-i18n="aiSub"></div>
 </div>
 <div class="ai-text" id="aiText">—</div>
 <div class="score-row" id="scoreRow"></div>
 </div>
+</div>
+</div>
 <div class="dvf-note"><i class="ti ti-database"></i>&nbsp;<span data-i18n="dvfNote"></span></div>
 </div>
-<div class="chart-card" id="estCard" style="margin-top:1rem">
-<div class="chart-title"><i class="ti ti-calculator"></i> <span data-i18n="estTitle"></span></div>
-<div class="est-sub" data-i18n="estSub"></div>
-<form id="estForm">
-<div class="est-field" style="margin-bottom:10px"><label data-i18n="estAddr"></label><div class="autocomplete-wrap"><input type="text" id="efAddr" autocomplete="off" required /><div class="autocomplete-dropdown" id="efAcDropdown"></div></div></div>
+</div>
+</section>
+
+<section class="section-est" id="estimation">
+<div class="wrap">
+<div class="est-card" id="estCard">
+<div class="est-stripes"></div>
+<div class="est-grid-top">
+<div>
+<h2 data-i18n-html="estH2"></h2>
+<p class="est-lead" data-i18n="estP"></p>
+</div>
+<form id="estForm" class="est-form-col" novalidate>
+<div class="autocomplete-wrap" style="min-width:0">
+<input type="text" id="efAddr" autocomplete="off" />
+<div class="autocomplete-dropdown" id="efAcDropdown"></div>
+</div>
+<div id="estDetails">
 <div class="est-grid">
 <div class="est-field"><label data-i18n="estType"></label><select id="efType"><option value="appt" data-i18n="estTypeAppt"></option><option value="maison" data-i18n="estTypeMaison"></option></select></div>
-<div class="est-field"><label data-i18n="estSurface"></label><input id="efSurface" type="number" min="9" max="1000" required /></div>
+<div class="est-field"><label data-i18n="estSurface"></label><input id="efSurface" type="number" min="9" max="1000" /></div>
 <div class="est-field"><label data-i18n="estPieces"></label><input id="efPieces" type="number" min="1" max="15" value="3" /></div>
 <div class="est-field"><label data-i18n="estEtage"></label><select id="efEtage"><option value="rdc" data-i18n="estRdc"></option><option value="mid" selected data-i18n="estEtageInter"></option><option value="dernier" data-i18n="estDernier"></option></select></div>
 <div class="est-field"><label data-i18n="estEtat"></label><select id="efEtat"><option value="neuf" data-i18n="estEtatNeuf"></option><option value="bon" selected data-i18n="estEtatBon"></option><option value="rafraichir" data-i18n="estEtatRafraichir"></option><option value="renover" data-i18n="estEtatRenover"></option></select></div>
 <div class="est-field"><label data-i18n="estTerrasse"></label><input id="efTerrasse" type="number" min="0" max="300" value="0" /></div>
 <div class="est-field"><label data-i18n="estParking"></label><input id="efParking" type="number" min="0" max="6" value="0" /></div>
-<div class="est-check"><input type="checkbox" id="efAsc" /><label for="efAsc" data-i18n="estAsc"></label></div>
-<div class="est-check"><input type="checkbox" id="efVue" /><label for="efVue" data-i18n="estVue"></label></div>
+<div class="est-check"><input type="checkbox" id="efAsc" /><label for="efAsc" style="margin:0" data-i18n="estAsc"></label></div>
+<div class="est-check"><input type="checkbox" id="efVue" /><label for="efVue" style="margin:0" data-i18n="estVue"></label></div>
 </div>
-<button class="btn-search" style="width:100%;justify-content:center" type="submit"><i class="ti ti-calculator"></i> <span data-i18n="estGo"></span></button>
-<div class="est-note" id="estErr" style="display:none;color:var(--coral-dark)"></div>
-</form>
+</div>
+<button class="est-cta" type="submit"><span data-i18n="estCta"></span></button>
+<span class="est-mention" data-i18n="estMention"></span>
+<div class="est-note" id="estErr" style="display:none"></div>
 <div id="estOut" style="display:none">
-<div class="est-result"><div class="stat-label" style="justify-content:center" data-i18n="estResult"></div><div class="est-value" id="estValue">—</div><div class="est-range" id="estRange">—</div></div>
+<div class="est-result">
+<div class="stat-label" data-i18n="estResult"></div>
+<div class="est-value" id="estValue">—</div>
+<div class="est-range" id="estRange">—</div>
+</div>
 <div class="est-pdf-row" id="estGate" style="display:none"><input type="email" id="efEmail" placeholder="vous@email.com" /><button class="btn-search" type="button" onclick="leadAndReport()"><i class="ti ti-file-download"></i> <span data-i18n="estEmailBtn"></span></button></div>
 <div class="est-note" id="estPriv" data-i18n="estEmailPriv" style="display:none"></div>
 <button class="btn-voir-plus" id="estDirect" style="display:none" type="button" onclick="openReport()"><i class="ti ti-file-download"></i><span data-i18n="estPdf"></span></button>
 <div class="est-note" data-i18n="estDisclaimer"></div>
 </div>
+</form>
 </div>
 </div>
-<footer><p data-i18n="footer"></p><p style="margin-top:6px"><a href="https://biarritz.immo/" style="color:var(--text-tertiary)">Biarritz.immo</a> · <a href="https://anglet.immo/" style="color:var(--text-tertiary)">Anglet.immo</a> · <a href="https://bayonne.immo/" style="color:var(--text-tertiary)">Bayonne.immo</a></p></footer>
+</div>
+</section>
+
+<section class="section-m" id="methode">
+<div class="wrap">
+<div class="kicker" data-i18n="methodKicker"></div>
+<h2 data-i18n="methodH2"></h2>
+<div class="method-grid">
+<div class="method-cell"><div class="mt" data-i18n="m1t"></div><p data-i18n="m1p"></p></div>
+<div class="method-cell"><div class="mt" data-i18n="m2t"></div><p data-i18n="m2p"></p></div>
+<div class="method-cell"><div class="mt" data-i18n="m3t"></div><p data-i18n="m3p"></p></div>
+</div>
+</div>
+</section>
+
+<footer class="footer">
+<div class="wrap footer-in">
+<span class="wordmark">Biarritz<em>.immo</em></span>
+<div class="footer-links">
+<a href="https://anglet.immo/">Anglet.immo</a>
+<a href="https://bayonne.immo/">Bayonne.immo</a>
+</div>
+<div class="footer-data" data-i18n="footerData"></div>
+</div>
+</footer>
+
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
 <script>
+
 let LANG='fr';
 const DATE_LOC={fr:'fr-FR',en:'en-GB',es:'es-ES'};
 const T={
@@ -319,7 +461,7 @@ function renderChart(history,years){
 if(chartInstance)chartInstance.destroy();
 document.getElementById('chartContainer').innerHTML='<canvas id="priceChart"></canvas>';
 const dark=matchMedia('(prefers-color-scheme: dark)').matches;
-chartInstance=new Chart(document.getElementById('priceChart'),{type:'line',data:{labels:years,datasets:[{data:history,borderColor:'#D85A30',backgroundColor:dark?'rgba(216,90,48,.12)':'rgba(216,90,48,.07)',borderWidth:2.5,pointBackgroundColor:'#D85A30',pointRadius:5,pointHoverRadius:7,fill:true,tension:0.38}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false},tooltip:{callbacks:{label:c=>' '+c.parsed.y.toLocaleString('fr-FR')+' €/m²'}}},scales:{x:{grid:{display:false},ticks:{font:{size:11},color:dark?'#6b6763':'#9b9b9b'}},y:{grid:{color:dark?'rgba(255,255,255,.05)':'rgba(0,0,0,.04)'},ticks:{font:{size:11},color:dark?'#6b6763':'#9b9b9b',callback:v=>v.toLocaleString('fr-FR')+' €'}}}}});
+chartInstance=new Chart(document.getElementById('priceChart'),{type:'line',data:{labels:years,datasets:[{data:history,borderColor:'#A31621',backgroundColor:dark?'rgba(163,22,33,.12)':'rgba(163,22,33,.07)',borderWidth:2.5,pointBackgroundColor:'#A31621',pointRadius:5,pointHoverRadius:7,fill:true,tension:0.38}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false},tooltip:{callbacks:{label:c=>' '+c.parsed.y.toLocaleString('fr-FR')+' €/m²'}}},scales:{x:{grid:{display:false},ticks:{font:{size:11},color:dark?'#6b6763':'#9b9b9b'}},y:{grid:{color:dark?'rgba(255,255,255,.05)':'rgba(0,0,0,.04)'},ticks:{font:{size:11},color:dark?'#6b6763':'#9b9b9b',callback:v=>v.toLocaleString('fr-FR')+' €'}}}}});
 }
 function showError(msg){const e=document.getElementById('errorCard');e.innerHTML='<i class="ti ti-alert-circle" style="margin-right:6px"></i>'+msg;e.classList.add('visible');}
 function hideError(){document.getElementById('errorCard').classList.remove('visible');}
@@ -440,7 +582,7 @@ const dloc=DATE_LOC[LANG];
 const tl=c=>t(c.type)+(c.p?(c.type==='maison'?' '+c.p+'p':' T'+c.p):'');
 const rows=comps.map(c=>'<tr><td>'+(c.rue?(c.num?c.num+' ':'')+c.rue:'—')+'</td><td>'+tl(c)+'</td><td>'+c.surface+' m²</td><td>'+c.pm2.toLocaleString('fr-FR')+' €/m²</td><td>'+(c.d!=null?c.d+' m':'')+'</td><td>'+new Date(c.date).toLocaleDateString(dloc,{month:'short',year:'numeric'})+'</td></tr>').join('');
 const esc=s=>String(s).replace(/</g,'&lt;');
-const html='<!DOCTYPE html><html lang="'+LANG+'"><head><meta charset="utf-8"><title>'+t('estReportTitle')+' — Biarritz.immo</title><style>body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Helvetica,Arial,sans-serif;color:#1a1a1a;max-width:640px;margin:2rem auto;padding:0 1.5rem}h1{font-size:22px}h1 span{color:#D85A30}h2{font-size:13px;text-transform:uppercase;letter-spacing:.5px;color:#6b6b6b;margin-top:30px}.val{font-size:34px;font-weight:700;color:#D85A30;margin:6px 0}.range{color:#6b6b6b;font-size:14px}table{width:100%;border-collapse:collapse;font-size:13px;margin-top:8px}td,th{padding:7px 6px;border-bottom:1px solid #eee;text-align:left}.grid{display:grid;grid-template-columns:1fr 1fr;gap:5px 16px;font-size:13px;margin-top:10px}.grid b{font-weight:600}.meta{color:#9b9b9b;font-size:11px;margin-top:28px;line-height:1.6}button{margin-top:18px;padding:9px 16px;background:#D85A30;color:#fff;border:none;border-radius:8px;font-size:13px;cursor:pointer}@media print{button{display:none}}</style></head><body>'
+const html='<!DOCTYPE html><html lang="'+LANG+'"><head><meta charset="utf-8"><title>'+t('estReportTitle')+' — Biarritz.immo</title><style>body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Helvetica,Arial,sans-serif;color:#1a1a1a;max-width:640px;margin:2rem auto;padding:0 1.5rem}h1{font-size:22px}h1 span{color:#A31621}h2{font-size:13px;text-transform:uppercase;letter-spacing:.5px;color:#6b6b6b;margin-top:30px}.val{font-size:34px;font-weight:700;color:#A31621;margin:6px 0}.range{color:#6b6b6b;font-size:14px}table{width:100%;border-collapse:collapse;font-size:13px;margin-top:8px}td,th{padding:7px 6px;border-bottom:1px solid #eee;text-align:left}.grid{display:grid;grid-template-columns:1fr 1fr;gap:5px 16px;font-size:13px;margin-top:10px}.grid b{font-weight:600}.meta{color:#9b9b9b;font-size:11px;margin-top:28px;line-height:1.6}button{margin-top:18px;padding:9px 16px;background:#A31621;color:#fff;border:none;border-radius:8px;font-size:13px;cursor:pointer}@media print{button{display:none}}</style></head><body>'
 +'<h1>Biarritz<span>.immo</span> — '+t('estReportTitle')+'</h1>'
 +'<div class="grid">'
 +'<div style="grid-column:1/-1"><b>'+t('estAddr')+'</b> : '+esc(geo?geo.label:zone.name[LANG])+'</div>'
@@ -462,6 +604,51 @@ if(!w)return;
 w.document.write(html);w.document.close();
 }
 setLang('fr');
+
+/* ===== Couche design « rouge basque » (thermomètre, héro, i18n design) ===== */
+const TD={
+fr:{navQuartiers:'Quartiers',navMethode:'Méthode',navCta:'Estimer mon bien',heroKicker:'Biarritz · 64200 · Données DVF 2019–2025',heroH1:'Le prix du m², quartier par quartier.',heroP:'Le thermomètre des prix immobiliers à Biarritz, construit sur les ventes réelles enregistrées par l\'État — pas sur des annonces. Pour acheter ou investir en connaissant le vrai marché.',heroL1:'Prix moyen appartements',heroL2:'Évolution 2019–2025',heroL3:'Quartiers analysés',thermoKicker:'Le thermomètre',thermoH2:'Cinq quartiers, cinq marchés.',sortPrix:'Par prix',sortEvo:'Par évolution',thermoNote1:'Prix moyen appartements, ventes 2024–2025 · cliquez sur un quartier pour le détail',thermoNote2:'Échelle : 0 → 8 500 €/m²',yrs:'/ 6 ans',estH2:'Combien vaut <em>vraiment</em> ce bien ?',estP:'Estimation gratuite à partir des ventes réelles DVF autour de votre adresse — sans inscription, sans démarchage.',estCta:'Lancer l\'estimation gratuite',estMention:'Appartement ou maison · résultat immédiat',estAddrPh:'Adresse du bien à Biarritz…',methodKicker:'La méthode',methodH2:'Des ventes réelles, pas des prix d\'annonces.',m1t:'Source officielle',m1p:'Les Demandes de Valeurs Foncières (DVF) publiées par la DGFiP et le Cerema : chaque transaction notariée, avec son prix réel.',m2t:'Six ans de recul',m2p:'Toutes les ventes de 2019 à 2025, agrégées par quartier pour lisser les à-coups et révéler les vraies tendances.',m3t:'Granularité quartier',m3p:'De l\'Impérial au Parc d\'Hiver, plus de 2 000 € d\'écart au m² : la moyenne ville ne suffit pas pour décider.',footerData:'Données DVF · DGFiP / Cerema · 2019–2025',note_imperial:'Hôtel du Palais, front de mer nord','note_centre-halles':'Cœur commerçant, marché des Halles','note_bibi-beaurivage':'Village dans la ville, port des pêcheurs',note_milady:'Plages sud, côte des Basques','note_parc-hiver':'Résidentiel calme, côté golf'},
+en:{navQuartiers:'Districts',navMethode:'Method',navCta:'Value my property',heroKicker:'Biarritz · 64200 · DVF data 2019–2025',heroH1:'Price per m², neighbourhood by neighbourhood.',heroP:'Biarritz\'s property price thermometer, built on real sales recorded by the French State — not on listings. Buy or invest knowing the true market.',heroL1:'Average apartment price',heroL2:'Change 2019–2025',heroL3:'Neighbourhoods analysed',thermoKicker:'The thermometer',thermoH2:'Five neighbourhoods, five markets.',sortPrix:'By price',sortEvo:'By change',thermoNote1:'Average apartment price, 2024–2025 sales · click a neighbourhood for details',thermoNote2:'Scale: 0 → 8,500 €/m²',yrs:'/ 6 yrs',estH2:'What is this property <em>really</em> worth?',estP:'Free estimate based on real DVF sales around your address — no sign-up, no canvassing.',estCta:'Get my free estimate',estMention:'Apartment or house · instant result',estAddrPh:'Property address in Biarritz…',methodKicker:'The method',methodH2:'Real sales, not asking prices.',m1t:'Official source',m1p:'The DVF records published by the DGFiP and Cerema: every notarised transaction, with its actual price.',m2t:'Six years of depth',m2p:'Every sale from 2019 to 2025, aggregated by neighbourhood to smooth out noise and reveal true trends.',m3t:'Neighbourhood granularity',m3p:'From the Impérial to Parc d\'Hiver, over €2,000 difference per m²: the city average isn\'t enough to decide.',footerData:'DVF data · DGFiP / Cerema · 2019–2025',note_imperial:'Hôtel du Palais, northern seafront','note_centre-halles':'Shopping heart, Les Halles market','note_bibi-beaurivage':'Village in the city, fishermen\'s port',note_milady:'Southern beaches, Basque coast','note_parc-hiver':'Quiet residential, golf side'},
+es:{navQuartiers:'Barrios',navMethode:'Método',navCta:'Estimar mi propiedad',heroKicker:'Biarritz · 64200 · Datos DVF 2019–2025',heroH1:'El precio del m², barrio a barrio.',heroP:'El termómetro de precios inmobiliarios de Biarritz, construido sobre ventas reales registradas por el Estado francés — no sobre anuncios. Para comprar o invertir conociendo el mercado real.',heroL1:'Precio medio apartamentos',heroL2:'Evolución 2019–2025',heroL3:'Barrios analizados',thermoKicker:'El termómetro',thermoH2:'Cinco barrios, cinco mercados.',sortPrix:'Por precio',sortEvo:'Por evolución',thermoNote1:'Precio medio apartamentos, ventas 2024–2025 · haga clic en un barrio para el detalle',thermoNote2:'Escala: 0 → 8.500 €/m²',yrs:'/ 6 años',estH2:'¿Cuánto vale <em>realmente</em> esta propiedad?',estP:'Estimación gratuita a partir de ventas reales DVF alrededor de su dirección — sin registro, sin llamadas comerciales.',estCta:'Obtener mi estimación gratuita',estMention:'Apartamento o casa · resultado inmediato',estAddrPh:'Dirección del bien en Biarritz…',methodKicker:'El método',methodH2:'Ventas reales, no precios de anuncios.',m1t:'Fuente oficial',m1p:'Los registros DVF publicados por la DGFiP y el Cerema: cada transacción notarial, con su precio real.',m2t:'Seis años de perspectiva',m2p:'Todas las ventas de 2019 a 2025, agregadas por barrio para suavizar los altibajos y revelar las tendencias reales.',m3t:'Granularidad de barrio',m3p:'Del Impérial al Parc d\'Hiver, más de 2.000 € de diferencia por m²: la media de la ciudad no basta para decidir.',footerData:'Datos DVF · DGFiP / Cerema · 2019–2025',note_imperial:'Hôtel du Palais, frente al mar norte','note_centre-halles':'Corazón comercial, mercado de Les Halles','note_bibi-beaurivage':'Pueblo en la ciudad, puerto pesquero',note_milady:'Playas del sur, costa vasca','note_parc-hiver':'Residencial tranquilo, junto al golf'}
+};
+for(const l in TD)Object.assign(T[l],TD[l]);
+const fmtTh=n=>n.toLocaleString('fr-FR').replace(/[\u202f\u00a0 ]/g,'\u2009');
+let THERMO_SORT='prix';
+const THERMO_COLORS=['#A31621','#B03A34','#BC5747','#C7715B','#D28B70'];
+function renderThermo(){
+const sorted=[...ZONES].sort((a,b)=>THERMO_SORT==='evolution'?parseInt(b.evo)-parseInt(a.evo):b.priceAppt-a.priceAppt);
+document.getElementById('thermoList').innerHTML=sorted.map((z,i)=>
+'<div class="thermo-row chip'+(currentZone&&currentZone.id===z.id?' active':'')+'" id="chip-'+z.id+'" onclick="analyzeZone(\''+z.id+'\')">'
++'<div class="tr-left"><div class="tr-rank">'+String(i+1).padStart(2,'0')+'</div><div><div class="tr-nom">'+z.name[LANG]+'</div><div class="tr-note">'+t('note_'+z.id)+'</div></div></div>'
++'<div class="tr-bar"><div class="tr-fill" style="width:'+Math.round(z.priceAppt/8500*100)+'%;background:'+THERMO_COLORS[i]+'"></div></div>'
++'<div class="tr-right"><div class="tr-prix">'+fmtTh(z.priceAppt)+' €/m²</div><div class="tr-evo">+'+parseInt(z.evo)+' % '+t('yrs')+'</div></div>'
++'</div>').join('');
+document.getElementById('btnSortPrix').className='sort-btn'+(THERMO_SORT!=='evolution'?' active':'');
+document.getElementById('btnSortEvo').className='sort-btn'+(THERMO_SORT==='evolution'?' active':'');
+}
+function setSort(s){THERMO_SORT=s;renderThermo();}
+function renderDesignBits(){
+document.querySelectorAll('[data-i18n-html]').forEach(el=>{el.innerHTML=t(el.dataset.i18nHtml);});
+const avg=Math.round(ZONES.reduce((s,z)=>s+z.priceAppt,0)/ZONES.length);
+const avgEvo=Math.round(ZONES.reduce((s,z)=>s+parseInt(z.evo),0)/ZONES.length);
+document.getElementById('heroPrix').textContent=fmtTh(avg)+' €/m²';
+document.getElementById('heroEvo').textContent='+'+avgEvo+' %';
+document.getElementById('efAddr').placeholder=t('estAddrPh');
+}
+const _setLangD=setLang;
+setLang=function(l){_setLangD(l);renderThermo();renderDesignBits();};
+renderChart=function(history,years){
+if(chartInstance)chartInstance.destroy();
+document.getElementById('chartContainer').innerHTML='<canvas id="priceChart"></canvas>';
+chartInstance=new Chart(document.getElementById('priceChart'),{type:'line',data:{labels:years,datasets:[{data:history,borderColor:'#A31621',backgroundColor:'rgba(163,22,33,0.06)',borderWidth:2.5,pointBackgroundColor:'#A31621',pointRadius:4.5,pointHoverRadius:7,fill:true,tension:0.38}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false},tooltip:{callbacks:{label:c=>' '+c.parsed.y.toLocaleString('fr-FR')+' €/m²'}}},scales:{x:{grid:{display:false},ticks:{font:{size:11,family:"'Spline Sans Mono',monospace"},color:'rgba(34,27,22,0.55)'}},y:{grid:{color:'rgba(34,27,22,0.06)'},ticks:{font:{size:11,family:"'Spline Sans Mono',monospace"},color:'rgba(34,27,22,0.55)',callback:v=>v.toLocaleString('fr-FR')+' €'}}}}});
+};
+const _azD=analyzeZone;
+analyzeZone=function(id){_azD(id);renderThermo();const r=document.getElementById('results');if(r&&r.scrollIntoView)r.scrollIntoView({behavior:'smooth',block:'start'});};
+const estDetailsEl=document.getElementById('estDetails');
+document.getElementById('efAddr').addEventListener('focus',()=>{estDetailsEl.style.display='block';});
+document.getElementById('estForm').addEventListener('submit',()=>{if(estDetailsEl.style.display!=='block')estDetailsEl.style.display='block';});
+setLang(LANG);
+
 </script>
 </body>
 </html>
