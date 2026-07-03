@@ -4,7 +4,7 @@
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>Prix immobilier Biarritz 2025 — Thermomètre par quartier | Biarritz.immo</title>
-<meta name="description" content="Consultez les prix au m² à Biarritz en 2025 par quartier : Impérial, Centre-Halles, Bibi-Beaurivage, Milady, Parc d'Hiver. Données DVF officielles DGFiP/Cerema 2019–2025. Gratuit." />
+<meta name="description" content="Consultez les prix au m² à Biarritz en 2025 par quartier : Impérial, Centre-Halles, Bibi-Beaurivage, Milady, Parc d'Hiver. Données DVF officielles DGFiP/Cerema 2019–2025. Estimation gratuite. " />
 <link rel="canonical" href="https://biarritz.immo/" />
 <meta name="robots" content="index, follow" />
 <meta property="og:type" content="website" />
@@ -117,6 +117,19 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Helvetica,Arial,san
 .dvf-note{display:flex;align-items:center;gap:6px;font-size:11px;color:var(--text-tertiary)}
 .dvf-note a{color:var(--text-tertiary)}
 .seo-content{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap}
+.est-sub{font-size:12px;color:var(--text-secondary);margin-bottom:14px}
+.est-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:12px}
+.est-field label{display:block;font-size:11px;color:var(--text-secondary);margin-bottom:4px}
+.est-field input,.est-field select{width:100%;height:38px;padding:0 10px;font-size:13px;border-radius:var(--radius-md);border:0.5px solid var(--border);background:var(--bg);color:var(--text);outline:none;font-family:inherit}
+.est-field input:focus,.est-field select:focus{border-color:var(--coral)}
+.est-check{display:flex;align-items:center;gap:7px;font-size:12px;color:var(--text-secondary);padding-top:16px}
+.est-result{text-align:center;padding:16px 0 4px}
+.est-value{font-size:30px;font-weight:600;color:var(--coral)}
+.est-range{font-size:12px;color:var(--text-secondary);margin-top:5px}
+.est-pdf-row{display:flex;gap:8px;margin-top:14px}
+.est-pdf-row input{flex:1;min-width:0;height:40px;padding:0 10px;font-size:13px;border-radius:var(--radius-md);border:0.5px solid var(--border);background:var(--bg);color:var(--text);font-family:inherit;outline:none}
+.est-pdf-row input:focus{border-color:var(--coral)}
+.est-note{font-size:10px;color:var(--text-tertiary);margin-top:8px;line-height:1.5}
 footer{margin-top:3rem;text-align:center;font-size:11px;color:var(--text-tertiary)}
 </style>
 </head>
@@ -129,6 +142,8 @@ footer{margin-top:3rem;text-align:center;font-size:11px;color:var(--text-tertiar
 <article><h3>Bibi-Beaurivage</h3><p>Appartements : prix moyen 7 489 €/m² (2024–2025). Évolution 2019–2025 : +16 %.</p></article>
 <article><h3>Quartier de la Milady</h3><p>Appartements : prix moyen 7 572 €/m² (2024–2025). Évolution 2019–2025 : +26 %.</p></article>
 <article><h3>Parc d'Hiver</h3><p>Appartements : prix moyen 6 132 €/m² (2024–2025). Évolution 2019–2025 : +19 %.</p></article>
+<h2>Estimation immobilière gratuite à Biarritz</h2>
+<p>Estimez gratuitement votre appartement ou maison à Biarritz à partir des ventes réelles DVF de votre quartier.</p>
 </section>
 <div class="app">
 <header class="header">
@@ -197,6 +212,32 @@ footer{margin-top:3rem;text-align:center;font-size:11px;color:var(--text-tertiar
 </div>
 <div class="dvf-note"><i class="ti ti-database"></i>&nbsp;<span data-i18n="dvfNote"></span></div>
 </div>
+<div class="chart-card" id="estCard" style="margin-top:1rem">
+<div class="chart-title"><i class="ti ti-calculator"></i> <span data-i18n="estTitle"></span></div>
+<div class="est-sub" data-i18n="estSub"></div>
+<form id="estForm">
+<div class="est-grid">
+<div class="est-field"><label data-i18n="estType"></label><select id="efType"><option value="appt" data-i18n="estTypeAppt"></option><option value="maison" data-i18n="estTypeMaison"></option></select></div>
+<div class="est-field"><label data-i18n="estZone"></label><select id="efZone"><option value="imperial" data-i18n="chip_imperial"></option><option value="centre-halles" selected data-i18n="chip_centre-halles"></option><option value="bibi-beaurivage" data-i18n="chip_bibi-beaurivage"></option><option value="milady" data-i18n="chip_milady"></option><option value="parc-hiver" data-i18n="chip_parc-hiver"></option></select></div>
+<div class="est-field"><label data-i18n="estSurface"></label><input id="efSurface" type="number" min="9" max="1000" required /></div>
+<div class="est-field"><label data-i18n="estPieces"></label><input id="efPieces" type="number" min="1" max="15" value="3" /></div>
+<div class="est-field"><label data-i18n="estEtage"></label><select id="efEtage"><option value="rdc" data-i18n="estRdc"></option><option value="mid" selected data-i18n="estEtageInter"></option><option value="dernier" data-i18n="estDernier"></option></select></div>
+<div class="est-field"><label data-i18n="estEtat"></label><select id="efEtat"><option value="neuf" data-i18n="estEtatNeuf"></option><option value="bon" selected data-i18n="estEtatBon"></option><option value="rafraichir" data-i18n="estEtatRafraichir"></option><option value="renover" data-i18n="estEtatRenover"></option></select></div>
+<div class="est-field"><label data-i18n="estTerrasse"></label><input id="efTerrasse" type="number" min="0" max="300" value="0" /></div>
+<div class="est-field"><label data-i18n="estParking"></label><input id="efParking" type="number" min="0" max="6" value="0" /></div>
+<div class="est-check"><input type="checkbox" id="efAsc" /><label for="efAsc" data-i18n="estAsc"></label></div>
+<div class="est-check"><input type="checkbox" id="efVue" /><label for="efVue" data-i18n="estVue"></label></div>
+</div>
+<button class="btn-search" style="width:100%;justify-content:center" type="submit"><i class="ti ti-calculator"></i> <span data-i18n="estGo"></span></button>
+</form>
+<div id="estOut" style="display:none">
+<div class="est-result"><div class="stat-label" style="justify-content:center" data-i18n="estResult"></div><div class="est-value" id="estValue">—</div><div class="est-range" id="estRange">—</div></div>
+<div class="est-pdf-row" id="estGate" style="display:none"><input type="email" id="efEmail" placeholder="vous@email.com" /><button class="btn-search" type="button" onclick="leadAndReport()"><i class="ti ti-file-download"></i> <span data-i18n="estEmailBtn"></span></button></div>
+<div class="est-note" id="estPriv" data-i18n="estEmailPriv" style="display:none"></div>
+<button class="btn-voir-plus" id="estDirect" style="display:none" type="button" onclick="openReport()"><i class="ti ti-file-download"></i><span data-i18n="estPdf"></span></button>
+<div class="est-note" data-i18n="estDisclaimer"></div>
+</div>
+</div>
 </div>
 <footer><p data-i18n="footer"></p><p style="margin-top:6px"><a href="https://biarritz.immo/" style="color:var(--text-tertiary)">Biarritz.immo</a> · <a href="https://anglet.immo/" style="color:var(--text-tertiary)">Anglet.immo</a></p></footer>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
@@ -204,9 +245,9 @@ footer{margin-top:3rem;text-align:center;font-size:11px;color:var(--text-tertiar
 let LANG='fr';
 const DATE_LOC={fr:'fr-FR',en:'en-GB',es:'es-ES'};
 const T={
-fr:{searchLabel:'Entrez une adresse à Biarritz',placeholder:'Ex : 12 avenue de l\'Impératrice',btnSearch:'Analyser',chipsLabel:'Quartiers de référence',chip_imperial:'Impérial','chip_centre-halles':'Centre · Halles','chip_bibi-beaurivage':'Bibi-Beaurivage',chip_milady:'Milady','chip_parc-hiver':'Parc d\'Hiver',loaderGeo:'Géocodage de l\'adresse…',loaderAnalyze:'Analyse du marché local…',statAppt:'Appartements',statPriceUnit:'€ / m² moyen (2024–25)',statEvo:'Évolution',chartTitle:'Évolution prix au m² · 2019–2025',txTitle:'Transactions DVF récentes',aiLabel:'Analyse du quartier',aiSub:'Basée sur les données DVF 2019–2025',scoreLabels:['Vue mer','Commerces','Calme','Rentabilité'],voirPlus:'Voir plus',voirMoins:'Voir moins',txLoading:'Chargement des transactions…',errNotFound:'Adresse introuvable à Biarritz. Vérifiez le nom de rue.',errOtherCity:c=>'Cette adresse est à '+c+', pas à Biarritz.',dvfNote:'Sources : <a href="https://datafoncier.cerema.fr/donnees/autres-donnees-foncieres/dvfplus-open-data" target="_blank">DVF+ open-data · Cerema/DGFiP</a> + <a href="https://adresse.data.gouv.fr" target="_blank">BAN · IGN</a> · Extraction juillet 2026',footer:'Biarritz.immo · Données DVF 2019–2025 · Pyrénées-Atlantiques 64200',appt:'Appt',maison:'Maison',sales:'ventes'},
-en:{searchLabel:'Enter an address in Biarritz',placeholder:'E.g. 12 avenue de l\'Impératrice',btnSearch:'Search',chipsLabel:'Reference neighbourhoods',chip_imperial:'Imperial','chip_centre-halles':'Centre · Halles','chip_bibi-beaurivage':'Bibi-Beaurivage',chip_milady:'Milady','chip_parc-hiver':'Parc d\'Hiver',loaderGeo:'Geocoding address…',loaderAnalyze:'Analysing local market…',statAppt:'Apartments',statPriceUnit:'average €/m² (2024–25)',statEvo:'Change',chartTitle:'Price per m² trend · 2019–2025',txTitle:'Recent DVF transactions',aiLabel:'Neighbourhood analysis',aiSub:'Based on DVF data 2019–2025',scoreLabels:['Sea view','Amenities','Quiet','Yield'],voirPlus:'See more',voirMoins:'See less',txLoading:'Loading transactions…',errNotFound:'Address not found in Biarritz. Please check the street name.',errOtherCity:c=>'This address is in '+c+', not in Biarritz.',dvfNote:'Sources: <a href="https://datafoncier.cerema.fr/donnees/autres-donnees-foncieres/dvfplus-open-data" target="_blank">DVF+ open-data · Cerema/DGFiP</a> + <a href="https://adresse.data.gouv.fr" target="_blank">BAN · IGN</a> · Extracted July 2026',footer:'Biarritz.immo · DVF data 2019–2025 · Pyrénées-Atlantiques 64200',appt:'Apt',maison:'House',sales:'sales'},
-es:{searchLabel:'Introduzca una dirección en Biarritz',placeholder:'Ej: 12 avenue de l\'Impératrice',btnSearch:'Analizar',chipsLabel:'Barrios de referencia',chip_imperial:'Imperial','chip_centre-halles':'Centro · Halles','chip_bibi-beaurivage':'Bibi-Beaurivage',chip_milady:'Milady','chip_parc-hiver':'Parc d\'Hiver',loaderGeo:'Geolocalización de la dirección…',loaderAnalyze:'Analizando el mercado local…',statAppt:'Apartamentos',statPriceUnit:'€/m² medio (2024–25)',statEvo:'Evolución',chartTitle:'Evolución precio por m² · 2019–2025',txTitle:'Transacciones DVF recientes',aiLabel:'Análisis del barrio',aiSub:'Basado en datos DVF 2019–2025',scoreLabels:['Vista al mar','Comercios','Tranquilidad','Rentabilidad'],voirPlus:'Ver más',voirMoins:'Ver menos',txLoading:'Cargando transacciones…',errNotFound:'Dirección no encontrada en Biarritz. Compruebe el nombre de la calle.',errOtherCity:c=>'Esta dirección está en '+c+', no en Biarritz.',dvfNote:'Fuentes: <a href="https://datafoncier.cerema.fr/donnees/autres-donnees-foncieres/dvfplus-open-data" target="_blank">DVF+ open-data · Cerema/DGFiP</a> + <a href="https://adresse.data.gouv.fr" target="_blank">BAN · IGN</a> · Extracción julio 2026',footer:'Biarritz.immo · Datos DVF 2019–2025 · Pyrénées-Atlantiques 64200',appt:'Apto',maison:'Casa',sales:'ventas'}
+fr:{searchLabel:'Entrez une adresse à Biarritz',placeholder:'Ex : 12 avenue de l\'Impératrice',btnSearch:'Analyser',chipsLabel:'Quartiers de référence',chip_imperial:'Impérial','chip_centre-halles':'Centre · Halles','chip_bibi-beaurivage':'Bibi-Beaurivage',chip_milady:'Milady','chip_parc-hiver':'Parc d\'Hiver',loaderGeo:'Géocodage de l\'adresse…',loaderAnalyze:'Analyse du marché local…',statAppt:'Appartements',statPriceUnit:'€ / m² moyen (2024–25)',statEvo:'Évolution',chartTitle:'Évolution prix au m² · 2019–2025',txTitle:'Transactions DVF récentes',aiLabel:'Analyse du quartier',aiSub:'Basée sur les données DVF 2019–2025',scoreLabels:['Vue mer','Commerces','Calme','Rentabilité'],voirPlus:'Voir plus',voirMoins:'Voir moins',txLoading:'Chargement des transactions…',errNotFound:'Adresse introuvable à Biarritz. Vérifiez le nom de rue.',errOtherCity:c=>'Cette adresse est à '+c+', pas à Biarritz.',dvfNote:'Sources : <a href="https://datafoncier.cerema.fr/donnees/autres-donnees-foncieres/dvfplus-open-data" target="_blank">DVF+ open-data · Cerema/DGFiP</a> + <a href="https://adresse.data.gouv.fr" target="_blank">BAN · IGN</a> · Extraction juillet 2026',footer:'Biarritz.immo · Données DVF 2019–2025 · Pyrénées-Atlantiques 64200',appt:'Appt',maison:'Maison',sales:'ventes',estTitle:'Estimer mon bien — gratuit',estSub:'Basée sur les ventes réelles DVF 2019–2025 de votre quartier',estType:'Type de bien',estTypeAppt:'Appartement',estTypeMaison:'Maison',estZone:'Quartier',estSurface:'Surface (m²)',estPieces:'Pièces',estEtage:'Étage',estRdc:'Rez-de-chaussée',estEtageInter:'Étage intermédiaire',estDernier:'Dernier étage',estEtat:'État général',estEtatNeuf:'Neuf / rénové',estEtatBon:'Bon état',estEtatRafraichir:'À rafraîchir',estEtatRenover:'À rénover',estTerrasse:'Balcon / terrasse (m²)',estParking:'Parking (places)',estAsc:'Ascenseur',estVue:'Vue mer',estGo:'Estimer',estResult:'Valeur estimée',estEmailBtn:'Recevoir le rapport',estPdf:'Télécharger le rapport détaillé',estEmailPriv:'Votre email sert uniquement à vous recontacter au sujet de votre bien.',estDisclaimer:'Estimation indicative calculée à partir des données DVF (DGFiP), sans valeur d\'expertise.',estReportTitle:'Étude d\'estimation',estMethodoTitle:'Méthodologie',estMethodo:'Base : prix moyen de {base} €/m² (ventes DVF 2024–2025 du quartier), ajusté selon l\'état, l\'étage, la vue mer, la surface et les annexes (terrasse, parking). Fourchette : ±10 %.',estPrint:'Imprimer / Enregistrer en PDF',estComps:'Ventes comparables dans le quartier (DVF)'},
+en:{searchLabel:'Enter an address in Biarritz',placeholder:'E.g. 12 avenue de l\'Impératrice',btnSearch:'Search',chipsLabel:'Reference neighbourhoods',chip_imperial:'Imperial','chip_centre-halles':'Centre · Halles','chip_bibi-beaurivage':'Bibi-Beaurivage',chip_milady:'Milady','chip_parc-hiver':'Parc d\'Hiver',loaderGeo:'Geocoding address…',loaderAnalyze:'Analysing local market…',statAppt:'Apartments',statPriceUnit:'average €/m² (2024–25)',statEvo:'Change',chartTitle:'Price per m² trend · 2019–2025',txTitle:'Recent DVF transactions',aiLabel:'Neighbourhood analysis',aiSub:'Based on DVF data 2019–2025',scoreLabels:['Sea view','Amenities','Quiet','Yield'],voirPlus:'See more',voirMoins:'See less',txLoading:'Loading transactions…',errNotFound:'Address not found in Biarritz. Please check the street name.',errOtherCity:c=>'This address is in '+c+', not in Biarritz.',dvfNote:'Sources: <a href="https://datafoncier.cerema.fr/donnees/autres-donnees-foncieres/dvfplus-open-data" target="_blank">DVF+ open-data · Cerema/DGFiP</a> + <a href="https://adresse.data.gouv.fr" target="_blank">BAN · IGN</a> · Extracted July 2026',footer:'Biarritz.immo · DVF data 2019–2025 · Pyrénées-Atlantiques 64200',appt:'Apt',maison:'House',sales:'sales',estTitle:'Estimate my property — free',estSub:'Based on real DVF sales 2019–2025 in your neighbourhood',estType:'Property type',estTypeAppt:'Apartment',estTypeMaison:'House',estZone:'Neighbourhood',estSurface:'Living area (m²)',estPieces:'Rooms',estEtage:'Floor',estRdc:'Ground floor',estEtageInter:'Intermediate floor',estDernier:'Top floor',estEtat:'Overall condition',estEtatNeuf:'New / renovated',estEtatBon:'Good condition',estEtatRafraichir:'Needs refreshing',estEtatRenover:'Needs renovation',estTerrasse:'Balcony / terrace (m²)',estParking:'Parking (spaces)',estAsc:'Lift',estVue:'Sea view',estGo:'Estimate',estResult:'Estimated value',estEmailBtn:'Get the report',estPdf:'Download the detailed report',estEmailPriv:'Your email is only used to contact you about your property.',estDisclaimer:'Indicative estimate based on DVF data (DGFiP), not a formal appraisal.',estReportTitle:'Valuation report',estMethodoTitle:'Methodology',estMethodo:'Base: average price of {base} €/m² (DVF sales 2024–2025 in the neighbourhood), adjusted for condition, floor, sea view, size and extras (terrace, parking). Range: ±10%.',estPrint:'Print / Save as PDF',estComps:'Comparable sales in the neighbourhood (DVF)'},
+es:{searchLabel:'Introduzca una dirección en Biarritz',placeholder:'Ej: 12 avenue de l\'Impératrice',btnSearch:'Analizar',chipsLabel:'Barrios de referencia',chip_imperial:'Imperial','chip_centre-halles':'Centro · Halles','chip_bibi-beaurivage':'Bibi-Beaurivage',chip_milady:'Milady','chip_parc-hiver':'Parc d\'Hiver',loaderGeo:'Geolocalización de la dirección…',loaderAnalyze:'Analizando el mercado local…',statAppt:'Apartamentos',statPriceUnit:'€/m² medio (2024–25)',statEvo:'Evolución',chartTitle:'Evolución precio por m² · 2019–2025',txTitle:'Transacciones DVF recientes',aiLabel:'Análisis del barrio',aiSub:'Basado en datos DVF 2019–2025',scoreLabels:['Vista al mar','Comercios','Tranquilidad','Rentabilidad'],voirPlus:'Ver más',voirMoins:'Ver menos',txLoading:'Cargando transacciones…',errNotFound:'Dirección no encontrada en Biarritz. Compruebe el nombre de la calle.',errOtherCity:c=>'Esta dirección está en '+c+', no en Biarritz.',dvfNote:'Fuentes: <a href="https://datafoncier.cerema.fr/donnees/autres-donnees-foncieres/dvfplus-open-data" target="_blank">DVF+ open-data · Cerema/DGFiP</a> + <a href="https://adresse.data.gouv.fr" target="_blank">BAN · IGN</a> · Extracción julio 2026',footer:'Biarritz.immo · Datos DVF 2019–2025 · Pyrénées-Atlantiques 64200',appt:'Apto',maison:'Casa',sales:'ventas',estTitle:'Estimar mi propiedad — gratis',estSub:'Basada en ventas reales DVF 2019–2025 de su barrio',estType:'Tipo de bien',estTypeAppt:'Apartamento',estTypeMaison:'Casa',estZone:'Barrio',estSurface:'Superficie (m²)',estPieces:'Habitaciones',estEtage:'Planta',estRdc:'Planta baja',estEtageInter:'Planta intermedia',estDernier:'Última planta',estEtat:'Estado general',estEtatNeuf:'Nuevo / renovado',estEtatBon:'Buen estado',estEtatRafraichir:'Para refrescar',estEtatRenover:'Para renovar',estTerrasse:'Balcón / terraza (m²)',estParking:'Parking (plazas)',estAsc:'Ascensor',estVue:'Vista al mar',estGo:'Estimar',estResult:'Valor estimado',estEmailBtn:'Recibir el informe',estPdf:'Descargar el informe detallado',estEmailPriv:'Su email solo se usa para contactarle sobre su propiedad.',estDisclaimer:'Estimación indicativa basada en datos DVF (DGFiP), sin valor de tasación.',estReportTitle:'Informe de valoración',estMethodoTitle:'Metodología',estMethodo:'Base: precio medio de {base} €/m² (ventas DVF 2024–2025 del barrio), ajustado según estado, planta, vista al mar, superficie y extras. Horquilla: ±10 %.',estPrint:'Imprimir / Guardar en PDF',estComps:'Ventas comparables en el barrio (DVF)'}
 };
 function t(key){return T[LANG][key]??T.fr[key]??key;}
 function setLang(lang){LANG=lang;document.documentElement.lang=lang;document.querySelectorAll('.lang-btn').forEach(b=>b.classList.toggle('active',b.textContent===lang.toUpperCase()));document.querySelectorAll('[data-i18n]').forEach(el=>{const k=el.dataset.i18n;if(k==='dvfNote'||k==='footer'){el.innerHTML=t(k);return;}el.textContent=t(k);});document.getElementById('addressInput').placeholder=t('placeholder');if(currentZone&&document.getElementById('results').classList.contains('visible'))render(currentZone,currentGeo,false);}
@@ -273,6 +314,68 @@ function renderDropdown(){if(!acResults.length){closeDropdown();return;}acIndex=
 function moveIndex(dir){const items=dropdown.querySelectorAll('.ac-item');if(!items.length)return;items[acIndex]?.classList.remove('active');acIndex=Math.max(-1,Math.min(items.length-1,acIndex+dir));if(acIndex>=0){items[acIndex].classList.add('active');input.value=acResults[acIndex].properties.label;}}
 function selectSuggestion(f){input.value=f.properties.label;closeDropdown();analyzeInput();}
 function closeDropdown(){dropdown.classList.remove('open');acResults=[];acIndex=-1;}
+/* ===== Estimateur ===== */
+/* Pour capter les emails (leads) : créer un formulaire gratuit sur https://formspree.io, puis coller son URL ci-dessous
+   (ex : 'https://formspree.io/f/abcd1234'). Laisser vide = téléchargement direct du rapport sans email. */
+const LEAD_ENDPOINT='';
+const MAISON_PM2={'imperial':12290,'centre-halles':9341,'bibi-beaurivage':8259,'milady':11458,'parc-hiver':7266};
+let lastEst=null;
+document.getElementById('estForm').addEventListener('submit',e=>{e.preventDefault();runEstimate();});
+function runEstimate(){
+const $=id=>document.getElementById(id);
+const f={type:$('efType').value,zone:$('efZone').value,surface:+$('efSurface').value,pieces:+$('efPieces').value||0,etage:$('efEtage').value,etat:$('efEtat').value,terrasse:+$('efTerrasse').value||0,parking:+$('efParking').value||0,asc:$('efAsc').checked,vue:$('efVue').checked};
+if(!f.surface||f.surface<9)return;
+const z=ZONES.find(x=>x.id===f.zone);
+const base=f.type==='maison'?MAISON_PM2[f.zone]:z.priceAppt;
+let coef=1+({neuf:0.08,bon:0,rafraichir:-0.08,renover:-0.18}[f.etat]||0);
+if(f.type==='appt'){if(f.etage==='rdc')coef-=0.05;if(f.etage==='dernier')coef+=0.05;if(f.asc&&f.etage!=='rdc')coef+=0.03;}
+if(f.vue)coef+=0.12;
+if(f.surface<30)coef+=0.08;else if(f.surface<50)coef+=0.04;else if(f.surface>100)coef-=0.04;
+const raw=f.surface*base*coef+Math.min(f.terrasse,40)*base*0.3+f.parking*12000;
+const r={val:Math.round(raw/1000)*1000,low:Math.round(raw*0.9/1000)*1000,high:Math.round(raw*1.1/1000)*1000,pm2:Math.round(raw/f.surface),base};
+lastEst={f,r,zone:z};
+$('estValue').textContent=r.val.toLocaleString('fr-FR')+' €';
+$('estRange').textContent=r.low.toLocaleString('fr-FR')+' € – '+r.high.toLocaleString('fr-FR')+' € · '+r.pm2.toLocaleString('fr-FR')+' €/m²';
+$('estOut').style.display='block';
+const gate=!!LEAD_ENDPOINT;
+$('estGate').style.display=gate?'flex':'none';
+$('estPriv').style.display=gate?'block':'none';
+$('estDirect').style.display=gate?'none':'flex';
+if($('estOut').scrollIntoView)$('estOut').scrollIntoView({behavior:'smooth',block:'nearest'});
+}
+async function leadAndReport(){
+const em=document.getElementById('efEmail').value.trim();
+if(!em||!em.includes('@')||!lastEst)return;
+try{await fetch(LEAD_ENDPOINT,{method:'POST',headers:{'Content-Type':'application/json','Accept':'application/json'},body:JSON.stringify({email:em,type:lastEst.f.type,quartier:lastEst.f.zone,surface:lastEst.f.surface,pieces:lastEst.f.pieces,estimation:lastEst.r.val,site:'biarritz.immo'})});}catch(e){}
+openReport();
+}
+function openReport(){
+if(!lastEst)return;
+const{f,r,zone}=lastEst;
+const dloc=DATE_LOC[LANG];
+const comps=zone.nearby.filter(c=>c.type===f.type).sort((a,b)=>Math.abs(a.surface-f.surface)-Math.abs(b.surface-f.surface)).slice(0,5);
+const rows=comps.map(c=>'<tr><td>'+(c.rue?(c.num?c.num+' ':'')+c.rue:t(c.type))+'</td><td>'+c.surface+' m²</td><td>'+c.pm2.toLocaleString('fr-FR')+' €/m²</td><td>'+new Date(c.date).toLocaleDateString(dloc,{month:'short',year:'numeric'})+'</td></tr>').join('');
+const esc=s=>String(s).replace(/</g,'&lt;');
+const html='<!DOCTYPE html><html lang="'+LANG+'"><head><meta charset="utf-8"><title>'+t('estReportTitle')+' — Biarritz.immo</title><style>body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Helvetica,Arial,sans-serif;color:#1a1a1a;max-width:640px;margin:2rem auto;padding:0 1.5rem}h1{font-size:22px}h1 span{color:#D85A30}h2{font-size:13px;text-transform:uppercase;letter-spacing:.5px;color:#6b6b6b;margin-top:30px}.val{font-size:34px;font-weight:700;color:#D85A30;margin:6px 0}.range{color:#6b6b6b;font-size:14px}table{width:100%;border-collapse:collapse;font-size:13px;margin-top:8px}td,th{padding:7px 6px;border-bottom:1px solid #eee;text-align:left}.grid{display:grid;grid-template-columns:1fr 1fr;gap:5px 16px;font-size:13px;margin-top:10px}.grid b{font-weight:600}.meta{color:#9b9b9b;font-size:11px;margin-top:28px;line-height:1.6}button{margin-top:18px;padding:9px 16px;background:#D85A30;color:#fff;border:none;border-radius:8px;font-size:13px;cursor:pointer}@media print{button{display:none}}</style></head><body>'
++'<h1>Biarritz<span>.immo</span> — '+t('estReportTitle')+'</h1>'
++'<div class="grid">'
++'<div><b>'+t('estType')+'</b> : '+t(f.type==='appt'?'estTypeAppt':'estTypeMaison')+'</div>'
++'<div><b>'+t('estZone')+'</b> : '+esc(zone.name[LANG])+'</div>'
++'<div><b>'+t('estSurface')+'</b> : '+f.surface+' m²</div>'
++'<div><b>'+t('estPieces')+'</b> : '+f.pieces+'</div>'
++'<div><b>'+t('estEtat')+'</b> : '+t({neuf:'estEtatNeuf',bon:'estEtatBon',rafraichir:'estEtatRafraichir',renover:'estEtatRenover'}[f.etat])+'</div>'
++'<div><b>'+t('estTerrasse')+'</b> : '+f.terrasse+' m² · <b>'+t('estParking')+'</b> : '+f.parking+'</div>'
++'</div>'
++'<h2>'+t('estResult')+'</h2><div class="val">'+r.val.toLocaleString('fr-FR')+' €</div><div class="range">'+r.low.toLocaleString('fr-FR')+' € – '+r.high.toLocaleString('fr-FR')+' € · '+r.pm2.toLocaleString('fr-FR')+' €/m²</div>'
++'<h2>'+t('estComps')+'</h2><table><tr><th></th><th>m²</th><th>€/m²</th><th></th></tr>'+rows+'</table>'
++'<h2>'+t('estMethodoTitle')+'</h2><div style="font-size:13px;line-height:1.65">'+t('estMethodo').replace('{base}',r.base.toLocaleString('fr-FR'))+'</div>'
++'<div class="meta">'+t('estDisclaimer')+'<br>biarritz.immo · '+new Date().toLocaleDateString(dloc)+'</div>'
++'<button onclick="window.print()">'+t('estPrint')+'</button>'
++'</body></html>';
+const w=window.open('','_blank');
+if(!w)return;
+w.document.write(html);w.document.close();
+}
 setLang('fr');
 </script>
 </body>
