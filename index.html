@@ -49,16 +49,16 @@ body{font-family:'Archivo',-apple-system,sans-serif;background:var(--cream);colo
 .nav-cta{background:var(--red);color:var(--cream);text-decoration:none;padding:11px 22px;border-radius:999px;font-weight:600;font-size:14px}
 .nav-cta:hover{background:var(--red-dark)}
 /* ===== HERO ===== */
-.hero{background:var(--red);color:var(--cream);padding:clamp(56px,9vw,110px) var(--gutter) 0;position:relative;overflow:hidden}
-.hero-kicker{font-family:var(--mono);font-size:12px;letter-spacing:0.18em;text-transform:uppercase;color:rgba(250,245,236,0.75);margin-bottom:28px}
-.hero h1{font-family:var(--serif);font-weight:400;font-size:clamp(44px,7.2vw,96px);line-height:1.02;margin:0 0 30px;letter-spacing:-0.015em;max-width:15ch;text-wrap:balance}
-.hero p{font-size:clamp(16px,1.6vw,19px);line-height:1.6;max-width:54ch;margin:0 0 52px;color:rgba(250,245,236,0.85)}
-.hero-figs{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));border-top:1px solid rgba(250,245,236,0.3)}
-.hero-fig{padding:28px 28px 44px 0;border-right:1px solid rgba(250,245,236,0.3)}
-.hero-fig+.hero-fig{padding-left:28px}
+.hero{background:var(--cream);color:var(--ink);padding:clamp(36px,5.5vw,68px) var(--gutter) 0;position:relative;overflow:hidden}
+.hero-kicker{font-family:var(--mono);font-size:12px;letter-spacing:0.18em;text-transform:uppercase;color:var(--red);margin-bottom:18px}
+.hero h1{font-family:var(--serif);font-weight:400;font-size:clamp(38px,5.6vw,72px);line-height:1.04;margin:0 0 20px;letter-spacing:-0.015em;max-width:18ch;text-wrap:balance}
+.hero p{font-size:clamp(15px,1.5vw,18px);line-height:1.6;max-width:54ch;margin:0 0 36px;color:var(--text-secondary)}
+.hero-figs{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));border-top:1px solid var(--hairline)}
+.hero-fig{padding:24px 24px 34px 0;border-right:1px solid var(--hairline)}
+.hero-fig+.hero-fig{padding-left:24px}
 .hero-fig:last-child{border-right:none;padding-right:0}
-.hero-fig .v{font-family:var(--serif);font-size:clamp(34px,3.6vw,50px);line-height:1}
-.hero-fig .l{font-family:var(--mono);font-size:12px;letter-spacing:0.12em;text-transform:uppercase;margin-top:10px;color:rgba(250,245,236,0.7)}
+.hero-fig .v{font-family:var(--serif);font-size:clamp(32px,3.2vw,46px);line-height:1;color:var(--red)}
+.hero-fig .l{font-family:var(--mono);font-size:12px;letter-spacing:0.12em;text-transform:uppercase;margin-top:10px;color:var(--text-tertiary)}
 .stripes{height:14px;background:repeating-linear-gradient(90deg,#FAF5EC 0px,#FAF5EC 34px,#7E0F18 34px,#7E0F18 40px,#FAF5EC 40px,#FAF5EC 46px,#7E0F18 46px,#7E0F18 52px,#FAF5EC 52px,#FAF5EC 86px);margin:0 calc(-1 * var(--gutter))}
 /* ===== THERMOMÈTRE ===== */
 .section-q{padding:var(--section) var(--gutter)}
@@ -207,7 +207,7 @@ body{font-family:'Archivo',-apple-system,sans-serif;background:var(--cream);colo
 .method-cell .mt{font-family:var(--serif);font-style:italic;font-size:22px;color:var(--red);margin-bottom:12px}
 .method-cell p{font-size:15px;line-height:1.6;color:var(--text-secondary)}
 /* ===== FOOTER ===== */
-.footer{background:var(--red);color:var(--cream);padding:40px var(--gutter)}
+.footer{background:var(--ink);color:var(--cream);padding:40px var(--gutter)}
 .footer-in{display:flex;align-items:center;justify-content:space-between;gap:24px;flex-wrap:wrap}
 .footer .wordmark{color:var(--cream);font-size:22px}
 .footer .wordmark em{color:var(--cream)}
@@ -285,8 +285,6 @@ body{font-family:'Archivo',-apple-system,sans-serif;background:var(--cream);colo
 </div>
 <button class="btn-search" id="btnSearch" onclick="analyzeInput()"><i class="ti ti-search"></i> <span data-i18n="btnSearch"></span></button>
 </div>
-<div id="thermoList"></div>
-<div class="thermo-foot"><span id="thermoN1"></span><span id="thermoN2"></span></div>
 <div class="loader" id="loader"><div class="dot-pulse"><span></span><span></span><span></span></div><div class="loader-step" id="loaderStep"></div></div>
 <div class="error-card" id="errorCard"></div>
 <div class="result-section" id="results">
@@ -338,6 +336,8 @@ body{font-family:'Archivo',-apple-system,sans-serif;background:var(--cream);colo
 </div>
 <div class="dvf-note"><i class="ti ti-database"></i>&nbsp;<span data-i18n="dvfNote"></span></div>
 </div>
+<div id="thermoList"></div>
+<div class="thermo-foot"><span id="thermoN1"></span><span id="thermoN2"></span></div>
 </div>
 </section>
 
