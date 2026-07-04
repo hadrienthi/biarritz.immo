@@ -59,6 +59,10 @@ body{font-family:'Archivo',-apple-system,sans-serif;background:var(--cream);colo
 .hero-fig:last-child{border-right:none;padding-right:0}
 .hero-fig .v{font-family:var(--serif);font-size:clamp(32px,3.2vw,46px);line-height:1;color:var(--red)}
 .hero-fig .l{font-family:var(--mono);font-size:12px;letter-spacing:0.12em;text-transform:uppercase;margin-top:10px;color:var(--text-tertiary)}
+@media(max-width:899px){
+.hero-fig{border-right:none;padding:22px 0 28px}
+.hero-fig+.hero-fig{padding-left:0;border-top:1px solid rgba(34,27,22,0.25)}
+}
 .stripes{height:14px;background:repeating-linear-gradient(90deg,#FAF5EC 0px,#FAF5EC 34px,#7E0F18 34px,#7E0F18 40px,#FAF5EC 40px,#FAF5EC 46px,#7E0F18 46px,#7E0F18 52px,#FAF5EC 52px,#FAF5EC 86px);margin:0 calc(-1 * var(--gutter))}
 /* ===== THERMOMÈTRE ===== */
 .section-q{padding:var(--section) var(--gutter)}
