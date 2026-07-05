@@ -380,6 +380,7 @@ body{font-family:'Archivo',-apple-system,sans-serif;background:var(--cream);colo
 <div class="stat-label" data-i18n="estResult"></div>
 <div class="est-value" id="estValue">—</div>
 <div class="est-range" id="estRange">—</div>
+<div class="est-note" id="estWarn" style="display:none;color:var(--rose);border:1px solid rgba(232,180,184,0.4);border-radius:4px;padding:10px 12px;margin-top:12px;font-size:11px;line-height:1.6"></div>
 </div>
 <div class="est-pdf-row" id="estGate" style="display:none"><input type="email" id="efEmail" placeholder="vous@email.com" /><button class="btn-search" type="button" onclick="leadAndReport()"><i class="ti ti-file-download"></i> <span data-i18n="estEmailBtn"></span></button></div>
 <div class="est-note" id="estPriv" data-i18n="estEmailPriv" style="display:none"></div>
@@ -553,11 +554,13 @@ const zone=detectZone(geo.lat,geo.lon);
 let base=f.type==='maison'?(zone.pm2Maison||MAISON_PM2[zone.id]):zone.priceAppt;
 let basisTxt=t('estZoneFallback');
 let comps=zone.nearby.filter(c=>c.type===f.type).slice(0,6);
+let near=null;
 try{
 const sales=await localSales(geo.lat,geo.lon);
 const IDX=f.type==='appt'?IDX_APPT:IDX_MAISON;
 let cands=sales.filter(s=>s.type===f.type&&IDX[s.year]).map(s=>Object.assign({},s,{d:Math.round(haversine(geo.lat,geo.lon,s.lat,s.lon))})).filter(s=>s.d<=1000);
 if(cands.length>=8){const ps=cands.map(s=>s.pm2*IDX[s.year]).sort((a,b)=>a-b);const med=ps[ps.length>>1];cands=cands.filter(s=>{const v=s.pm2*IDX[s.year];return v>med*0.45&&v<med*1.9;});}
+near=cands.length?Math.min.apply(null,cands.map(s=>s.d)):Infinity;
 if(cands.filter(s=>s.d<=600).length>=6){
 let sw=0,sv=0;
 for(const s of cands){const w=Math.exp(-(s.d*s.d)/245000)*Math.pow(0.85,2025-s.year);sw+=w;sv+=w*s.pm2*IDX[s.year];}
@@ -572,10 +575,12 @@ if(f.vue)coef+=0.12;
 if(f.surface<30)coef+=0.08;else if(f.surface<50)coef+=0.04;else if(f.surface>100)coef-=0.04;
 const raw=f.surface*base*coef+Math.min(f.terrasse,40)*base*0.3+f.parking*12000;
 const r={val:Math.round(raw/1000)*1000,low:Math.round(raw*0.9/1000)*1000,high:Math.round(raw*1.1/1000)*1000,pm2:Math.round(raw/f.surface),base:Math.round(base)};
-lastEst={f,r,zone,geo,comps,basisTxt};
+const noNear=(near!==null&&near>75);
+lastEst={f,r,zone,geo,comps,basisTxt,noNear};
 $('estValue').textContent=r.val.toLocaleString('fr-FR')+' €';
 $('estRange').textContent=r.low.toLocaleString('fr-FR')+' € – '+r.high.toLocaleString('fr-FR')+' € · '+r.pm2.toLocaleString('fr-FR')+' €/m² · '+basisTxt;
 $('estOut').style.display='block';
+const ew=$('estWarn');ew.textContent=t('estNoNear');ew.style.display=noNear?'block':'none';
 const gate=!!LEAD_ENDPOINT;
 $('estGate').style.display=gate?'flex':'none';
 $('estPriv').style.display=gate?'block':'none';
@@ -609,8 +614,9 @@ const html='<!DOCTYPE html><html lang="'+LANG+'"><head><meta charset="utf-8"><ti
 +'<div><b>'+t('estTerrasse')+'</b> : '+f.terrasse+' m² · <b>'+t('estParking')+'</b> : '+f.parking+'</div>'
 +'</div>'
 +'<h2>'+t('estResult')+'</h2><div class="val">'+r.val.toLocaleString('fr-FR')+' €</div><div class="range">'+r.low.toLocaleString('fr-FR')+' € – '+r.high.toLocaleString('fr-FR')+' € · '+r.pm2.toLocaleString('fr-FR')+' €/m² · '+basisTxt+'</div>'
++(lastEst.noNear?'<div style="color:#A31621;font-size:13px;line-height:1.6;border:1px solid rgba(163,22,33,0.35);border-radius:4px;padding:10px 12px;margin-top:14px">'+t('estNoNear')+'</div>':'')
 +'<h2>'+t('estComps')+'</h2><table><tr><th></th><th></th><th>m²</th><th>€/m²</th><th></th><th></th></tr>'+rows+'</table>'
-+'<h2>'+t('estMethodoTitle')+'</h2><div style="font-size:13px;line-height:1.65">'+t('estMethodo').replace('{base}',r.base.toLocaleString('fr-FR'))+'</div>'
++'<h2>'+t('estMethodoTitle')+'</h2><div style="font-size:13px;line-height:1.65">'+t('estMethodo').replace('{base}',r.base.toLocaleString('fr-FR'))+' '+t('estAtypical')+'</div>'
 +'<div class="meta">'+t('estDisclaimer')+'<br>biarritz.immo · '+new Date().toLocaleDateString(dloc)+'</div>'
 +'<button onclick="window.print()">'+t('estPrint')+'</button>'
 +'</body></html>';
@@ -633,6 +639,12 @@ en:{typeApptsBtn:'Apartments',typeMaisonsBtn:'Houses',heroL4:'Average house pric
 es:{typeApptsBtn:'Apartamentos',typeMaisonsBtn:'Casas',heroL4:'Precio medio casas',statMaison:'Casas',thermoNote1M:'Precio medio casas, ventas 2024–2025 · haga clic en un barrio para el detalle',thermoNote2M:'Escala: 0 → 13.000 €/m²',maisonUnit:'€/m² medio (2024–25)'}
 };
 for(const l in TD2)Object.assign(T[l],TD2[l]);
+const TD3={
+fr:{estNoNear:"Aucune vente connue dans cet immeuble ou à proximité immédiate dans les données DVF : estimation fondée sur les ventes du micro-quartier, précision réduite.",estAtypical:"Cette estimation ne tient pas compte des spécificités du bien ou de l'immeuble : résidence services, bail commercial, monopropriété, charges exceptionnelles, travaux votés, vue ou état particuliers. Pour ces biens, la valeur réelle peut s'écarter fortement de l'estimation : consultez un professionnel local."},
+en:{estNoNear:"No known sale in this building or its immediate surroundings in the DVF data: estimate based on micro-neighbourhood sales, reduced accuracy.",estAtypical:"This estimate does not account for specific features of the property or building: serviced residence, commercial lease, single ownership, exceptional charges, voted works, particular view or condition. For such properties the actual value can differ substantially: consult a local professional."},
+es:{estNoNear:"Ninguna venta conocida en este edificio o sus inmediaciones en los datos DVF: estimación basada en las ventas del microbarrio, precisión reducida.",estAtypical:"Esta estimación no tiene en cuenta las particularidades del bien o del edificio: residencia con servicios, arrendamiento comercial, propiedad única, gastos excepcionales, obras votadas, vistas o estado particulares. Para estos bienes, el valor real puede diferir mucho: consulte a un profesional local."}
+};
+for(const l in TD3)Object.assign(T[l],TD3[l]);
 const CITY_MAISON=9816;
 const fmtTh=n=>n.toLocaleString('fr-FR').replace(/[\u202f\u00a0 ]/g,'\u2009');
 let THERMO_SORT='prix',THERMO_TYPE='appt';
