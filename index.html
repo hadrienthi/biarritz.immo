@@ -364,11 +364,14 @@ body{font-family:'Archivo',-apple-system,sans-serif;background:var(--cream);colo
 <div class="est-field"><label data-i18n="estType"></label><select id="efType"><option value="appt" data-i18n="estTypeAppt"></option><option value="maison" data-i18n="estTypeMaison"></option></select></div>
 <div class="est-field"><label data-i18n="estSurface"></label><input id="efSurface" type="number" min="9" max="1000" /></div>
 <div class="est-field"><label data-i18n="estPieces"></label><input id="efPieces" type="number" min="1" max="15" value="3" /></div>
-<div class="est-field"><label data-i18n="estEtage"></label><select id="efEtage"><option value="rdc" data-i18n="estRdc"></option><option value="mid" selected data-i18n="estEtageInter"></option><option value="dernier" data-i18n="estDernier"></option></select></div>
+<div class="est-field" id="fEtage"><label data-i18n="estEtage"></label><select id="efEtage"><option value="rdc" data-i18n="estRdc"></option><option value="mid" selected data-i18n="estEtageInter"></option><option value="dernier" data-i18n="estDernier"></option></select></div>
 <div class="est-field"><label data-i18n="estEtat"></label><select id="efEtat"><option value="neuf" data-i18n="estEtatNeuf"></option><option value="bon" selected data-i18n="estEtatBon"></option><option value="rafraichir" data-i18n="estEtatRafraichir"></option><option value="renover" data-i18n="estEtatRenover"></option></select></div>
-<div class="est-field"><label data-i18n="estTerrasse"></label><input id="efTerrasse" type="number" min="0" max="300" value="0" /></div>
-<div class="est-field"><label data-i18n="estParking"></label><input id="efParking" type="number" min="0" max="6" value="0" /></div>
-<div class="est-check"><input type="checkbox" id="efAsc" /><label for="efAsc" style="margin:0" data-i18n="estAsc"></label></div>
+<div class="est-field" id="fTerrasse"><label data-i18n="estTerrasse"></label><input id="efTerrasse" type="number" min="0" max="300" value="0" /></div>
+<div class="est-field" id="fParking"><label data-i18n="estParking"></label><input id="efParking" type="number" min="0" max="6" value="0" /></div>
+<div class="est-field" id="fJardin" style="display:none"><label data-i18n="estJardin"></label><input id="efJardin" type="number" min="0" max="10000" value="300" /></div>
+<div class="est-field" id="fMitoy" style="display:none"><label data-i18n="estMitoy"></label><select id="efMitoy"><option value="indep" data-i18n="estMitoyIndep"></option><option value="mit1" data-i18n="estMitoy1"></option><option value="mit2" data-i18n="estMitoy2"></option></select></div>
+<div class="est-check" id="fGarage" style="display:none"><input type="checkbox" id="efGarage" /><label for="efGarage" style="margin:0" data-i18n="estGarage"></label></div>
+<div class="est-check" id="fAsc"><input type="checkbox" id="efAsc" /><label for="efAsc" style="margin:0" data-i18n="estAsc"></label></div>
 <div class="est-check"><input type="checkbox" id="efVue" /><label for="efVue" style="margin:0" data-i18n="estVue"></label></div>
 </div>
 </div>
@@ -538,11 +541,20 @@ return [].concat.apply([],lists);
 let estGeo=null,efTimer=null;
 const efA=document.getElementById('efAddr'),efDd=document.getElementById('efAcDropdown');
 efA.addEventListener('input',()=>{estGeo=null;clearTimeout(efTimer);const q=efA.value.trim();if(q.length<3){efDd.classList.remove('open');return;}efTimer=setTimeout(async()=>{try{const res=await fetch(BAN+'?'+new URLSearchParams({q,citycode:BZC,limit:5}));if(!res.ok)return;const data=await res.json();const fs=(data.features||[]).filter(isBZC);if(!fs.length){efDd.classList.remove('open');return;}efDd.innerHTML=fs.map((ft,i)=>'<div class="ac-item" data-i="'+i+'"><i class="ti ti-map-pin"></i><div><div class="ac-main">'+(ft.properties.name||ft.properties.street)+'</div><div class="ac-sub">'+ft.properties.postcode+' '+ft.properties.city+'</div></div></div>').join('');efDd.querySelectorAll('.ac-item').forEach(el=>el.addEventListener('mousedown',ev=>{ev.preventDefault();const ft=fs[+el.dataset.i];estGeo={lat:ft.geometry.coordinates[1],lon:ft.geometry.coordinates[0],label:ft.properties.label};efA.value=ft.properties.label;efDd.classList.remove('open');}));efDd.classList.add('open');}catch(e){}},220);});
+const MIT_KEY={indep:'estMitoyIndep',mit1:'estMitoy1',mit2:'estMitoy2'};
+function updateEstFields(){
+const m=document.getElementById('efType').value==='maison';
+const sh=(id,on)=>{const e=document.getElementById(id);if(e)e.style.display=on?'':'none';};
+sh('fEtage',!m);sh('fAsc',!m);sh('fTerrasse',!m);sh('fParking',!m);
+sh('fJardin',m);sh('fMitoy',m);sh('fGarage',m);
+}
+document.getElementById('efType').addEventListener('change',updateEstFields);
+updateEstFields();
 let lastEst=null;
 document.getElementById('estForm').addEventListener('submit',e=>{e.preventDefault();runEstimate();});
 async function runEstimate(){
 const $=id=>document.getElementById(id);
-const f={type:$('efType').value,surface:+$('efSurface').value,pieces:+$('efPieces').value||0,etage:$('efEtage').value,etat:$('efEtat').value,terrasse:+$('efTerrasse').value||0,parking:+$('efParking').value||0,asc:$('efAsc').checked,vue:$('efVue').checked};
+const f={type:$('efType').value,surface:+$('efSurface').value,pieces:+$('efPieces').value||0,etage:$('efEtage').value,etat:$('efEtat').value,terrasse:+$('efTerrasse').value||0,parking:+$('efParking').value||0,asc:$('efAsc').checked,vue:$('efVue').checked,jardin:+$('efJardin').value||0,garage:$('efGarage').checked,mitoy:$('efMitoy').value};
 const addr=$('efAddr').value.trim();
 if(!f.surface||f.surface<9||!addr)return;
 const btn=document.querySelector('#estForm button[type=submit]'),btnSpan=btn.querySelector('span'),oldTxt=btnSpan.textContent;
@@ -571,9 +583,10 @@ comps=cands.sort((a,b)=>a.d-b.d).filter(s=>s.year>=2023).slice(0,6);
 }catch(e){}
 let coef=1+({neuf:0.08,bon:0,rafraichir:-0.08,renover:-0.18}[f.etat]||0);
 if(f.type==='appt'){if(f.etage==='rdc')coef-=0.05;if(f.etage==='dernier')coef+=0.05;if(f.asc&&f.etage!=='rdc')coef+=0.03;}
+if(f.type==='maison'){if(f.mitoy==='mit1')coef-=0.05;if(f.mitoy==='mit2')coef-=0.10;if(f.jardin<100)coef-=0.06;else if(f.jardin>1000)coef+=0.12;else if(f.jardin>500)coef+=0.06;}
 if(f.vue)coef+=0.12;
 if(f.surface<30)coef+=0.08;else if(f.surface<50)coef+=0.04;else if(f.surface>100)coef-=0.04;
-const raw=f.surface*base*coef+Math.min(f.terrasse,40)*base*0.3+f.parking*12000;
+const raw=f.surface*base*coef+(f.type==='appt'?Math.min(f.terrasse,40)*base*0.3+f.parking*12000:0)+(f.type==='maison'&&f.garage?15000:0);
 const r={val:Math.round(raw/1000)*1000,low:Math.round(raw*0.9/1000)*1000,high:Math.round(raw*1.1/1000)*1000,pm2:Math.round(raw/f.surface),base:Math.round(base)};
 const noNear=(near!==null&&near>75);
 lastEst={f,r,zone,geo,comps,basisTxt,noNear};
@@ -611,7 +624,7 @@ const html='<!DOCTYPE html><html lang="'+LANG+'"><head><meta charset="utf-8"><ti
 +'<div><b>'+t('estSurface')+'</b> : '+f.surface+' m²</div>'
 +'<div><b>'+t('estPieces')+'</b> : '+f.pieces+'</div>'
 +'<div><b>'+t('estEtat')+'</b> : '+t({neuf:'estEtatNeuf',bon:'estEtatBon',rafraichir:'estEtatRafraichir',renover:'estEtatRenover'}[f.etat])+'</div>'
-+'<div><b>'+t('estTerrasse')+'</b> : '+f.terrasse+' m² · <b>'+t('estParking')+'</b> : '+f.parking+'</div>'
++(f.type==='appt'?'<div><b>'+t('estTerrasse')+'</b> : '+f.terrasse+' m² · <b>'+t('estParking')+'</b> : '+f.parking+'</div>':'<div><b>'+t('estJardin')+'</b> : '+f.jardin+' m² · <b>'+t('estMitoy')+'</b> : '+t(MIT_KEY[f.mitoy])+' · <b>'+t('estGarage')+'</b> : '+(f.garage?'✓':'—')+'</div>')
 +'</div>'
 +'<h2>'+t('estResult')+'</h2><div class="val">'+r.val.toLocaleString('fr-FR')+' €</div><div class="range">'+r.low.toLocaleString('fr-FR')+' € – '+r.high.toLocaleString('fr-FR')+' € · '+r.pm2.toLocaleString('fr-FR')+' €/m² · '+basisTxt+'</div>'
 +(lastEst.noNear?'<div style="color:#A31621;font-size:13px;line-height:1.6;border:1px solid rgba(163,22,33,0.35);border-radius:4px;padding:10px 12px;margin-top:14px">'+t('estNoNear')+'</div>':'')
@@ -645,6 +658,12 @@ en:{estNoNear:"No known sale in this building or its immediate surroundings in t
 es:{estNoNear:"Ninguna venta conocida en este edificio o sus inmediaciones en los datos DVF: estimación basada en las ventas del microbarrio, precisión reducida.",estAtypical:"Esta estimación no tiene en cuenta las particularidades del bien o del edificio: residencia con servicios, arrendamiento comercial, propiedad única, gastos excepcionales, obras votadas, vistas o estado particulares. Para estos bienes, el valor real puede diferir mucho: consulte a un profesional local."}
 };
 for(const l in TD3)Object.assign(T[l],TD3[l]);
+const TD4={
+fr:{estJardin:'Jardin / terrain (m²)',estGarage:'Garage',estMitoy:'Mitoyenneté',estMitoyIndep:'Indépendante',estMitoy1:'Mitoyenne 1 côté',estMitoy2:'Mitoyenne 2 côtés',estMethodo:"Base : prix moyen de {base} €/m² (ventes DVF 2024–2025 autour de l'adresse ou du quartier), ajusté selon l'état, la surface et la vue mer, puis selon le type : étage, ascenseur, terrasse et parking pour un appartement ; mitoyenneté, taille du terrain et garage pour une maison. Fourchette : ±10 %."},
+en:{estJardin:'Garden / plot (m²)',estGarage:'Garage',estMitoy:'Attachment',estMitoyIndep:'Detached',estMitoy1:'Semi-detached (1 side)',estMitoy2:'Terraced (2 sides)',estMethodo:"Base: average price of {base} €/m² (DVF sales 2024–2025 around the address or in the neighbourhood), adjusted for condition, size and sea view, then by type: floor, lift, terrace and parking for apartments; attachment, plot size and garage for houses. Range: ±10%."},
+es:{estJardin:'Jardín / terreno (m²)',estGarage:'Garaje',estMitoy:'Adosado',estMitoyIndep:'Independiente',estMitoy1:'Adosada por un lado',estMitoy2:'Adosada por ambos lados',estMethodo:"Base: precio medio de {base} €/m² (ventas DVF 2024–2025 alrededor de la dirección o del barrio), ajustado según estado, superficie y vista al mar, y según el tipo: planta, ascensor, terraza y parking para apartamentos; adosado, tamaño del terreno y garaje para casas. Horquilla: ±10 %."}
+};
+for(const l in TD4)Object.assign(T[l],TD4[l]);
 const CITY_MAISON=9816;
 const fmtTh=n=>n.toLocaleString('fr-FR').replace(/[\u202f\u00a0 ]/g,'\u2009');
 let THERMO_SORT='prix',THERMO_TYPE='appt';
