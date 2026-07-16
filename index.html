@@ -53,6 +53,7 @@ body{font-family:'Archivo',-apple-system,sans-serif;background:var(--cream);colo
 .hero-kicker{font-family:var(--mono);font-size:12px;letter-spacing:0.18em;text-transform:uppercase;color:var(--red);margin-bottom:18px}
 .hero h1{font-family:var(--serif);font-weight:400;font-size:clamp(38px,5.6vw,72px);line-height:1.04;margin:0 0 20px;letter-spacing:-0.015em;max-width:18ch;text-wrap:balance}
 .hero p{font-size:clamp(15px,1.5vw,18px);line-height:1.6;max-width:54ch;margin:0 0 36px;color:var(--text-secondary)}
+.hero-p-m{display:none}
 .hero-figs{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));border-top:1px solid var(--hairline)}
 .hero-fig{padding:24px 24px 34px 0;border-right:1px solid var(--hairline)}
 .hero-fig+.hero-fig{padding-left:24px}
@@ -60,8 +61,15 @@ body{font-family:'Archivo',-apple-system,sans-serif;background:var(--cream);colo
 .hero-fig .v{font-family:var(--serif);font-size:clamp(32px,3.2vw,46px);line-height:1;color:var(--red)}
 .hero-fig .l{font-family:var(--mono);font-size:12px;letter-spacing:0.12em;text-transform:uppercase;margin-top:10px;color:var(--text-tertiary)}
 @media(max-width:899px){
-.hero-fig{border-right:none;padding:22px 0 28px}
-.hero-fig+.hero-fig{padding-left:0;border-top:1px solid rgba(34,27,22,0.25)}
+.hero-p-d{display:none}
+.hero-p-m{display:block;margin:0 0 22px}
+.hero h1{margin:0 0 14px}
+.hero-figs{grid-template-columns:repeat(2,1fr);gap:0 18px}
+.hero-fig{border-right:none;padding:15px 0 18px}
+.hero-fig+.hero-fig{padding-left:0}
+.hero-fig:nth-child(n+3){border-top:1px solid rgba(34,27,22,0.25)}
+.hero-fig .v{font-size:26px}
+.hero-fig .l{font-size:9px;letter-spacing:0.09em;margin-top:6px}
 }
 .stripes{height:14px;background:repeating-linear-gradient(90deg,#FAF5EC 0px,#FAF5EC 34px,#7E0F18 34px,#7E0F18 40px,#FAF5EC 40px,#FAF5EC 46px,#7E0F18 46px,#7E0F18 52px,#FAF5EC 52px,#FAF5EC 86px);margin:0 calc(-1 * var(--gutter))}
 /* ===== THERMOMÈTRE ===== */
@@ -101,7 +109,7 @@ body{font-family:'Archivo',-apple-system,sans-serif;background:var(--cream);colo
 .tr-right{flex:0 1 auto;margin-left:auto;display:flex;align-items:center;gap:clamp(12px,2vw,24px)}
 .tr-prix{font-family:var(--serif);font-size:clamp(24px,2.4vw,32px);text-align:right;white-space:nowrap}
 .tr-evo{font-family:var(--mono);font-size:13px;font-weight:500;color:var(--red);background:rgba(163,22,33,0.09);padding:6px 12px;border-radius:999px;white-space:nowrap}
-.thermo-foot{display:flex;justify-content:space-between;gap:16px;margin-top:18px;font-family:var(--mono);font-size:12px;color:var(--text-tertiary);flex-wrap:wrap}
+.thermo-foot{display:flex;justify-content:space-between;gap:16px;margin:2px 0 14px;font-family:var(--mono);font-size:12px;color:var(--text-tertiary);flex-wrap:wrap}
 /* loader / erreur */
 .loader{display:none;flex-direction:column;align-items:center;gap:12px;padding:2.5rem 0}
 .loader.visible{display:flex}
@@ -162,7 +170,7 @@ body{font-family:'Archivo',-apple-system,sans-serif;background:var(--cream);colo
 .score-bar-bg{height:4px;background:rgba(34,27,22,0.1);border-radius:2px;margin-bottom:6px;overflow:hidden}
 .score-bar-fill{height:100%;border-radius:2px;background:var(--red);transition:width 0.9s cubic-bezier(.4,0,.2,1)}
 .score-key{font-family:var(--mono);font-size:10px;letter-spacing:0.06em;text-transform:uppercase;color:var(--text-tertiary)}
-.dvf-note{display:flex;align-items:center;gap:6px;font-family:var(--mono);font-size:11px;color:var(--text-tertiary);margin-top:28px}
+.dvf-note{display:flex;align-items:center;gap:6px;font-family:var(--mono);font-size:11px;color:var(--text-tertiary);margin-top:28px;margin-bottom:26px}
 .dvf-note a{color:var(--text-tertiary)}
 .dvf-note i{color:var(--red)}
 /* ===== ESTIMATION (carte encre) ===== */
@@ -255,7 +263,7 @@ body{font-family:'Archivo',-apple-system,sans-serif;background:var(--cream);colo
 <div class="wrap">
 <div class="hero-kicker" data-i18n="heroKicker"></div>
 <h1 data-i18n="heroH1"></h1>
-<p data-i18n="heroP"></p>
+<p class="hero-p-d" data-i18n="heroP"></p><p class="hero-p-m" data-i18n="heroPM"></p>
 <div class="hero-figs">
 <div class="hero-fig"><div class="v" id="heroPrix">—</div><div class="l" data-i18n="heroL1"></div></div>
 <div class="hero-fig"><div class="v" id="heroEvo">—</div><div class="l" data-i18n="heroL2"></div></div>
@@ -340,8 +348,8 @@ body{font-family:'Archivo',-apple-system,sans-serif;background:var(--cream);colo
 </div>
 <div class="dvf-note"><i class="ti ti-database"></i>&nbsp;<span data-i18n="dvfNote"></span></div>
 </div>
-<div id="thermoList"></div>
 <div class="thermo-foot"><span id="thermoN1"></span><span id="thermoN2"></span></div>
+<div id="thermoList"></div>
 </div>
 </section>
 
@@ -450,9 +458,12 @@ const isBZC=f=>f?.properties?.citycode===BZC;
 function fetchDVF(zone){currentTxList=zone.nearby;document.getElementById('txSource').textContent='DVF 2019–2025'+(zone.nTx?' · '+zone.nTx.toLocaleString('fr-FR')+' '+t('sales'):'');renderTxList();}
 function renderTxList(){
 const dateLoc=DATE_LOC[LANG];
-const rows=currentTxList.map((tx,i)=>{const d=new Date(tx.date).toLocaleDateString(dateLoc,{month:'short',year:'numeric'});const typeL=t(tx.type||'appt')+(tx.p?(tx.type==='maison'?' '+tx.p+'p':' T'+tx.p):'');const addr=tx.rue?(tx.num?tx.num+' ':'')+tx.rue:null;const addrHtml=addr?'<span class="sample-addr">'+addr+' <em style="font-size:10px;color:var(--text-tertiary);font-weight:400">'+typeL+'</em></span>':'<span class="sample-addr"><em style="font-size:11px;color:var(--text-secondary);font-style:normal">'+typeL+'</em></span>';const surf=tx.surface?'<span class="sample-meta"><i class="ti ti-arrows-diagonal"></i>'+tx.surface+' m²</span>':'';const floor=tx.floor?'<span class="sample-meta"><i class="ti ti-stairs"></i>'+tx.floor+'</span>':'';const hidden=(!txExpanded&&i>=SHOW)?' style="display:none"':'';return'<div class="sample-item"'+hidden+'><div class="sample-row1">'+addrHtml+'<span class="sample-price">'+tx.pm2.toLocaleString('fr-FR')+' €/m²</span></div><div class="sample-row2">'+surf+floor+'<span class="sample-meta">'+d+'</span></div></div>';}).join('');
-const extra=currentTxList.length-SHOW;const btn=extra>0?'<button class="btn-voir-plus" onclick="toggleTx()"><i class="ti '+(txExpanded?'ti-chevron-up':'ti-chevron-down')+'"></i>'+(txExpanded?t('voirMoins'):t('voirPlus')+' ('+extra+')')+'</button>':'';
-document.getElementById('sampleList').innerHTML=rows+btn;
+const refPm2=tx=>{const ty=tx.type||'appt';return ty==='maison'?((currentZone&&(currentZone.pm2Maison||MAISON_PM2[currentZone.id]))||CITY_MAISON):(currentZone?currentZone.priceAppt:null);};
+const txShown=currentTxList.filter(tx=>{const r=refPm2(tx);return !r||!tx.pm2||tx.pm2>=r*0.5;});
+const rows=txShown.map((tx,i)=>{const d=new Date(tx.date).toLocaleDateString(dateLoc,{month:'short',year:'numeric'});const typeL=t(tx.type||'appt')+(tx.p?(tx.type==='maison'?' '+tx.p+'p':' T'+tx.p):'');const addr=tx.rue?(tx.num?tx.num+' ':'')+tx.rue:null;const addrHtml=addr?'<span class="sample-addr">'+addr+' <em style="font-size:10px;color:var(--text-tertiary);font-weight:400">'+typeL+'</em></span>':'<span class="sample-addr"><em style="font-size:11px;color:var(--text-secondary);font-style:normal">'+typeL+'</em></span>';const surf=tx.surface?'<span class="sample-meta"><i class="ti ti-arrows-diagonal"></i>'+tx.surface+' m²</span>':'';const floor=tx.floor?'<span class="sample-meta"><i class="ti ti-stairs"></i>'+tx.floor+'</span>':'';const hidden=(!txExpanded&&i>=SHOW)?' style="display:none"':'';return'<div class="sample-item"'+hidden+'><div class="sample-row1">'+addrHtml+'<span class="sample-price">'+tx.pm2.toLocaleString('fr-FR')+' €/m²</span></div><div class="sample-row2">'+surf+floor+'<span class="sample-meta">'+d+'</span></div></div>';}).join('');
+const extra=txShown.length-SHOW;const btn=extra>0?'<button class="btn-voir-plus" onclick="toggleTx()"><i class="ti '+(txExpanded?'ti-chevron-up':'ti-chevron-down')+'"></i>'+(txExpanded?t('voirMoins'):t('voirPlus')+' ('+extra+')')+'</button>':'';
+const filtNote='<div style="font-family:var(--mono);font-size:11px;color:var(--text-tertiary);margin-top:10px">'+t('txFilterNote')+'</div>';
+document.getElementById('sampleList').innerHTML=rows+btn+filtNote;
 }
 function toggleTx(){txExpanded=!txExpanded;renderTxList();}
 function analyzeZone(zoneId){const zone=ZONES.find(z=>z.id===zoneId);if(!zone)return;document.getElementById('addressInput').value='';hideError();document.querySelectorAll('.chip').forEach(c=>c.classList.remove('active'));document.getElementById('chip-'+zoneId)?.classList.add('active');txExpanded=false;render(zone,{street:zone.name[LANG],isChip:true},true);}
@@ -651,9 +662,9 @@ es:{navQuartiers:'Barrios',navMethode:'Método',navCta:'Estimar mi propiedad',he
 };
 for(const l in TD)Object.assign(T[l],TD[l]);
 const TD2={
-fr:{typeApptsBtn:'Appartements',typeMaisonsBtn:'Maisons',heroL4:'Prix moyen maisons',statMaison:'Maisons',thermoNote1M:'Prix moyen maisons, ventes 2024–2025 · cliquez sur un quartier pour le détail',thermoNote2M:'Échelle : 0 → 13 000 €/m²',maisonUnit:'€ / m² moyen (2024–25)'},
-en:{typeApptsBtn:'Apartments',typeMaisonsBtn:'Houses',heroL4:'Average house price',statMaison:'Houses',thermoNote1M:'Average house price, 2024–2025 sales · click a neighbourhood for details',thermoNote2M:'Scale: 0 → 13,000 €/m²',maisonUnit:'average €/m² (2024–25)'},
-es:{typeApptsBtn:'Apartamentos',typeMaisonsBtn:'Casas',heroL4:'Precio medio casas',statMaison:'Casas',thermoNote1M:'Precio medio casas, ventas 2024–2025 · haga clic en un barrio para el detalle',thermoNote2M:'Escala: 0 → 13.000 €/m²',maisonUnit:'€/m² medio (2024–25)'}
+fr:{typeApptsBtn:'Appartements',typeMaisonsBtn:'Maisons',heroL4:'Prix moyen maisons',statMaison:'Maisons',thermoNote1M:'Prix moyen maisons, ventes 2024–2025 · cliquez sur un quartier pour le détail',thermoNote2M:'Échelle : 0 → 13 000 €/m²',maisonUnit:'€ / m² moyen (2024–25)',heroPM:'Le thermomètre du marché immobilier, construit sur les ventes réelles enregistrées par l\'État.',txFilterNote:'Les ventes inférieures à 50 % du prix moyen du quartier sont masquées : ventes entre proches, biens très atypiques ou erreurs de saisie.'},
+en:{typeApptsBtn:'Apartments',typeMaisonsBtn:'Houses',heroL4:'Average house price',statMaison:'Houses',thermoNote1M:'Average house price, 2024–2025 sales · click a neighbourhood for details',thermoNote2M:'Scale: 0 → 13,000 €/m²',maisonUnit:'average €/m² (2024–25)',heroPM:'The property market thermometer, built on real sales recorded by the French State.',txFilterNote:'Sales below 50% of the neighbourhood average price are hidden: family transfers, highly atypical properties or data-entry errors.'},
+es:{typeApptsBtn:'Apartamentos',typeMaisonsBtn:'Casas',heroL4:'Precio medio casas',statMaison:'Casas',thermoNote1M:'Precio medio casas, ventas 2024–2025 · haga clic en un barrio para el detalle',thermoNote2M:'Escala: 0 → 13.000 €/m²',maisonUnit:'€/m² medio (2024–25)',heroPM:'El termómetro del mercado inmobiliario, construido sobre ventas reales registradas por el Estado.',txFilterNote:'Las ventas por debajo del 50 % del precio medio del barrio se ocultan: ventas entre familiares, bienes muy atípicos o errores de registro.'}
 };
 for(const l in TD2)Object.assign(T[l],TD2[l]);
 const TD3={
