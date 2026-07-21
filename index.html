@@ -227,6 +227,18 @@ body{font-family:'Archivo',-apple-system,sans-serif;background:var(--cream);colo
 .footer-links a{color:rgba(250,245,236,0.85);text-decoration:none}
 .footer-links a:hover{color:var(--cream);text-decoration:underline}
 .footer-data{font-family:var(--mono);font-size:12px;color:rgba(250,245,236,0.6)}
+.footer-legal{display:flex;justify-content:center;gap:10px;flex-wrap:wrap;font-family:var(--mono);font-size:12px;margin-top:26px;padding-top:18px;border-top:1px solid rgba(250,245,236,0.15)}
+.footer-legal a{color:rgba(250,245,236,0.6);text-decoration:none;cursor:pointer}
+.footer-legal a:hover{color:var(--cream);text-decoration:underline}
+.footer-legal .sep{color:rgba(250,245,236,0.3)}
+.legal-overlay{display:none;position:fixed;inset:0;background:rgba(34,27,22,0.55);z-index:200;padding:24px;overflow-y:auto}
+.legal-overlay.open{display:flex;align-items:flex-start;justify-content:center}
+.legal-card{background:var(--cream);color:var(--ink);max-width:680px;width:100%;padding:36px 34px 30px;border-radius:6px;position:relative;margin:4vh 0 40px}
+.legal-card h3{font-family:var(--serif);font-weight:400;font-size:26px;margin:0 0 20px;letter-spacing:-0.01em}
+.legal-card h4{font-family:var(--mono);font-size:12px;letter-spacing:0.14em;text-transform:uppercase;color:var(--red);font-weight:500;margin:22px 0 8px}
+.legal-card p{font-size:14px;line-height:1.65;color:var(--text-secondary);margin:0 0 8px}
+.legal-close{position:absolute;top:14px;right:14px;background:none;border:none;font-size:22px;color:var(--text-tertiary);cursor:pointer;line-height:1;padding:6px}
+.legal-close:hover{color:var(--ink)}
 .seo-content{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap}
 #chartContainer{position:relative;width:100%;height:220px}
 @media(min-width:900px){#chartContainer{height:260px}}
@@ -425,7 +437,32 @@ body{font-family:'Archivo',-apple-system,sans-serif;background:var(--cream);colo
 </div>
 <div class="footer-data" data-i18n="footerData"></div>
 </div>
+<div class="wrap footer-legal">
+<a onclick="openLegal()">Mentions Légales &amp; RGPD</a><span class="sep">·</span><a onclick="openLegal('legalCookies')">Cookies</a><span class="sep">·</span><a href="mailto:contact@internet.fr">Contact</a>
+</div>
 </footer>
+
+<div class="legal-overlay" id="legalOverlay" onclick="if(event.target===this)closeLegal()">
+<div class="legal-card">
+<button class="legal-close" onclick="closeLegal()" aria-label="Fermer">&times;</button>
+<h3>Mentions Légales &amp; Politique de Confidentialité (RGPD)</h3>
+<h4>1. Éditeur du site</h4>
+<p>Le site Biarritz.immo est édité par la SAS INTERNET.FR, immatriculée au Registre du Commerce et des Sociétés (RCS) de Bayonne sous le numéro 928 248 517.</p>
+<p>Siège social : 1 allée des Jardins d'Arcadie, 64600 Anglet, France.</p>
+<p>Représentant légal : Xavier Thine</p>
+<h4>2. Hébergement du site</h4>
+<p>Le site est hébergé par la société GitHub, Inc. (service GitHub Pages), située au 88 Colin P. Kelly Jr. Street, San Francisco, CA 94107, États-Unis.</p>
+<h4>3. Propriété intellectuelle et données publiques</h4>
+<p>Tout le contenu du site Biarritz.immo (textes, graphismes, logos, icônes) est la propriété exclusive de l'éditeur. Toute reproduction, même partielle, est strictement interdite sans l'accord écrit de l'éditeur.</p>
+<p>Les données de transactions immobilières proviennent de la base « Demandes de Valeurs Foncières » (DVF) publiée par la DGFiP et le Cerema, réutilisée sous Licence Ouverte 2.0 (Etalab). Le géocodage des adresses s'appuie sur la Base Adresse Nationale (BAN) et les services de l'IGN.</p>
+<h4>4. Protection des données personnelles (RGPD)</h4>
+<p>Le site Biarritz.immo respecte la vie privée de ses utilisateurs.</p>
+<p><strong>Données collectées :</strong> dans le cadre de l'estimation, l'adresse saisie est transmise de manière temporaire aux services publics de géocodage et de données foncières (BAN, IGN, dvf-api) afin de calculer le résultat. Elle n'est ni enregistrée ni conservée par l'éditeur. Aucune donnée nominative n'est collectée.</p>
+<p><strong>Droits des utilisateurs :</strong> conformément au règlement RGPD, vous disposez d'un droit d'accès, de rectification et de suppression des données vous concernant en écrivant à <a href="mailto:contact@internet.fr" style="color:var(--red)">contact@internet.fr</a>.</p>
+<h4 id="legalCookies">5. Cookies</h4>
+<p>Ce site n'utilise aucun cookie ni traceur publicitaire ou de mesure d'audience. Aucun bandeau de consentement n'est donc nécessaire.</p>
+</div>
+</div>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
 <script>
@@ -466,6 +503,9 @@ const filtNote='<div style="font-family:var(--mono);font-size:11px;color:var(--t
 document.getElementById('sampleList').innerHTML=rows+btn+filtNote;
 }
 function toggleTx(){txExpanded=!txExpanded;renderTxList();}
+function openLegal(target){const o=document.getElementById('legalOverlay');o.classList.add('open');document.body.style.overflow='hidden';if(target){const el=document.getElementById(target);if(el)setTimeout(()=>el.scrollIntoView({block:'start'}),50);}}
+function closeLegal(){document.getElementById('legalOverlay').classList.remove('open');document.body.style.overflow='';}
+document.addEventListener('keydown',e=>{if(e.key==='Escape')closeLegal();});
 function analyzeZone(zoneId){const zone=ZONES.find(z=>z.id===zoneId);if(!zone)return;document.getElementById('addressInput').value='';hideError();document.querySelectorAll('.chip').forEach(c=>c.classList.remove('active'));document.getElementById('chip-'+zoneId)?.classList.add('active');txExpanded=false;render(zone,{street:zone.name[LANG],isChip:true},true);}
 async function analyzeInput(){const addr=document.getElementById('addressInput').value.trim();if(!addr)return;document.getElementById('loader').classList.add('visible');document.getElementById('results').classList.remove('visible');document.getElementById('btnSearch').disabled=true;document.querySelectorAll('.chip').forEach(c=>c.classList.remove('active'));hideError();txExpanded=false;try{document.getElementById('loaderStep').textContent=t('loaderGeo');const geo=await geocodeBiarritz(addr);document.getElementById('loaderStep').textContent=t('loaderAnalyze');render(detectZone(geo.lat,geo.lon),geo,true);}catch(e){showError(e.message);}finally{document.getElementById('loader').classList.remove('visible');document.getElementById('btnSearch').disabled=false;}}
 async function geocodeBiarritz(addr){let f=await banFirst(addr,true);if(!f)f=await banFirst(addr,false);if(!f)throw new Error(t('errNotFound'));if(!isBZC(f))throw new Error(t('errOtherCity')(f.properties.city||'?'));return{lat:f.geometry.coordinates[1],lon:f.geometry.coordinates[0],label:f.properties.label,street:f.properties.street||f.properties.name,isChip:false};}
