@@ -227,7 +227,9 @@ body{font-family:'Archivo',-apple-system,sans-serif;background:var(--cream);colo
 .footer-links a{color:rgba(250,245,236,0.85);text-decoration:none}
 .footer-links a:hover{color:var(--cream);text-decoration:underline}
 .footer-data{font-family:var(--mono);font-size:12px;color:rgba(250,245,236,0.6)}
-.footer-legal{display:flex;justify-content:center;gap:10px;flex-wrap:wrap;font-family:var(--mono);font-size:12px;margin-top:26px;padding-top:18px;border-top:1px solid rgba(250,245,236,0.15)}
+.footer-legal{display:flex;justify-content:space-between;align-items:center;gap:16px;flex-wrap:wrap;font-family:var(--mono);font-size:12px;margin-top:26px;padding-top:18px;border-top:1px solid rgba(250,245,236,0.15)}
+.footer-legal-links{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
+.footer-copy{color:rgba(250,245,236,0.4)}
 .footer-legal a{color:rgba(250,245,236,0.6);text-decoration:none;cursor:pointer}
 .footer-legal a:hover{color:var(--cream);text-decoration:underline}
 .footer-legal .sep{color:rgba(250,245,236,0.3)}
@@ -438,7 +440,8 @@ body{font-family:'Archivo',-apple-system,sans-serif;background:var(--cream);colo
 <div class="footer-data" data-i18n="footerData"></div>
 </div>
 <div class="wrap footer-legal">
-<a onclick="openLegal()">Mentions Légales &amp; RGPD</a><span class="sep">·</span><a onclick="openLegal('legalCookies')">Cookies</a><span class="sep">·</span><a href="mailto:contact@internet.fr">Contact</a>
+<div class="footer-legal-links"><a onclick="openLegal()">Mentions Légales &amp; RGPD</a><span class="sep">·</span><a onclick="openLegal('legalCookies')">Cookies</a><span class="sep">·</span><a href="mailto:contact@internet.fr">Contact</a></div>
+<span class="footer-copy">© 2026 SAS INTERNET.FR</span>
 </div>
 </footer>
 
