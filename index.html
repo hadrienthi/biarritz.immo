@@ -122,14 +122,14 @@ body{font-family:'Archivo',-apple-system,sans-serif;background:var(--cream);colo
 .map-cell{fill-opacity:0.13;stroke:rgba(34,27,22,0.35);stroke-width:0.8;stroke-dasharray:3 3;cursor:pointer;transition:fill-opacity .15s}
 .map-cell:hover{fill-opacity:0.24}
 .map-neighbor{font-family:var(--mono);font-size:8px;letter-spacing:2px;fill:rgba(34,27,22,0.45)}
-.map-note{font-family:var(--mono);font-size:10px;color:var(--text-tertiary);margin-top:8px;text-align:right}
+.map-note{font-family:var(--mono);font-size:9px;color:var(--text-tertiary);margin-top:8px;text-align:right;white-space:nowrap}
 .map-name{font-family:'Archivo',sans-serif;font-size:11px;font-weight:600;fill:var(--ink)}
 .map-price{font-family:var(--mono);font-size:9.5px;fill:var(--text-tertiary)}
 .map-zone{cursor:pointer}
 .map-zone .dot{stroke:#fff;stroke-width:2;transition:stroke .15s}
 .map-zone:hover .dot,.map-zone.active .dot{stroke:var(--ink);stroke-width:2.5}
-.map-ocean-label{font-family:var(--serif);font-style:italic;font-size:13px;fill:rgba(34,27,22,0.35);letter-spacing:0.06em}
-.map-mini{font-family:var(--mono);font-size:7.5px;fill:rgba(34,27,22,0.4);letter-spacing:0.08em;text-transform:uppercase}
+.map-ocean-label{font-family:var(--serif);font-style:italic;font-size:13px;fill:var(--ink);letter-spacing:0.06em}
+.map-mini{font-family:var(--mono);font-size:7.5px;fill:rgba(34,27,22,0.45);letter-spacing:2px;text-transform:uppercase}
 .mob-only{display:none}
 @media(max-width:899px){
 .seg.mob-only{display:inline-flex}
@@ -406,7 +406,7 @@ body{font-family:'Archivo',-apple-system,sans-serif;background:var(--cream);colo
 <text class="map-neighbor" x="252" y="48">ANGLET</text>
 <text class="map-neighbor" x="56" y="452">BIDART</text>
 <text class="map-mini" transform="translate(138,92) rotate(-62)">Grande Plage</text>
-<text class="map-mini" transform="translate(58,242) rotate(-68)">Côte des Basques</text>
+<text class="map-mini" transform="translate(52,254) rotate(-68)">Côte des Basques</text>
 <g id="mapZones"></g>
 </svg>
 <div class="map-note" data-i18n="mapNote"></div>
