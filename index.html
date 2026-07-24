@@ -109,6 +109,31 @@ body{font-family:'Archivo',-apple-system,sans-serif;background:var(--cream);colo
 .tr-right{flex:0 1 auto;margin-left:auto;display:flex;align-items:center;gap:clamp(12px,2vw,24px)}
 .tr-prix{font-family:var(--serif);font-size:clamp(24px,2.4vw,32px);text-align:right;white-space:nowrap}
 .tr-evo{font-family:var(--mono);font-size:13px;font-weight:500;color:var(--red);background:rgba(163,22,33,0.09);padding:6px 12px;border-radius:999px;white-space:nowrap}
+.thermo-body{display:grid;grid-template-columns:1fr 320px;gap:36px;align-items:start}
+.thermo-map{position:sticky;top:24px;background:#fff;border:1px solid var(--hairline);padding:10px}
+.thermo-map svg{display:block;width:100%;height:auto}
+.map-sea{fill:rgba(34,27,22,0.05)}
+.map-land{fill:var(--cream)}
+.map-contour{fill:none;stroke:var(--ink);stroke-width:1.7;stroke-linejoin:round;pointer-events:none}
+.map-cell{fill-opacity:0.13;stroke:rgba(34,27,22,0.35);stroke-width:0.8;stroke-dasharray:3 3;cursor:pointer;transition:fill-opacity .15s}
+.map-cell:hover{fill-opacity:0.24}
+.map-neighbor{font-family:var(--mono);font-size:8px;letter-spacing:2px;fill:rgba(34,27,22,0.45)}
+.map-note{font-family:var(--mono);font-size:10px;color:var(--text-tertiary);margin-top:8px;text-align:right}
+.map-name{font-family:'Archivo',sans-serif;font-size:11px;font-weight:600;fill:var(--ink)}
+.map-price{font-family:var(--mono);font-size:9.5px;fill:var(--text-tertiary)}
+.map-zone{cursor:pointer}
+.map-zone .dot{stroke:#fff;stroke-width:2;transition:stroke .15s}
+.map-zone:hover .dot,.map-zone.active .dot{stroke:var(--ink);stroke-width:2.5}
+.map-ocean-label{font-family:var(--serif);font-style:italic;font-size:13px;fill:rgba(34,27,22,0.35);letter-spacing:0.06em}
+.map-mini{font-family:var(--mono);font-size:7.5px;fill:rgba(34,27,22,0.4);letter-spacing:0.08em;text-transform:uppercase}
+.mob-only{display:none}
+@media(max-width:899px){
+.mob-only{display:inline-block}
+.thermo-body{display:block}
+.thermo-map{display:none;position:static;margin-bottom:10px}
+.thermo-body.showMap .thermo-map{display:block}
+.thermo-body.showMap #thermoList{display:none}
+}
 .thermo-foot{display:flex;justify-content:space-between;gap:16px;margin:2px 0 14px;font-family:var(--mono);font-size:12px;color:var(--text-tertiary);flex-wrap:wrap}
 /* loader / erreur */
 .loader{display:none;flex-direction:column;align-items:center;gap:12px;padding:2.5rem 0}
@@ -296,6 +321,9 @@ body{font-family:'Archivo',-apple-system,sans-serif;background:var(--cream);colo
 <h2 data-i18n="thermoH2"></h2>
 </div>
 <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap">
+<button id="btnViewList" class="sort-btn active mob-only" onclick="setView('list')" data-i18n="viewList"></button>
+<button id="btnViewMap" class="sort-btn mob-only" onclick="setView('map')" data-i18n="viewMap"></button>
+<span class="mob-only" style="width:1px;height:22px;background:var(--hairline);margin:0 6px"></span>
 <button id="btnTypeAppt" class="sort-btn active" onclick="setType('appt')" data-i18n="typeApptsBtn"></button>
 <button id="btnTypeMaison" class="sort-btn" onclick="setType('maison')" data-i18n="typeMaisonsBtn"></button>
 <span style="width:1px;height:22px;background:var(--hairline);margin:0 6px"></span>
@@ -363,7 +391,28 @@ body{font-family:'Archivo',-apple-system,sans-serif;background:var(--cream);colo
 <div class="dvf-note"><i class="ti ti-database"></i>&nbsp;<span data-i18n="dvfNote"></span></div>
 </div>
 <div class="thermo-foot"><span id="thermoN1"></span><span id="thermoN2"></span></div>
+<div class="thermo-body" id="thermoBody">
 <div id="thermoList"></div>
+<div class="thermo-map">
+<svg viewBox="0 0 340 486" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Carte des quartiers de Biarritz">
+<rect class="map-sea" width="340" height="486"/>
+<path class="map-land" d="M303.4,334.3L300.5,347.4L275.8,390.3L274,396.1L270.8,422L274.5,455.4L195.7,457.5L170.4,449.7L126.8,424.7L109.5,382.9L104.2,382.9L98.4,367.1L85.9,351.3L89.4,346.9L80.8,346.4L76,341.4L31.1,324.5L28.7,318L40.4,299.4L43.6,280.3L48.5,277.6L57.9,265.9L84.2,216.7L96.3,181.5L95.5,179.5L96.7,179.8L99.3,157.1L81.3,147.7L79.2,143.7L83.2,144.7L82.4,141.7L84.6,142.4L82.3,139.7L82.7,136.3L85.6,139.5L90.4,135.7L82.9,131.6L81.9,126.7L69.3,120.9L80.6,125.9L81.8,125.1L78.3,122.9L80.2,122.2L86.8,126.3L97.6,121.5L98,120L94.6,118.4L95.2,115.4L96.5,117.2L95.1,118.3L99,119.2L97.8,121.9L101.1,125.7L97,131.1L101.3,131.7L123.7,128.1L120,122.2L123.8,128L127.6,124.9L131.1,128.4L133.2,128L144.6,119L151.2,112.6L162.2,95.9L179,78.3L190.2,58.3L187,42.6L175.1,40.8L172.5,31.1L178.7,28.5L193.2,33.6L205.2,43L211.1,41L222.4,42.9L304.4,108.8L311.3,262.4L308.8,296.2L303.4,334.3Z"/>
+<path id="cell-imperial" class="map-cell" d="M156.1,105.1L162.2,95.9L179,78.3L190.2,58.3L187,42.6L175.1,40.8L172.5,31.1L178.7,28.5L193.2,33.6L205.2,43L211.1,41L222.4,42.9L270.8,81.8L210,146L156.1,105.1Z" fill="#C7715B" onclick="analyzeZone('imperial')"/>
+<path id="cell-centre-halles" class="map-cell" d="M69.3,120.9L80.6,125.9L81.8,125.1L78.3,122.9L80.2,122.2L86.8,126.3L97.6,121.5L98,120L94.6,118.4L95.2,115.4L96.5,117.2L95.1,118.3L99,119.2L97.8,121.9L101.1,125.7L97,131.1L101.3,131.7L123.7,128.1L120,122.2L123.8,128L127.6,124.9L131.1,128.4L133.2,128L144.6,119L151.2,112.6L156.1,105.1L210,146L202.3,187L97.5,173L99.3,157.1L81.3,147.7L79.2,143.7L83.2,144.7L82.4,141.7L84.6,142.4L82.3,139.7L82.7,136.3L85.6,139.5L90.4,135.7L82.9,131.6L81.9,126.7L69.3,120.9Z" fill="#C7715B" onclick="analyzeZone('centre-halles')"/>
+<path id="cell-bibi-beaurivage" class="map-cell" d="M80.4,223.8L84.2,216.7L96.3,181.5L95.5,179.5L96.7,179.8L97.5,173L202.3,187L260.1,366.9L80.4,223.8Z" fill="#C7715B" onclick="analyzeZone('bibi-beaurivage')"/>
+<path id="cell-milady" class="map-cell" d="M28.7,318L40.4,299.4L43.6,280.3L48.5,277.6L57.9,265.9L80.4,223.8L260.1,366.9L274.7,393.9L274,396.1L270.8,422L274.5,455.4L195.7,457.5L170.4,449.7L126.8,424.7L109.5,382.9L104.2,382.9L98.4,367.1L85.9,351.3L89.4,346.9L80.8,346.4L76,341.4L31.1,324.5L28.7,318Z" fill="#C7715B" onclick="analyzeZone('milady')"/>
+<path id="cell-parc-hiver" class="map-cell" d="M202.3,187L210,146L270.8,81.8L304.4,108.8L311.3,262.4L308.8,296.2L303.4,334.3L300.5,347.4L275.8,390.3L274.7,393.9L260.1,366.9L202.3,187Z" fill="#C7715B" onclick="analyzeZone('parc-hiver')"/>
+<path class="map-contour" d="M303.4,334.3L300.5,347.4L275.8,390.3L274,396.1L270.8,422L274.5,455.4L195.7,457.5L170.4,449.7L126.8,424.7L109.5,382.9L104.2,382.9L98.4,367.1L85.9,351.3L89.4,346.9L80.8,346.4L76,341.4L31.1,324.5L28.7,318L40.4,299.4L43.6,280.3L48.5,277.6L57.9,265.9L84.2,216.7L96.3,181.5L95.5,179.5L96.7,179.8L99.3,157.1L81.3,147.7L79.2,143.7L83.2,144.7L82.4,141.7L84.6,142.4L82.3,139.7L82.7,136.3L85.6,139.5L90.4,135.7L82.9,131.6L81.9,126.7L69.3,120.9L80.6,125.9L81.8,125.1L78.3,122.9L80.2,122.2L86.8,126.3L97.6,121.5L98,120L94.6,118.4L95.2,115.4L96.5,117.2L95.1,118.3L99,119.2L97.8,121.9L101.1,125.7L97,131.1L101.3,131.7L123.7,128.1L120,122.2L123.8,128L127.6,124.9L131.1,128.4L133.2,128L144.6,119L151.2,112.6L162.2,95.9L179,78.3L190.2,58.3L187,42.6L175.1,40.8L172.5,31.1L178.7,28.5L193.2,33.6L205.2,43L211.1,41L222.4,42.9L304.4,108.8L311.3,262.4L308.8,296.2L303.4,334.3Z"/>
+<text class="map-ocean-label" transform="translate(14,470)">Océan Atlantique</text>
+<text class="map-neighbor" x="252" y="48">ANGLET</text>
+<text class="map-neighbor" x="210" y="478">BIDART</text>
+<text class="map-mini" transform="translate(138,92) rotate(-62)">Grande Plage</text>
+<text class="map-mini" transform="translate(56,340) rotate(-73)">Côte des Basques</text>
+<g id="mapZones"></g>
+</svg>
+<div class="map-note" data-i18n="mapNote"></div>
+</div>
+</div>
 </div>
 </section>
 
@@ -506,11 +555,34 @@ const filtNote='<div style="font-family:var(--mono);font-size:11px;color:var(--t
 document.getElementById('sampleList').innerHTML=rows+btn+filtNote;
 }
 function toggleTx(){txExpanded=!txExpanded;renderTxList();}
+const MAP_POS={'imperial':[185.4,78.5,1],'centre-halles':[138.4,140.4,1],'bibi-beaurivage':[128.4,215.2,1],'milady':[82.7,272.6,1],'parc-hiver':[278.8,166.9,-1]};
+function renderMap(){
+const el=document.getElementById('mapZones');if(!el)return;
+const maison=THERMO_TYPE==='maison';
+const val=z=>maison?z.pm2Maison:z.priceAppt;
+const sorted=[...ZONES].sort((a,b)=>(val(b)||0)-(val(a)||0));
+const colorOf={};sorted.forEach((z,i)=>colorOf[z.id]=THERMO_COLORS[Math.min(i,THERMO_COLORS.length-1)]);
+ZONES.forEach(z=>{const c=document.getElementById('cell-'+z.id);if(c)c.setAttribute('fill',colorOf[z.id]);});
+el.innerHTML=ZONES.map(z=>{
+const p=MAP_POS[z.id];if(!p)return '';
+const x=p[0],y=p[1],side=p[2];
+const act=currentZone&&currentZone.id===z.id;
+const tx=side>0?x+15:x-15;const anc=side>0?'start':'end';
+return '<g class="map-zone'+(act?' active':'')+'" onclick="analyzeZone(\''+z.id+'\')"><circle class="dot" cx="'+x+'" cy="'+y+'" r="9" fill="'+colorOf[z.id]+'"/><text x="'+tx+'" y="'+(y-1)+'" text-anchor="'+anc+'" class="map-name">'+t('chip_'+z.id)+'</text><text x="'+tx+'" y="'+(y+12)+'" text-anchor="'+anc+'" class="map-price">'+(val(z)?fmtTh(val(z))+' €/m²':'—')+'</text></g>';
+}).join('');
+}
+function setView(v){
+const b=document.getElementById('thermoBody');if(!b)return;
+b.classList.toggle('showMap',v==='map');
+const bl=document.getElementById('btnViewList'),bm=document.getElementById('btnViewMap');
+if(bl)bl.className='sort-btn mob-only'+(v==='list'?' active':'');
+if(bm)bm.className='sort-btn mob-only'+(v==='map'?' active':'');
+}
 function openLegal(target){const o=document.getElementById('legalOverlay');o.classList.add('open');document.body.style.overflow='hidden';if(target){const el=document.getElementById(target);if(el)setTimeout(()=>el.scrollIntoView({block:'start'}),50);}}
 function closeLegal(){document.getElementById('legalOverlay').classList.remove('open');document.body.style.overflow='';}
 document.addEventListener('keydown',e=>{if(e.key==='Escape')closeLegal();});
-function analyzeZone(zoneId){const zone=ZONES.find(z=>z.id===zoneId);if(!zone)return;document.getElementById('addressInput').value='';hideError();document.querySelectorAll('.chip').forEach(c=>c.classList.remove('active'));document.getElementById('chip-'+zoneId)?.classList.add('active');txExpanded=false;render(zone,{street:zone.name[LANG],isChip:true},true);}
-async function analyzeInput(){const addr=document.getElementById('addressInput').value.trim();if(!addr)return;document.getElementById('loader').classList.add('visible');document.getElementById('results').classList.remove('visible');document.getElementById('btnSearch').disabled=true;document.querySelectorAll('.chip').forEach(c=>c.classList.remove('active'));hideError();txExpanded=false;try{document.getElementById('loaderStep').textContent=t('loaderGeo');const geo=await geocodeBiarritz(addr);document.getElementById('loaderStep').textContent=t('loaderAnalyze');render(detectZone(geo.lat,geo.lon),geo,true);}catch(e){showError(e.message);}finally{document.getElementById('loader').classList.remove('visible');document.getElementById('btnSearch').disabled=false;}}
+function analyzeZone(zoneId){const zone=ZONES.find(z=>z.id===zoneId);if(!zone)return;document.getElementById('addressInput').value='';hideError();document.querySelectorAll('.chip').forEach(c=>c.classList.remove('active'));document.getElementById('chip-'+zoneId)?.classList.add('active');txExpanded=false;render(zone,{street:zone.name[LANG],isChip:true},true);renderMap();}
+async function analyzeInput(){const addr=document.getElementById('addressInput').value.trim();if(!addr)return;document.getElementById('loader').classList.add('visible');document.getElementById('results').classList.remove('visible');document.getElementById('btnSearch').disabled=true;document.querySelectorAll('.chip').forEach(c=>c.classList.remove('active'));hideError();txExpanded=false;try{document.getElementById('loaderStep').textContent=t('loaderGeo');const geo=await geocodeBiarritz(addr);document.getElementById('loaderStep').textContent=t('loaderAnalyze');render(detectZone(geo.lat,geo.lon),geo,true);renderMap();}catch(e){showError(e.message);}finally{document.getElementById('loader').classList.remove('visible');document.getElementById('btnSearch').disabled=false;}}
 async function geocodeBiarritz(addr){let f=await banFirst(addr,true);if(!f)f=await banFirst(addr,false);if(!f)throw new Error(t('errNotFound'));if(!isBZC(f))throw new Error(t('errOtherCity')(f.properties.city||'?'));return{lat:f.geometry.coordinates[1],lon:f.geometry.coordinates[0],label:f.properties.label,street:f.properties.street||f.properties.name,isChip:false};}
 async function banFirst(q,useCitycode){const p=new URLSearchParams({q,limit:5});if(useCitycode)p.set('citycode',BZC);const res=await fetch(BAN+'?'+p);if(!res.ok)return null;const data=await res.json();return(data.features||[]).find(isBZC)||null;}
 function haversine(la1,lo1,la2,lo2){const R=6371000,r=Math.PI/180,dla=(la2-la1)*r,dlo=(lo2-lo1)*r,a=Math.sin(dla/2)**2+Math.cos(la1*r)*Math.cos(la2*r)*Math.sin(dlo/2)**2;return R*2*Math.atan2(Math.sqrt(a),Math.sqrt(1-a));}
@@ -705,9 +777,9 @@ es:{navQuartiers:'Barrios',navMethode:'Método',navCta:'Estimar mi propiedad',he
 };
 for(const l in TD)Object.assign(T[l],TD[l]);
 const TD2={
-fr:{typeApptsBtn:'Appartements',typeMaisonsBtn:'Maisons',heroL4:'Prix moyen maisons',statMaison:'Maisons',thermoNote1M:'Prix moyen maisons, ventes 2024–2025 · cliquez sur un quartier pour le détail',thermoNote2M:'Échelle : 0 → 13 000 €/m²',maisonUnit:'€ / m² moyen (2024–25)',heroPM:'Le thermomètre du marché immobilier, construit sur les ventes réelles enregistrées par l\'État.',txFilterNote:'Les ventes inférieures à 50 % du prix moyen du quartier sont masquées : ventes entre proches, biens très atypiques ou erreurs de saisie.'},
-en:{typeApptsBtn:'Apartments',typeMaisonsBtn:'Houses',heroL4:'Average house price',statMaison:'Houses',thermoNote1M:'Average house price, 2024–2025 sales · click a neighbourhood for details',thermoNote2M:'Scale: 0 → 13,000 €/m²',maisonUnit:'average €/m² (2024–25)',heroPM:'The property market thermometer, built on real sales recorded by the French State.',txFilterNote:'Sales below 50% of the neighbourhood average price are hidden: family transfers, highly atypical properties or data-entry errors.'},
-es:{typeApptsBtn:'Apartamentos',typeMaisonsBtn:'Casas',heroL4:'Precio medio casas',statMaison:'Casas',thermoNote1M:'Precio medio casas, ventas 2024–2025 · haga clic en un barrio para el detalle',thermoNote2M:'Escala: 0 → 13.000 €/m²',maisonUnit:'€/m² medio (2024–25)',heroPM:'El termómetro del mercado inmobiliario, construido sobre ventas reales registradas por el Estado.',txFilterNote:'Las ventas por debajo del 50 % del precio medio del barrio se ocultan: ventas entre familiares, bienes muy atípicos o errores de registro.'}
+fr:{typeApptsBtn:'Appartements',typeMaisonsBtn:'Maisons',heroL4:'Prix moyen maisons',statMaison:'Maisons',thermoNote1M:'Prix moyen maisons, ventes 2024–2025 · cliquez sur un quartier pour le détail',thermoNote2M:'Échelle : 0 → 13 000 €/m²',maisonUnit:'€ / m² moyen (2024–25)',heroPM:'Le thermomètre du marché immobilier, construit sur les ventes réelles enregistrées par l\'État.',viewList:'Liste',viewMap:'Carte',mapNote:'Délimitations indicatives · un clic ouvre le quartier',txFilterNote:'Les ventes inférieures à 50 % du prix moyen du quartier sont masquées : ventes entre proches, biens très atypiques ou erreurs de saisie.'},
+en:{typeApptsBtn:'Apartments',typeMaisonsBtn:'Houses',heroL4:'Average house price',statMaison:'Houses',thermoNote1M:'Average house price, 2024–2025 sales · click a neighbourhood for details',thermoNote2M:'Scale: 0 → 13,000 €/m²',maisonUnit:'average €/m² (2024–25)',heroPM:'The property market thermometer, built on real sales recorded by the French State.',viewList:'List',viewMap:'Map',mapNote:'Indicative boundaries · click to open a neighbourhood',txFilterNote:'Sales below 50% of the neighbourhood average price are hidden: family transfers, highly atypical properties or data-entry errors.'},
+es:{typeApptsBtn:'Apartamentos',typeMaisonsBtn:'Casas',heroL4:'Precio medio casas',statMaison:'Casas',thermoNote1M:'Precio medio casas, ventas 2024–2025 · haga clic en un barrio para el detalle',thermoNote2M:'Escala: 0 → 13.000 €/m²',maisonUnit:'€/m² medio (2024–25)',heroPM:'El termómetro del mercado inmobiliario, construido sobre ventas reales registradas por el Estado.',viewList:'Lista',viewMap:'Mapa',mapNote:'Delimitaciones indicativas · un clic abre el barrio',txFilterNote:'Las ventas por debajo del 50 % del precio medio del barrio se ocultan: ventas entre familiares, bienes muy atípicos o errores de registro.'}
 };
 for(const l in TD2)Object.assign(T[l],TD2[l]);
 const TD3={
@@ -744,7 +816,7 @@ const be=document.getElementById('btnSortEvo');
 be.className='sort-btn'+(THERMO_SORT==='evolution'?' active':'');
 be.style.display=maison?'none':'';
 document.getElementById('thermoN1').textContent=t(maison?'thermoNote1M':'thermoNote1');
-document.getElementById('thermoN2').textContent=t(maison?'thermoNote2M':'thermoNote2');
+document.getElementById('thermoN2').textContent=t(maison?'thermoNote2M':'thermoNote2');renderMap();
 }
 function setSort(s){THERMO_SORT=s;renderThermo();}
 function setType(s){THERMO_TYPE=s;if(s==='maison')THERMO_SORT='prix';renderThermo();}
