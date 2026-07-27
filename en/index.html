@@ -104,10 +104,6 @@ body{font-family:'Archivo',-apple-system,sans-serif;background:var(--cream);colo
 .hero-fig .v{font-size:26px}
 .hero-fig .l{font-size:9px;letter-spacing:0.09em;margin-top:6px}
 .seg.mob-only{display:inline-flex}
-.thermo-body{display:block}
-.thermo-map{display:none;position:static;margin-bottom:10px}
-.thermo-body.showMap .thermo-map{display:block}
-.thermo-body.showMap #thermoList{display:none}
 }
 .stripes{height:14px;background:repeating-linear-gradient(90deg,#FAF5EC 0px,#FAF5EC 34px,#7E0F18 34px,#7E0F18 40px,#FAF5EC 40px,#FAF5EC 46px,#7E0F18 46px,#7E0F18 52px,#FAF5EC 52px,#FAF5EC 86px);margin:0 calc(-1 * var(--gutter))}
 /* ===== THERMOMÈTRE ===== */
@@ -170,6 +166,12 @@ body{font-family:'Archivo',-apple-system,sans-serif;background:var(--cream);colo
 .map-neighbor{font-family:var(--mono);font-size:8px;letter-spacing:2px;fill:rgba(34,27,22,0.45)}
 .map-mini{font-family:var(--mono);font-size:7.5px;fill:rgba(34,27,22,0.45);letter-spacing:2px;text-transform:uppercase}
 .map-note{font-family:var(--mono);font-size:9px;color:var(--text-tertiary);margin-top:8px;text-align:right;white-space:nowrap}
+@media(max-width:899px){
+.thermo-body{display:block}
+.thermo-map{display:none;position:static;margin-bottom:10px}
+.thermo-body.showMap .thermo-map{display:block}
+.thermo-body.showMap #thermoList{display:none}
+}
 .thermo-foot{display:flex;justify-content:space-between;gap:16px;margin:2px 0 14px;font-family:var(--mono);font-size:12px;color:var(--text-tertiary);flex-wrap:wrap}
 /* loader / erreur */
 .loader{display:none;flex-direction:column;align-items:center;gap:12px;padding:2.5rem 0}
@@ -637,7 +639,8 @@ const tx=side>0?x+15:x-15;const anc=side>0?'start':'end';
 return '<g class="map-zone'+(act?' active':'')+'" onclick="analyzeZone(\''+z.id+'\')"><circle class="dot" cx="'+x+'" cy="'+y+'" r="9" fill="'+colorOf[z.id]+'"/><text x="'+tx+'" y="'+(y-1)+'" text-anchor="'+anc+'" class="map-name">'+t('chip_'+z.id)+'</text><text x="'+tx+'" y="'+(y+12)+'" text-anchor="'+anc+'" class="map-price">'+(val(z)?fmtTh(val(z))+' €/m²':'—')+'</text></g>';
 }).join('');
 }
-function setView(v){
+function resetExplore(){currentZone=null;currentGeo=null;txExpanded=false;const r=document.getElementById('results');if(r)r.classList.remove('visible');document.querySelectorAll('.chip').forEach(c=>c.classList.remove('active'));if(typeof hideError==='function')hideError();}
+function setView(v){resetExplore();
 const b=document.getElementById('thermoBody');if(!b)return;
 b.classList.toggle('showMap',v==='map');
 const bl=document.getElementById('btnViewList'),bm=document.getElementById('btnViewMap');
@@ -885,8 +888,8 @@ be.style.display=maison?'none':'';
 document.getElementById('thermoN1').textContent=t(maison?'thermoNote1M':'thermoNote1');
 document.getElementById('thermoN2').textContent=t(maison?'thermoNote2M':'thermoNote2');renderMap();
 }
-function setSort(s){THERMO_SORT=s;renderThermo();}
-function setType(s){THERMO_TYPE=s;if(s==='maison')THERMO_SORT='prix';renderThermo();}
+function setSort(s){resetExplore();THERMO_SORT=s;renderThermo();}
+function setType(s){resetExplore();THERMO_TYPE=s;if(s==='maison')THERMO_SORT='prix';renderThermo();}
 function renderDesignBits(){
 document.querySelectorAll('[data-i18n-html]').forEach(el=>{el.innerHTML=t(el.dataset.i18nHtml);});
 const avg=Math.round(ZONES.reduce((s,z)=>s+z.priceAppt,0)/ZONES.length);
