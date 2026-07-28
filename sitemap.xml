@@ -24,4 +24,24 @@
   <xhtml:link rel="alternate" hreflang="es" href="https://biarritz.immo/es/"/>
   <xhtml:link rel="alternate" hreflang="x-default" href="https://biarritz.immo/"/>
 </url>
+<url>
+  <loc>https://biarritz.immo/quartiers/imperial/</loc>
+  <lastmod>2026-07-27</lastmod>
+</url>
+<url>
+  <loc>https://biarritz.immo/quartiers/centre-halles/</loc>
+  <lastmod>2026-07-27</lastmod>
+</url>
+<url>
+  <loc>https://biarritz.immo/quartiers/bibi-beaurivage/</loc>
+  <lastmod>2026-07-27</lastmod>
+</url>
+<url>
+  <loc>https://biarritz.immo/quartiers/milady/</loc>
+  <lastmod>2026-07-27</lastmod>
+</url>
+<url>
+  <loc>https://biarritz.immo/quartiers/parc-hiver/</loc>
+  <lastmod>2026-07-27</lastmod>
+</url>
 </urlset>
