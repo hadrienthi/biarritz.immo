@@ -65,7 +65,7 @@ body{font-family:'Archivo',-apple-system,sans-serif;background:var(--cream);colo
 .nav-base{font-family:var(--serif);font-style:italic;font-size:18px;line-height:1.7;color:rgba(34,27,22,0.6);white-space:nowrap;padding-bottom:2px}
 @media(max-width:1099px){.nav-base{display:none}}
 .wm-ext{color:var(--red)}
-.footer .wm-ext{color:#E5B99E}
+.footer .wm-ext{color:var(--red)}
 .nav-right{display:flex;flex-wrap:wrap;align-items:center;row-gap:10px;column-gap:clamp(14px,2.4vw,28px);font-size:14px;font-weight:500}
 .nav-right a.nl{color:var(--ink);text-decoration:none;border-bottom:2px solid transparent;padding-bottom:2px}
 .nav-right a.nl:hover{border-bottom-color:var(--red)}
@@ -315,21 +315,21 @@ body{font-family:'Archivo',-apple-system,sans-serif;background:var(--cream);colo
 .faq-item[open] summary::after{content:'\2212'}
 .faq-item p{font-size:15px;line-height:1.65;color:var(--text-secondary);padding:0 0 20px;max-width:72ch}
 /* ===== FOOTER ===== */
-.footer{background:var(--ink);color:var(--cream);padding:40px var(--gutter)}
+.footer{border-top:1px solid var(--hairline);padding:40px var(--gutter)}
 .footer-in{display:flex;align-items:center;justify-content:space-between;gap:24px;flex-wrap:wrap}
-.footer .wordmark{color:var(--cream);font-size:22px}
-.footer-base{font-family:var(--serif);font-style:italic;font-size:13px;color:rgba(250,245,236,0.65);margin-top:6px}
-.footer .wordmark em{color:var(--cream)}
+.footer .wordmark{color:var(--ink);font-size:22px}
+.footer-base{font-family:var(--serif);font-style:italic;font-size:13px;color:var(--text-tertiary);margin-top:6px}
+.footer .wordmark em{color:var(--ink)}
 .footer-links{display:flex;gap:24px;font-family:var(--mono);font-size:13px}
-.footer-links a{color:rgba(250,245,236,0.85);text-decoration:none}
-.footer-links a:hover{color:var(--cream);text-decoration:underline}
-.footer-data{font-family:var(--mono);font-size:12px;color:rgba(250,245,236,0.6)}
-.footer-legal{display:flex;justify-content:space-between;align-items:center;gap:16px;flex-wrap:wrap;font-family:var(--mono);font-size:12px;margin-top:26px;padding-top:18px;border-top:1px solid rgba(250,245,236,0.15)}
+.footer-links a{color:var(--text-secondary);text-decoration:none}
+.footer-links a:hover{color:var(--red);text-decoration:underline}
+.footer-data{font-family:var(--mono);font-size:12px;color:var(--text-tertiary)}
+.footer-legal{display:flex;justify-content:space-between;align-items:center;gap:16px;flex-wrap:wrap;font-family:var(--mono);font-size:12px;margin-top:26px;padding-top:18px;border-top:1px solid var(--hairline)}
 .footer-legal-links{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
-.footer-copy{color:rgba(250,245,236,0.4)}
-.footer-legal a{color:rgba(250,245,236,0.6);text-decoration:none;cursor:pointer}
-.footer-legal a:hover{color:var(--cream);text-decoration:underline}
-.footer-legal .sep{color:rgba(250,245,236,0.3)}
+.footer-copy{color:var(--text-tertiary)}
+.footer-legal a{color:var(--text-tertiary);text-decoration:none;cursor:pointer}
+.footer-legal a:hover{color:var(--red);text-decoration:underline}
+.footer-legal .sep{color:rgba(34,27,22,0.3)}
 .legal-overlay{display:none;position:fixed;inset:0;background:rgba(34,27,22,0.55);z-index:200;padding:24px;overflow-y:auto}
 .legal-overlay.open{display:flex;align-items:flex-start;justify-content:center}
 .legal-card{background:var(--cream);color:var(--ink);max-width:680px;width:100%;padding:36px 34px 30px;border-radius:6px;position:relative;margin:4vh 0 40px}
@@ -505,13 +505,13 @@ color:rgba(250,245,236,0.5);text-align:center;margin-top:11px;line-height:1.6}
 <div class="map-note" data-i18n="mapNote"></div>
 </div>
 </div>
-<nav class="q-links" aria-label="Guides par quartier"><span>Neighbourhood guides (in French):</span>
-<a href="../quartiers/imperial/">Quartier Impérial</a>
-<a href="../quartiers/centre-halles/">Centre-Ville · Les Halles</a>
-<a href="../quartiers/bibi-beaurivage/">Bibi-Beaurivage</a>
-<a href="../quartiers/milady/">Quartier de la Milady</a>
-<a href="../quartiers/parc-hiver/">Parc d'Hiver · Braou</a>
-<a href="../quartiers/lac-marion/">Lac Marion</a>
+<nav class="q-links" aria-label="Guides par quartier"><span>Neighbourhood guides:</span>
+<a href="quartiers/imperial/">Imperial Quarter</a>
+<a href="quartiers/centre-halles/">City Centre · Les Halles</a>
+<a href="quartiers/bibi-beaurivage/">Bibi-Beaurivage</a>
+<a href="quartiers/milady/">Milady Quarter</a>
+<a href="quartiers/parc-hiver/">Parc d'Hiver · Braou</a>
+<a href="quartiers/lac-marion/">Lac Marion</a>
 </nav>
 </div>
 </section>
@@ -589,7 +589,7 @@ color:rgba(250,245,236,0.5);text-align:center;margin-top:11px;line-height:1.6}
 <p>The gap between neighbourhoods approaches €3,000/m². The Centre-Ville · Les Halles (€8,321/m² for apartments) and the Imperial Quarter (€8,251/m²) lead the market, driven by the Grande Plage and the Hôtel du Palais. The Milady (€7,572/m²) and Bibi-Beaurivage (€7,489/m²) offer a balance of village life and beach access, while Parc d'Hiver · Braou (€6,132/m²), quiet and residential by the golf course, and Lac Marion (€5,407/m²), the family area around the lake, remain the most accessible.</p>
 <p>Houses trade at around €9,816/m² on average, peaking above €12,500/m² for seafront villas. Their scarcity explains prices well above apartments.</p>
 <p>These averages hide sharp street-by-street variations: <a href="#estimation">the free estimator</a> values a specific property from real sales recorded around its address.</p>
-<a class="guide-vivre" href="../vivre-a-biarritz/"><span class="gv-nom">Vivre à Biarritz</span><span class="gv-sub">the city in figures · in French →</span></a>
+<a class="guide-vivre" href="vivre-a-biarritz/"><span class="gv-nom">Living in Biarritz</span><span class="gv-sub">the city in figures →</span></a>
 </div>
 </section>
 
@@ -722,7 +722,7 @@ function render(zone,geo,fetchLive){
 currentZone=zone;currentGeo=geo;
 document.getElementById('streetName').textContent=geo.isChip?zone.name[LANG]:(geo.street||geo.label);
 document.getElementById('streetSub').textContent=zone.zone[LANG];
-const zg=document.getElementById('zoneGuide');if(zg)zg.href='../quartiers/'+zone.id+'/';
+const zg=document.getElementById('zoneGuide');if(zg)zg.href='quartiers/'+zone.id+'/';
 const b=document.getElementById('marketBadge');b.textContent=zone.badge.label[LANG];b.className='badge '+zone.badge.cls;
 document.getElementById('priceAppt').innerHTML=fmtTh(zone.priceAppt)+'<span class="sv-unit"> €/m²</span>';
 const evo=document.getElementById('evolution');evo.textContent=zone.evo+'%';evo.className='stat-value '+(zone.evo.startsWith('+')?'trend-up':'trend-down');
