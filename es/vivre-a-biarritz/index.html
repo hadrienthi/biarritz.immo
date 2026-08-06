@@ -68,6 +68,9 @@ p{font-size:16px;line-height:1.7;color:var(--text-secondary);margin:0 0 16px}
 .sv-u{font-size:0.55em}
 .s-s{font-family:var(--mono);font-size:10.5px;color:var(--text-tertiary)}
 table{width:100%;border-collapse:collapse;font-size:14px;margin:8px 0 6px}
+.t-loc table{table-layout:fixed;min-width:440px}
+.t-loc th:first-child,.t-loc td:first-child{width:28%}
+.t-loc th:nth-child(n+2),.t-loc td:nth-child(n+2){width:24%}
 th{font-family:var(--mono);font-size:10px;letter-spacing:0.1em;text-transform:uppercase;color:var(--text-tertiary);font-weight:500;text-align:left;padding:8px 8px;border-bottom:1px solid var(--hairline)}
 td{padding:9px 8px;border-bottom:1px solid var(--hairline);color:var(--text-secondary)}
 td.num{font-family:var(--serif);font-size:16px;color:var(--ink);white-space:nowrap}
@@ -176,13 +179,8 @@ td.num{font-family:var(--serif);font-size:16px;color:var(--ink);white-space:nowr
 <p class="note">19 agencias inmobiliarias y 2 restaurantes no están vinculados a un IRIS en el fichero de detalle; añadiéndolos, cada columna coincide con el total comunal.</p>
 <p class="note">Fuente: INSEE, Base permanente des équipements 2025, fichero de detalle geolocalizado. Ratios calculados sobre la población municipal 2022; ratios de Francia calculados sobre la misma BPE y la población de Francia de la misma base 2022 (sin Mayotte).</p>
 
-<h2>Riesgos naturales y retroceso de la costa</h2>
-<p>Géorisques, el portal público de riesgos, registra cuatro riesgos para el municipio: <strong>movimiento de terreno</strong>, <strong>hundimientos y colapsos</strong> ligados a antiguas canteras subterráneas, <strong>seísmo</strong> (zona 3 de 5, sismicidad moderada) y transporte de mercancías peligrosas. El potencial de radón del municipio es de categoría 2 sobre 3.</p>
-<p>El punto más importante para un comprador en primera línea: <strong>Biarritz figura en la lista oficial de municipios expuestos al retroceso de la costa</strong>, desde el decreto inicial del 29 de abril de 2022. La lista, reemplazada por última vez por el decreto del 13 de febrero de 2026, cuenta 371 municipios, seis de ellos en la costa vasca: Anglet, Biarritz, Bidart, Ciboure, Guéthary y Saint-Jean-de-Luz. En la práctica, el municipio debe adaptar su urbanismo al retroceso del litoral y cartografiar su exposición; para quien compra frente al océano, es un dato que conviene conocer, como en toda la costa vasca.</p>
-<p class="note">Fuentes: API Géorisques (consultada en agosto de 2026); decreto n.º 2022-750 de 29 de abril de 2022, modificado por el decreto n.º 2026-95 de 13 de febrero de 2026 (Légifrance).</p>
-
 <h2>Lo que cuesta</h2>
-<p>Sobre las ventas notariales 2024–2025, el precio medio en Biarritz es de <strong>7.553 €/m²</strong> para un apartamento y <strong>9.816 €/m²</strong> para una casa. Según el barrio, la media de los apartamentos va de <strong>5.407 €/m²</strong> en Lac Marion a <strong>8.321 €/m²</strong> en el Centro Ciudad · Les Halles. El detalle, barrio a barrio:</p>
+<p>Sobre las ventas notariales 2024–2025, el precio medio en Biarritz es de <strong>7.591 €/m²</strong> para un apartamento y <strong>9.421 €/m²</strong> para una casa. Según el barrio, la media de los apartamentos va de <strong>5.407 €/m²</strong> en Lac Marion a <strong>8.321 €/m²</strong> en el Centro Ciudad · Les Halles. El detalle, barrio a barrio:</p>
 <div class="voisins">
 <a class="voisin" href="../quartiers/imperial/"><span class="v-nom">Barrio Imperial</span><span class="v-prix">8.251 €/m²</span></a>
 <a class="voisin" href="../quartiers/centre-halles/"><span class="v-nom">Centro Ciudad · Les Halles</span><span class="v-prix">8.321 €/m²</span></a>
@@ -195,7 +193,32 @@ td.num{font-family:var(--serif);font-size:16px;color:var(--ink);white-space:nowr
 <p>¿Y una propiedad concreta? El estimador calcula su valor a partir de las ventas reales alrededor de su dirección. Gratis, inmediato, sin registro.</p>
 <a href="../#estimation">Estimar un bien</a>
 </div>
-<p class="note">Fuente: DVF (DGFiP / Cerema, Licencia Abierta 2.0), 6.304 ventas 2019–2025, extracción julio 2026, cálculos de Biarritz.immo.</p>
+<p class="note">Fuente: DVF (DGFiP / Cerema, Licencia Abierta 2.0), 6.304 ventas 2019–2025, extracciones de julio y agosto de 2026, cálculos de Biarritz.immo.</p>
+<h2>Comprar para alquilar</h2>
+<p>Todo se reduce a una pregunta sencilla: ¿cuánto rinde cada año el dinero invertido en la vivienda? Es lo que se llama la rentabilidad bruta, y cabe en una línea: el alquiler de un mes, multiplicado por doce para hacer un año, dividido por el precio de compra. Una rentabilidad del 4 % significa 4.000 € de alquileres cobrados en el año por 100.000 € invertidos.</p>
+<p>En la costa vasca la regla es clara: cuanto más cara es una ciudad para comprar, menos rinde. Entre Bayonne y Biarritz los alquileres solo varían alrededor de una quinta parte, mientras que los precios de compra casi se duplican. Esa diferencia lo decide todo: un apartamento rinde un 4,0 % anual en Bayonne frente al 2,6 % en Biarritz. Comprar en Biarritz se juega, por tanto, más en el valor del bien con el tiempo que en el alquiler que produce.</p>
+<div class="tscroll t-loc"><table>
+<thead><tr><th>Apartamentos</th><th>Alquiler mensual</th><th>Precio de compra</th><th>Rentabilidad bruta</th></tr></thead>
+<tbody>
+<tr><td>Bayonne</td><td class="num">13,79 €/m²</td><td class="num">4.115 €/m²</td><td class="num">4,0 %</td></tr>
+<tr><td>Anglet</td><td class="num">15,25 €/m²</td><td class="num">5.357 €/m²</td><td class="num">3,4 %</td></tr>
+<tr><td>Biarritz</td><td class="num">16,39 €/m²</td><td class="num">7.591 €/m²</td><td class="num">2,6 %</td></tr>
+</tbody>
+</table></div>
+<div class="tscroll t-loc"><table>
+<thead><tr><th>Casas</th><th>Alquiler mensual</th><th>Precio de compra</th><th>Rentabilidad bruta</th></tr></thead>
+<tbody>
+<tr><td>Bayonne</td><td class="num">14,73 €/m²</td><td class="num">5.157 €/m²</td><td class="num">3,4 %</td></tr>
+<tr><td>Anglet</td><td class="num">17,09 €/m²</td><td class="num">7.611 €/m²</td><td class="num">2,7 %</td></tr>
+<tr><td>Biarritz</td><td class="num">17,91 €/m²</td><td class="num">9.421 €/m²</td><td class="num">2,3 %</td></tr>
+</tbody>
+</table></div>
+<p>Estos porcentajes son órdenes de magnitud, no una promesa de ingresos. La rentabilidad bruta no descuenta nada: ni los gastos de comunidad, ni el impuesto sobre bienes inmuebles, ni las obras, ni los meses en que la vivienda queda vacía entre dos inquilinos, ni los impuestos sobre los alquileres percibidos. Una vez descontado todo eso, lo que queda realmente es bastante más bajo. Dos precauciones más: el alquiler publicado aquí incluye los gastos, lo que infla algo el resultado, y se mide en el conjunto de la ciudad. Un estudio frente a la Grande Plage no se alquila como un piso de tres habitaciones en Lac Marion.</p>
+<p class="note">Fuentes: alquileres, Carte des loyers 2025 (ANIL y Ministerio de Vivienda, a partir de 9,1 millones de anuncios, alquiler con gastos incluidos, €/m² al mes); precios, ventas notariales DVF 2024–2025, media municipal, extracción del 6 de agosto de 2026, cálculos de Biarritz.immo. Rentabilidad bruta = alquiler × 12 / precio, antes de gastos, impuestos, desocupación y fiscalidad. Los alquileres de casas se basan en muestras reducidas, 211 anuncios en Biarritz, 299 en Bayonne y 344 en Anglet: léanse como tendencias.</p>
+<h2>Riesgos naturales y retroceso de la costa</h2>
+<p>Géorisques, el portal público de riesgos, registra cuatro riesgos para el municipio: <strong>movimiento de terreno</strong>, <strong>hundimientos y colapsos</strong> ligados a antiguas canteras subterráneas, <strong>seísmo</strong> (zona 3 de 5, sismicidad moderada) y transporte de mercancías peligrosas. El potencial de radón del municipio es de categoría 2 sobre 3.</p>
+<p>El punto más importante para un comprador en primera línea: <strong>Biarritz figura en la lista oficial de municipios expuestos al retroceso de la costa</strong>, desde el decreto inicial del 29 de abril de 2022. La lista, reemplazada por última vez por el decreto del 13 de febrero de 2026, cuenta 371 municipios, seis de ellos en la costa vasca: Anglet, Biarritz, Bidart, Ciboure, Guéthary y Saint-Jean-de-Luz. En la práctica, el municipio debe adaptar su urbanismo al retroceso del litoral y cartografiar su exposición; para quien compra frente al océano, es un dato que conviene conocer, como en toda la costa vasca.</p>
+<p class="note">Fuentes: API Géorisques (consultada en agosto de 2026); decreto n.º 2022-750 de 29 de abril de 2022, modificado por el decreto n.º 2026-95 de 13 de febrero de 2026 (Légifrance).</p>
 </main>
 <footer class="footer">
 <span>Biarritz.immo · L'immobilier biarrot a trouvé son adresse.</span>

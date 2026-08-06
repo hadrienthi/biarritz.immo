@@ -68,6 +68,9 @@ p{font-size:16px;line-height:1.7;color:var(--text-secondary);margin:0 0 16px}
 .sv-u{font-size:0.55em}
 .s-s{font-family:var(--mono);font-size:10.5px;color:var(--text-tertiary)}
 table{width:100%;border-collapse:collapse;font-size:14px;margin:8px 0 6px}
+.t-loc table{table-layout:fixed;min-width:440px}
+.t-loc th:first-child,.t-loc td:first-child{width:28%}
+.t-loc th:nth-child(n+2),.t-loc td:nth-child(n+2){width:24%}
 th{font-family:var(--mono);font-size:10px;letter-spacing:0.1em;text-transform:uppercase;color:var(--text-tertiary);font-weight:500;text-align:left;padding:8px 8px;border-bottom:1px solid var(--hairline)}
 td{padding:9px 8px;border-bottom:1px solid var(--hairline);color:var(--text-secondary)}
 td.num{font-family:var(--serif);font-size:16px;color:var(--ink);white-space:nowrap}
@@ -176,13 +179,8 @@ td.num{font-family:var(--serif);font-size:16px;color:var(--ink);white-space:nowr
 <p class="note">19 estate agencies and 2 restaurants are not attached to an IRIS in the detail file; adding them, every column matches the city-wide total.</p>
 <p class="note">Source: INSEE, Base permanente des équipements 2025, geolocated detail file. Ratios computed on the 2022 municipal population; France ratios computed on the same BPE and the France population of the same 2022 base (excluding Mayotte).</p>
 
-<h2>Natural risks and coastline retreat</h2>
-<p>Géorisques, the public risk portal, lists four risks for the municipality: <strong>ground movement</strong>, <strong>subsidence and collapse</strong> linked to former underground quarries, <strong>earthquake</strong> (zone 3 of 5, moderate seismicity) and transport of hazardous goods. The municipality's radon potential is category 2 of 3.</p>
-<p>The most important point for a seafront buyer: <strong>Biarritz is on the official list of municipalities exposed to coastline retreat</strong>, since the initial decree of 29 April 2022. The list, last replaced by the decree of 13 February 2026, counts 371 municipalities, six of them on the Basque coast: Anglet, Biarritz, Bidart, Ciboure, Guéthary and Saint-Jean-de-Luz. In practice, the municipality must adapt its planning rules to the retreating shoreline and map its exposure; for anyone buying facing the ocean, it is a fact worth knowing, as everywhere along the Basque coast.</p>
-<p class="note">Sources: Géorisques API (consulted August 2026); decree no. 2022-750 of 29 April 2022, amended by decree no. 2026-95 of 13 February 2026 (Légifrance).</p>
-
 <h2>What it costs</h2>
-<p>On 2024–2025 notarised sales, the average price in Biarritz is <strong>€7,553/m²</strong> for an apartment and <strong>€9,816/m²</strong> for a house. Depending on the neighbourhood, the apartment average runs from <strong>€5,407/m²</strong> at Lac Marion to <strong>€8,321/m²</strong> in City Centre · Les Halles. The detail, neighbourhood by neighbourhood:</p>
+<p>On 2024–2025 notarised sales, the average price in Biarritz is <strong>€7,591/m²</strong> for an apartment and <strong>€9,421/m²</strong> for a house. Depending on the neighbourhood, the apartment average runs from <strong>€5,407/m²</strong> at Lac Marion to <strong>€8,321/m²</strong> in City Centre · Les Halles. The detail, neighbourhood by neighbourhood:</p>
 <div class="voisins">
 <a class="voisin" href="../quartiers/imperial/"><span class="v-nom">Imperial Quarter</span><span class="v-prix">€8,251/m²</span></a>
 <a class="voisin" href="../quartiers/centre-halles/"><span class="v-nom">City Centre · Les Halles</span><span class="v-prix">€8,321/m²</span></a>
@@ -195,7 +193,32 @@ td.num{font-family:var(--serif);font-size:16px;color:var(--ink);white-space:nowr
 <p>And a specific property? The estimator calculates its value from real sales around its address. Free, instant, no sign-up.</p>
 <a href="../#estimation">Estimate a property</a>
 </div>
-<p class="note">Source: DVF (DGFiP / Cerema, Open Licence 2.0), 6,304 sales 2019–2025, extracted July 2026, calculations by Biarritz.immo.</p>
+<p class="note">Source: DVF (DGFiP / Cerema, Open Licence 2.0), 6,304 sales 2019–2025, extracted July and August 2026, calculations by Biarritz.immo.</p>
+<h2>Buying to let</h2>
+<p>It all comes down to one simple question: how much does the money put into the property earn each year? That is what is called the gross yield, and it takes one line to work out: one month's rent, multiplied by twelve to make a year, divided by the purchase price. A 4% yield means €4,000 of rent collected over the year for €100,000 invested.</p>
+<p>Along the Basque coast the rule is clear: the more expensive a town is to buy into, the less it returns. Between Bayonne and Biarritz rents differ by only about a fifth, while purchase prices are almost double. That gap decides everything: an apartment returns 4.0% a year in Bayonne against 2.6% in Biarritz. Buying in Biarritz is therefore played out on what the property is worth over time rather than on the rent it brings in.</p>
+<div class="tscroll t-loc"><table>
+<thead><tr><th>Apartments</th><th>Monthly rent</th><th>Purchase price</th><th>Gross yield</th></tr></thead>
+<tbody>
+<tr><td>Bayonne</td><td class="num">€13.79/m²</td><td class="num">€4,115/m²</td><td class="num">4.0%</td></tr>
+<tr><td>Anglet</td><td class="num">€15.25/m²</td><td class="num">€5,357/m²</td><td class="num">3.4%</td></tr>
+<tr><td>Biarritz</td><td class="num">€16.39/m²</td><td class="num">€7,591/m²</td><td class="num">2.6%</td></tr>
+</tbody>
+</table></div>
+<div class="tscroll t-loc"><table>
+<thead><tr><th>Houses</th><th>Monthly rent</th><th>Purchase price</th><th>Gross yield</th></tr></thead>
+<tbody>
+<tr><td>Bayonne</td><td class="num">€14.73/m²</td><td class="num">€5,157/m²</td><td class="num">3.4%</td></tr>
+<tr><td>Anglet</td><td class="num">€17.09/m²</td><td class="num">€7,611/m²</td><td class="num">2.7%</td></tr>
+<tr><td>Biarritz</td><td class="num">€17.91/m²</td><td class="num">€9,421/m²</td><td class="num">2.3%</td></tr>
+</tbody>
+</table></div>
+<p>These percentages are orders of magnitude, not a promise of income. The gross yield deducts nothing: neither service charges, nor property tax, nor works, nor the months when the home sits empty between tenants, nor the tax on the rent received. Once all of that is taken out, what is actually left is appreciably lower. Two further cautions: the rent published here includes charges, which inflates the result slightly, and it is measured across the whole town. A studio facing the Grande Plage does not let like a three-room flat at Lac Marion.</p>
+<p class="note">Sources: rents, Carte des loyers 2025 (ANIL and the Ministry of Housing, from 9.1 million listings, rent including charges, €/m² per month); prices, DVF notarised sales 2024–2025, municipal average, extracted 6 August 2026, calculations by Biarritz.immo. Gross yield = rent × 12 / price, before charges, property tax, vacancy and taxation. House rents rest on small samples, 211 listings in Biarritz, 299 in Bayonne and 344 in Anglet: read them as trends.</p>
+<h2>Natural risks and coastline retreat</h2>
+<p>Géorisques, the public risk portal, lists four risks for the municipality: <strong>ground movement</strong>, <strong>subsidence and collapse</strong> linked to former underground quarries, <strong>earthquake</strong> (zone 3 of 5, moderate seismicity) and transport of hazardous goods. The municipality's radon potential is category 2 of 3.</p>
+<p>The most important point for a seafront buyer: <strong>Biarritz is on the official list of municipalities exposed to coastline retreat</strong>, since the initial decree of 29 April 2022. The list, last replaced by the decree of 13 February 2026, counts 371 municipalities, six of them on the Basque coast: Anglet, Biarritz, Bidart, Ciboure, Guéthary and Saint-Jean-de-Luz. In practice, the municipality must adapt its planning rules to the retreating shoreline and map its exposure; for anyone buying facing the ocean, it is a fact worth knowing, as everywhere along the Basque coast.</p>
+<p class="note">Sources: Géorisques API (consulted August 2026); decree no. 2022-750 of 29 April 2022, amended by decree no. 2026-95 of 13 February 2026 (Légifrance).</p>
 </main>
 <footer class="footer">
 <span>Biarritz.immo · L'immobilier biarrot a trouvé son adresse.</span>

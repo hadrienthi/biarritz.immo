@@ -68,6 +68,9 @@ p{font-size:16px;line-height:1.7;color:var(--text-secondary);margin:0 0 16px}
 .sv-u{font-size:0.55em}
 .s-s{font-family:var(--mono);font-size:10.5px;color:var(--text-tertiary)}
 table{width:100%;border-collapse:collapse;font-size:14px;margin:8px 0 6px}
+.t-loc table{table-layout:fixed;min-width:440px}
+.t-loc th:first-child,.t-loc td:first-child{width:28%}
+.t-loc th:nth-child(n+2),.t-loc td:nth-child(n+2){width:24%}
 th{font-family:var(--mono);font-size:10px;letter-spacing:0.1em;text-transform:uppercase;color:var(--text-tertiary);font-weight:500;text-align:left;padding:8px 8px;border-bottom:1px solid var(--hairline)}
 td{padding:9px 8px;border-bottom:1px solid var(--hairline);color:var(--text-secondary)}
 td.num{font-family:var(--serif);font-size:16px;color:var(--ink);white-space:nowrap}
@@ -176,13 +179,8 @@ td.num{font-family:var(--serif);font-size:16px;color:var(--ink);white-space:nowr
 <p class="note">19 agences immobilières et 2 restaurants ne sont pas rattachés à un IRIS dans le fichier détail ; en les ajoutant, chaque colonne retombe sur le total communal.</p>
 <p class="note">Source : INSEE, Base permanente des équipements 2025, fichier détail géolocalisé. Ratios calculés sur la population municipale 2022 ; ratios France calculés sur la même BPE et la population France de la même base 2022 (hors Mayotte).</p>
 
-<h2>Risques naturels et recul du trait de côte</h2>
-<p>Géorisques, le portail public des risques, recense quatre risques pour la commune : <strong>mouvement de terrain</strong>, <strong>affaissements et effondrements</strong> liés aux anciennes carrières souterraines, <strong>séisme</strong> (zone 3 sur 5, sismicité modérée) et transport de marchandises dangereuses. Le potentiel radon de la commune est de catégorie 2 sur 3.</p>
-<p>Le point le plus important pour un acheteur en front de mer : <strong>Biarritz figure sur la liste officielle des communes exposées au recul du trait de côte</strong>, depuis le décret initial du 29 avril 2022. La liste, remplacée en dernier lieu par le décret du 13 février 2026, compte 371 communes, dont six sur la côte basque : Anglet, Biarritz, Bidart, Ciboure, Guéthary et Saint-Jean-de-Luz. Concrètement, la commune doit adapter son urbanisme au recul du littoral et cartographier son exposition ; pour qui achète face à l'océan, c'est une donnée à connaître, comme sur l'ensemble de la côte basque.</p>
-<p class="note">Sources : API Géorisques (consultée en août 2026) ; décret n° 2022-750 du 29 avril 2022, modifié par le décret n° 2026-95 du 13 février 2026 (Légifrance).</p>
-
 <h2>Ce que ça coûte</h2>
-<p>Sur les ventes notariées 2024–2025, le prix moyen à Biarritz est de <strong>7 553 €/m²</strong> pour un appartement et <strong>9 816 €/m²</strong> pour une maison. Selon le quartier, la moyenne des appartements va de <strong>5 407 €/m²</strong> au Lac Marion à <strong>8 321 €/m²</strong> au Centre-Ville · Les Halles. Le détail, quartier par quartier :</p>
+<p>Sur les ventes notariées 2024–2025, le prix moyen à Biarritz est de <strong>7 591 €/m²</strong> pour un appartement et <strong>9 421 €/m²</strong> pour une maison. Selon le quartier, la moyenne des appartements va de <strong>5 407 €/m²</strong> au Lac Marion à <strong>8 321 €/m²</strong> au Centre-Ville · Les Halles. Le détail, quartier par quartier :</p>
 <div class="voisins">
 <a class="voisin" href="../quartiers/imperial/"><span class="v-nom">Quartier Impérial</span><span class="v-prix">8 251 €/m²</span></a>
 <a class="voisin" href="../quartiers/centre-halles/"><span class="v-nom">Centre-Ville · Les Halles</span><span class="v-prix">8 321 €/m²</span></a>
@@ -195,7 +193,32 @@ td.num{font-family:var(--serif);font-size:16px;color:var(--ink);white-space:nowr
 <p>Et un bien précis ? L'estimateur calcule sa valeur à partir des ventes réelles autour de son adresse. Gratuit, immédiat, sans inscription.</p>
 <a href="../#estimation">Estimer un bien</a>
 </div>
-<p class="note">Source : DVF (DGFiP / Cerema, Licence Ouverte 2.0), 6 304 ventes 2019–2025, extraction juillet 2026, calculs Biarritz.immo.</p>
+<p class="note">Source : DVF (DGFiP / Cerema, Licence Ouverte 2.0), 6 304 ventes 2019–2025, extractions juillet et août 2026, calculs Biarritz.immo.</p>
+<h2>Acheter pour louer</h2>
+<p>Tout se ramène à une question simple : combien rapporte, chaque année, l'argent placé dans le logement ? C'est ce qu'on appelle le rendement brut, et il tient en une ligne : le loyer d'un mois, multiplié par douze pour faire une année, divisé par le prix d'achat. Un rendement de 4 %, cela veut dire 4 000 € de loyers encaissés dans l'année pour 100 000 € investis.</p>
+<p>Sur la côte basque, la règle est nette : plus une ville est chère à l'achat, moins elle rapporte. Entre Bayonne et Biarritz, les loyers ne varient que d'un cinquième environ, alors que les prix d'achat, eux, font presque le double. C'est cet écart qui décide de tout : un appartement rapporte 4,0 % par an à Bayonne contre 2,6 % à Biarritz. Acheter à Biarritz se joue donc davantage sur la valeur du bien dans le temps que sur le loyer qu'il rapporte.</p>
+<div class="tscroll t-loc"><table>
+<thead><tr><th>Appartements</th><th>Loyer mensuel</th><th>Prix d'achat</th><th>Rendement brut</th></tr></thead>
+<tbody>
+<tr><td>Bayonne</td><td class="num">13,79 €/m²</td><td class="num">4 115 €/m²</td><td class="num">4,0 %</td></tr>
+<tr><td>Anglet</td><td class="num">15,25 €/m²</td><td class="num">5 357 €/m²</td><td class="num">3,4 %</td></tr>
+<tr><td>Biarritz</td><td class="num">16,39 €/m²</td><td class="num">7 591 €/m²</td><td class="num">2,6 %</td></tr>
+</tbody>
+</table></div>
+<div class="tscroll t-loc"><table>
+<thead><tr><th>Maisons</th><th>Loyer mensuel</th><th>Prix d'achat</th><th>Rendement brut</th></tr></thead>
+<tbody>
+<tr><td>Bayonne</td><td class="num">14,73 €/m²</td><td class="num">5 157 €/m²</td><td class="num">3,4 %</td></tr>
+<tr><td>Anglet</td><td class="num">17,09 €/m²</td><td class="num">7 611 €/m²</td><td class="num">2,7 %</td></tr>
+<tr><td>Biarritz</td><td class="num">17,91 €/m²</td><td class="num">9 421 €/m²</td><td class="num">2,3 %</td></tr>
+</tbody>
+</table></div>
+<p>Ces pourcentages sont des ordres de grandeur, pas une promesse de revenu. Le rendement brut ne retire rien : ni les charges de copropriété, ni la taxe foncière, ni les travaux, ni les mois où le logement reste vide entre deux locataires, ni l'impôt sur les loyers perçus. Une fois tout cela déduit, ce qui reste réellement est sensiblement plus bas. Deux autres précautions : le loyer publié ici est un loyer charges comprises, ce qui gonfle un peu le résultat, et il est mesuré à l'échelle de la ville entière. Un studio face à la Grande Plage ne se loue pas comme un trois-pièces au Lac Marion.</p>
+<p class="note">Sources : loyers, Carte des loyers 2025 (ANIL et ministère du Logement, d'après 9,1 millions d'annonces, loyer charges comprises en €/m² par mois) ; prix, ventes notariées DVF 2024–2025, moyenne communale, extraction du 6 août 2026, calculs Biarritz.immo. Rendement brut = loyer × 12 / prix, avant charges, taxe foncière, vacance et fiscalité. Les loyers de maisons reposent sur des échantillons réduits, 211 annonces à Biarritz, 299 à Bayonne et 344 à Anglet : à lire comme des tendances.</p>
+<h2>Risques naturels et recul du trait de côte</h2>
+<p>Géorisques, le portail public des risques, recense quatre risques pour la commune : <strong>mouvement de terrain</strong>, <strong>affaissements et effondrements</strong> liés aux anciennes carrières souterraines, <strong>séisme</strong> (zone 3 sur 5, sismicité modérée) et transport de marchandises dangereuses. Le potentiel radon de la commune est de catégorie 2 sur 3.</p>
+<p>Le point le plus important pour un acheteur en front de mer : <strong>Biarritz figure sur la liste officielle des communes exposées au recul du trait de côte</strong>, depuis le décret initial du 29 avril 2022. La liste, remplacée en dernier lieu par le décret du 13 février 2026, compte 371 communes, dont six sur la côte basque : Anglet, Biarritz, Bidart, Ciboure, Guéthary et Saint-Jean-de-Luz. Concrètement, la commune doit adapter son urbanisme au recul du littoral et cartographier son exposition ; pour qui achète face à l'océan, c'est une donnée à connaître, comme sur l'ensemble de la côte basque.</p>
+<p class="note">Sources : API Géorisques (consultée en août 2026) ; décret n° 2022-750 du 29 avril 2022, modifié par le décret n° 2026-95 du 13 février 2026 (Légifrance).</p>
 </main>
 <footer class="footer">
 <span>Biarritz.immo · L'immobilier biarrot a trouvé son adresse.</span>
