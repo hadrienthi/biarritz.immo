@@ -564,6 +564,7 @@ color:rgba(250,245,236,0.5);text-align:center;margin-top:11px;line-height:1.6}
 <div class="stat-label" data-i18n="estResult"></div>
 <div class="est-value" id="estValue">—</div>
 <div class="est-range" id="estRange">—</div>
+<div class="est-note" id="estSpread" style="display:none"></div>
 <div class="est-note" id="estWarn" style="display:none;color:var(--rose);border:1px solid rgba(232,180,184,0.4);border-radius:4px;padding:10px 12px;margin-top:12px;font-size:11px;line-height:1.6"></div>
 </div>
 <div class="est-pdf-row" id="estGate" style="display:none"><input type="email" id="efEmail" placeholder="vous@email.com" /><button class="btn-search" type="button" onclick="leadAndReport()"><i class="ti ti-file-download"></i> <span data-i18n="estEmailBtn"></span></button></div>
@@ -847,19 +848,24 @@ const zone=detectZone(geo.lat,geo.lon);
 let base=f.type==='maison'?(zone.pm2Maison||MAISON_PM2[zone.id]):zone.priceAppt;
 let basisTxt=t('estZoneFallback');
 let comps=zone.nearby.filter(c=>c.type===f.type).slice(0,6);
-let near=null;
+let near=null,n600=0,ruleOn=false,ruleN=0,localOk=false;
 try{
 const sales=await localSales(geo.lat,geo.lon);
 const IDX=f.type==='appt'?IDX_APPT:IDX_MAISON;
 let cands=sales.filter(s=>s.type===f.type&&IDX[s.year]).map(s=>Object.assign({},s,{d:Math.round(haversine(geo.lat,geo.lon,s.lat,s.lon))})).filter(s=>s.d<=1000);
 if(cands.length>=8){const ps=cands.map(s=>s.pm2*IDX[s.year]).sort((a,b)=>a-b);const med=ps[ps.length>>1];cands=cands.filter(s=>{const v=s.pm2*IDX[s.year];return v>med*0.45&&v<med*1.9;});}
 near=cands.length?Math.min.apply(null,cands.map(s=>s.d)):Infinity;
-if(cands.filter(s=>s.d<=600).length>=6){
+n600=cands.filter(s=>s.d<=600).length;
+if(n600>=6){
 let sw=0,sv=0;
 for(const s of cands){const w=Math.exp(-(s.d*s.d)/245000)*Math.pow(0.85,2025-s.year);sw+=w;sv+=w*s.pm2*IDX[s.year];}
 base=sv/sw;
 basisTxt=t('estLocalN').replace('{n}',cands.length);
 comps=cands.sort((a,b)=>a.d-b.d).filter(s=>s.year>=2023).slice(0,6);
+localOk=true;
+/* règle « même immeuble », validée le 20/8/2026 sur 40 ventes réelles (MdAPE 14,5 vers 11,0 sur l'examen, 22,0 vers 20,1 sur le contrôle) : au moins 2 ventes 2024-2025 à moins de 50 m, base mélangée à parts égales avec leur médiane, bornée à ±25 % */
+const ruleP=cands.filter(s=>s.d<=50&&s.year>=2024).map(s=>s.pm2*IDX[s.year]).sort((a,b)=>a-b);
+if(ruleP.length>=2){const medP=ruleP.length%2?ruleP[(ruleP.length-1)/2]:(ruleP[ruleP.length/2-1]+ruleP[ruleP.length/2])/2;base=Math.min(Math.max(0.5*base+0.5*medP,base*0.75),base*1.25);ruleOn=true;ruleN=ruleP.length;}
 }
 }catch(e){}
 let coef=1+({neuf:0.08,bon:0,rafraichir:-0.08,renover:-0.18}[f.etat]||0);
@@ -868,11 +874,14 @@ if(f.type==='maison'){if(f.mitoy==='mit1')coef-=0.05;if(f.mitoy==='mit2')coef-=0
 if(f.vue)coef+=0.12;
 if(f.surface<30)coef+=0.08;else if(f.surface<50)coef+=0.04;else if(f.surface>100)coef-=0.04;
 const raw=f.surface*base*coef+(f.type==='appt'?Math.min(f.terrasse,40)*base*0.3+f.parking*12000:0)+(f.type==='maison'&&f.garage?15000:0);
-const r={val:Math.round(raw/1000)*1000,low:Math.round(raw*0.9/1000)*1000,high:Math.round(raw*1.1/1000)*1000,pm2:Math.round(raw/f.surface),base:Math.round(base)};
+const incert=!localOk?'forte':(n600>=100&&near!==null&&near<=60)?'faible':(n600>=20)?'moyenne':'forte';
+const marge={faible:0.20,moyenne:0.30,forte:0.35}[incert];
+const r={val:Math.round(raw/1000)*1000,low:Math.round(raw*0.9/1000)*1000,high:Math.round(raw*1.1/1000)*1000,pm2:Math.round(raw/f.surface),base:Math.round(base),elow:Math.round(raw*(1-marge)/1000)*1000,ehigh:Math.round(raw*(1+marge)/1000)*1000,incert:incert};
 const noNear=(near!==null&&near>75);
-lastEst={f,r,zone,geo,comps,basisTxt,noNear};
+lastEst={f,r,zone,geo,comps,basisTxt,noNear,ruleOn,ruleN};
 $('estValue').textContent=r.val.toLocaleString('fr-FR')+' €';
 $('estRange').textContent=r.low.toLocaleString('fr-FR')+' € – '+r.high.toLocaleString('fr-FR')+' € · '+r.pm2.toLocaleString('fr-FR')+' €/m² · '+basisTxt;
+const sp=$('estSpread');if(sp){sp.textContent=t('estSpread').replace('{low}',r.elow.toLocaleString('fr-FR')).replace('{high}',r.ehigh.toLocaleString('fr-FR'))+(ruleOn?' '+t('estRuleNote').replace('{n}',ruleN):'');sp.style.display='block';}
 $('estOut').style.display='block';
 const ew=$('estWarn');ew.textContent=t('estNoNear');ew.style.display=noNear?'block':'none';
 const gate=!!LEAD_ENDPOINT;
@@ -912,9 +921,10 @@ const html='<!DOCTYPE html><html lang="'+LANG+'"><head><meta charset="utf-8"><ti
 +(f.type==='appt'?'<div><b>'+t('estTerrasse')+'</b> : '+f.terrasse+' m² · <b>'+t('estParking')+'</b> : '+f.parking+'</div>':'<div><b>'+t('estJardin')+'</b> : '+f.jardin+' m² · <b>'+t('estMitoy')+'</b> : '+t(MIT_KEY[f.mitoy])+' · <b>'+t('estGarage')+'</b> : '+(f.garage?'✓':'—')+'</div>')
 +'</div>'
 +'<h2>'+t('estResult')+'</h2><div class="val">'+r.val.toLocaleString('fr-FR')+' €</div><div class="range">'+r.low.toLocaleString('fr-FR')+' € – '+r.high.toLocaleString('fr-FR')+' € · '+r.pm2.toLocaleString('fr-FR')+' €/m² · '+basisTxt+'</div>'
++'<div class="range" style="margin-top:6px">'+t('estSpread').replace('{low}',r.elow.toLocaleString('fr-FR')).replace('{high}',r.ehigh.toLocaleString('fr-FR'))+'</div>'
 +(lastEst.noNear?'<div class="warnbox">'+t('estNoNear')+'</div>':'')
 +'<h2>'+t('estComps')+'</h2><table><tr><th>'+t('thAddr')+'</th><th>'+t('thType')+'</th><th>m²</th><th>€/m²</th><th>'+t('thDist')+'</th><th>'+t('thDate')+'</th></tr>'+rows+'</table>'
-+'<h2>'+t('estMethodoTitle')+'</h2><div class="methodo">'+t('estMethodo').replace('{base}',r.base.toLocaleString('fr-FR'))+' '+t('estAtypical')+'</div>'
++'<h2>'+t('estMethodoTitle')+'</h2><div class="methodo">'+t('estMethodo').replace('{base}',r.base.toLocaleString('fr-FR'))+(lastEst.ruleOn?' '+t('estRuleNote').replace('{n}',lastEst.ruleN):'')+' '+t('estAtypical')+'</div>'
 +'<div class="meta">'+t('estDisclaimer')+'<br>biarritz.immo · '+new Date().toLocaleDateString(dloc)+'</div>'
 +'<button onclick="window.print()">'+t('estPrint')+'</button>'
 +'</body></html>';
@@ -944,9 +954,9 @@ es:{estNoNear:"Ninguna venta conocida en este edificio o sus inmediaciones en la
 };
 for(const l in TD3)Object.assign(T[l],TD3[l]);
 const TD4={
-fr:{estJardin:'Jardin / terrain',estGarage:'Garage',estMitoy:'Mitoyenneté',estMitoyIndep:'Indépendante',estMitoy1:'Mitoyenne 1 côté',estMitoy2:'Mitoyenne 2 côtés',estMethodo:"Base : prix moyen de {base} €/m² (ventes réelles 2024–2025 autour de l'adresse ou du quartier), ajusté selon l'état, la surface et la vue mer, puis selon le type : étage, ascenseur, terrasse et parking pour un appartement ; mitoyenneté, taille du terrain et garage pour une maison. Fourchette : ±10 %."},
-en:{estJardin:'Garden / plot',estGarage:'Garage',estMitoy:'Attachment',estMitoyIndep:'Detached',estMitoy1:'Semi-detached (1 side)',estMitoy2:'Terraced (2 sides)',estMethodo:"Base: average price of {base} €/m² (recorded sales 2024–2025 around the address or in the neighbourhood), adjusted for condition, size and sea view, then by type: floor, lift, terrace and parking for apartments; attachment, plot size and garage for houses. Range: ±10%."},
-es:{estJardin:'Jardín / terreno',estGarage:'Garaje',estMitoy:'Adosado',estMitoyIndep:'Independiente',estMitoy1:'Adosada por un lado',estMitoy2:'Adosada por ambos lados',estMethodo:"Base: precio medio de {base} €/m² (ventas reales 2024–2025 alrededor de la dirección o del barrio), ajustado según estado, superficie y vista al mar, y según el tipo: planta, ascensor, terraza y parking para apartamentos; adosado, tamaño del terreno y garaje para casas. Horquilla: ±10 %."}
+fr:{estJardin:'Jardin / terrain',estGarage:'Garage',estMitoy:'Mitoyenneté',estMitoyIndep:'Indépendante',estMitoy1:'Mitoyenne 1 côté',estMitoy2:'Mitoyenne 2 côtés',estMethodo:"Base : prix moyen de {base} €/m² (ventes réelles 2024–2025 autour de l'adresse ou du quartier), ajusté selon l'état, la surface et la vue mer, puis selon le type : étage, ascenseur, terrasse et parking pour un appartement ; mitoyenneté, taille du terrain et garage pour une maison. Fourchette : ±10 %.",estSpread:"Selon l'état et les prestations, les ventes comparables du secteur vont de {low} € à {high} €.",estRuleNote:"Base recentrée sur les {n} ventes récentes enregistrées à moins de 50 m (même immeuble ou voisinage immédiat)."},
+en:{estJardin:'Garden / plot',estGarage:'Garage',estMitoy:'Attachment',estMitoyIndep:'Detached',estMitoy1:'Semi-detached (1 side)',estMitoy2:'Terraced (2 sides)',estMethodo:"Base: average price of {base} €/m² (recorded sales 2024–2025 around the address or in the neighbourhood), adjusted for condition, size and sea view, then by type: floor, lift, terrace and parking for apartments; attachment, plot size and garage for houses. Range: ±10%.",estSpread:"Depending on condition and features, comparable sales in the area range from {low} € to {high} €.",estRuleNote:"Base recentred on the {n} recent recorded sales within 50 m (same building or immediate surroundings)."},
+es:{estJardin:'Jardín / terreno',estGarage:'Garaje',estMitoy:'Adosado',estMitoyIndep:'Independiente',estMitoy1:'Adosada por un lado',estMitoy2:'Adosada por ambos lados',estMethodo:"Base: precio medio de {base} €/m² (ventas reales 2024–2025 alrededor de la dirección o del barrio), ajustado según estado, superficie y vista al mar, y según el tipo: planta, ascensor, terraza y parking para apartamentos; adosado, tamaño del terreno y garaje para casas. Horquilla: ±10 %.",estSpread:"Según el estado y las prestaciones, las ventas comparables de la zona van de {low} € a {high} €.",estRuleNote:"Base recentrada sobre las {n} ventas recientes registradas a menos de 50 m (mismo edificio o entorno inmediato)."}
 };
 for(const l in TD4)Object.assign(T[l],TD4[l]);
 const CITY_APPT=7591;
